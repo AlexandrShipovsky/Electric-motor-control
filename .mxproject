@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=C:/Users/Чистое небо/Desktop/Э.01.00.00 Беспилотный мотодельтаплан/Блок управления электроприводами/firmware/Electric motor control/Inc
+HeaderPath=C:/Users/Чистое небо/Desktop/Э.01.00.00 Беспилотный мотодельтаплан/Блок управления электроприводами/firmware/Electric-motor-control/Inc
 HeaderFiles=FreeRTOSConfig.h;usb_device.h;usbd_conf.h;usbd_desc.h;usbd_cdc_if.h;stm32f3xx_it.h;stm32f3xx_hal_conf.h;main.h;
-SourcePath=C:/Users/Чистое небо/Desktop/Э.01.00.00 Беспилотный мотодельтаплан/Блок управления электроприводами/firmware/Electric motor control/Src
+SourcePath=C:/Users/Чистое небо/Desktop/Э.01.00.00 Беспилотный мотодельтаплан/Блок управления электроприводами/firmware/Electric-motor-control/Src
 SourceFiles=freertos.c;usb_device.c;usbd_conf.c;usbd_desc.c;usbd_cdc_if.c;stm32f3xx_it.c;stm32f3xx_hal_msp.c;main.c;stm32f3xx_hal_timebase_tim.c;
 
 [PreviousLibFiles]
