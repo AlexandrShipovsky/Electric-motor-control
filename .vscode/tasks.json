@@ -1,0 +1,77 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Clean Flash",
+			"type": "shell",
+			"command": "ST-LINK_CLI.exe -ME",
+			"options": {
+				"shell": {
+					"executable": "cmd.exe",
+					"args": [
+						"/C"
+					]
+				}
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Reset MCU",
+			"type": "shell",
+			"command": "ST-LINK_CLI.exe -Rst",
+			"options": {
+				"shell": {
+					"executable": "cmd.exe",
+					"args": [
+						"/C"
+					]
+				}
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Download Flash",
+			"type": "shell",
+			"command": "ST-LINK_CLI.exe -P C:\\Users\\Чистое небо\\Desktop\\Э.01.00.00 Беспилотный мотодельтаплан\\Блок управления электроприводами\\firmware\\Electric-motor-control\\EWARM\\Electric motor control\\Electric motor control.hex",
+			"options": {
+				"shell": {
+					"executable": "cmd.exe",
+					"args": [
+						"/C"
+					]
+				}
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Connect to Device",
+			"type": "shell",
+			"command": "ST-LINK_CLI.exe -c",
+			"options": {
+				"shell": {
+					"executable": "cmd.exe",
+					"args": [
+						"/C"
+					]
+				}
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": []
+		}
+	]
+}

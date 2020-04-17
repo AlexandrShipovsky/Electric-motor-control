@@ -1,0 +1,6 @@
+{
+    "iar.enabled": true,
+    "files.associations": {
+        "cli.h": "c"
+    }
+}
