@@ -353,11 +353,6 @@
           <state>$PROJ_DIR$/../Inc</state>
           <state>$PROJ_DIR$/../Drivers/STM32F3xx_HAL_Driver/Inc</state>
           <state>$PROJ_DIR$/../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy</state>
-          <state>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/include</state>
-          <state>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2</state>
-          <state>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/portable/IAR/ARM_CM4F</state>
-          <state>$PROJ_DIR$/../Middlewares/ST/STM32_USB_Device_Library/Core/Inc</state>
-          <state>$PROJ_DIR$/../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc</state>
           <state>$PROJ_DIR$/../Drivers/CMSIS/Device/ST/STM32F3xx/Include</state>
           <state>$PROJ_DIR$/../Drivers/CMSIS/Include</state>
           <state>$PROJ_DIR$\..\libraries</state>
@@ -652,7 +647,7 @@
         </option>
         <option>
           <name>OCOutputOverride</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>OOCOutputFile</name>
@@ -1053,28 +1048,13 @@
         <name>$PROJ_DIR$\..\Src\main.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Src\freertos.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\usb_device.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\usbd_conf.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\usbd_desc.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Src\usbd_cdc_if.c</name>
-      </file>
-      <file>
         <name>$PROJ_DIR$\..\Src\stm32f3xx_it.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\stm32f3xx_hal_msp.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Src\stm32f3xx_hal_timebase_tim.c</name>
+        <name>$PROJ_DIR$/../Src/stm32f3xx_hal_timebase_tim.c</name>
       </file>
     </group>
   </group>
@@ -1089,13 +1069,7 @@
     <group>
       <name>STM32F3xx_HAL_Driver</name>
       <file>
-        <name>$PROJ_DIR$\..\Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_ll_usb.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal_pcd.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal_pcd_ex.c</name>
+        <name>$PROJ_DIR$\..\Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal_can.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal.c</name>
@@ -1137,12 +1111,6 @@
         <name>$PROJ_DIR$\..\Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal_exti.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal_can.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal_iwdg.c</name>
-      </file>
-      <file>
         <name>$PROJ_DIR$\..\Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal_sdadc.c</name>
       </file>
       <file>
@@ -1155,60 +1123,6 @@
   </group>
   <group>
     <name>libraries</name>
-  </group>
-  <group>
-    <name>Middlewares</name>
-    <group>
-      <name>FreeRTOS</name>
-      <file>
-        <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\croutine.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\event_groups.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\list.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\queue.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\stream_buffer.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\tasks.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\timers.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os2.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\portable\MemMang\heap_4.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM4F\port.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM4F\portasm.s</name>
-      </file>
-    </group>
-    <group>
-      <name>USB_Device_Library</name>
-      <file>
-        <name>$PROJ_DIR$\..\Middlewares\ST\STM32_USB_Device_Library\Core\Src\usbd_core.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Middlewares\ST\STM32_USB_Device_Library\Core\Src\usbd_ctlreq.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Middlewares\ST\STM32_USB_Device_Library\Core\Src\usbd_ioreq.c</name>
-      </file>
-      <file>
-        <name>$PROJ_DIR$\..\Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Src\usbd_cdc.c</name>
-      </file>
-    </group>
   </group>
 </project>
 

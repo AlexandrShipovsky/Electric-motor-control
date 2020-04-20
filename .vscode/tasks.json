@@ -40,7 +40,7 @@
 		{
 			"label": "Download Flash",
 			"type": "shell",
-			"command": "ST-LINK_CLI.exe -P C:\\Users\\Чистое небо\\Desktop\\Э.01.00.00 Беспилотный мотодельтаплан\\Блок управления электроприводами\\firmware\\Electric-motor-control\\EWARM\\Electric motor control\\Electric motor control.hex",
+			"command": "ST-LINK_CLI.exe -P ${workspaceRoot}\\EWARM\\Electric motor control\\Exe\\Electric motor control.hex",
 			"options": {
 				"shell": {
 					"executable": "cmd.exe",
