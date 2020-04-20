@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.30.1.114/W32 for ARM                  20/Apr/2020  17:20:49
+# IAR ELF Linker V8.30.1.114/W32 for ARM                  20/Apr/2020  19:02:37
 # Copyright 2007-2018 IAR Systems AB.
 #
 #    Output file  =  
@@ -16,7 +16,7 @@
 #        электроприводами\firmware\Electric-motor-control\EWARM\Electric
 #        motor control\List\Electric motor control.map
 #    Command line =  
-#        -f C:\Users\A146~1\AppData\Local\Temp\EW6035.tmp
+#        -f C:\Users\A146~1\AppData\Local\Temp\EW911A.tmp
 #        ("C:\Users\Чистое небо\Desktop\Э.01.00.00
 #        Беспилотный мотодельтаплан\Блок
 #        управления
