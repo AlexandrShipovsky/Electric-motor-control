@@ -23,7 +23,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -119,6 +118,26 @@ int main(void)
   {
     HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
     HAL_Delay(500);
+
+    CAN_TxHeaderTypeDef TxHeader;
+
+    TxHeader.DLC = 2;
+    TxHeader.StdId = 0x000F;
+    TxHeader.RTR = CAN_RTR_DATA;
+    TxHeader.IDE = CAN_ID_STD;
+    TxHeader.TransmitGlobalTime = DISABLE;
+
+    uint8_t buf[2];
+    uint32_t TxMailBox;
+
+    buf[0] = 0x11;
+    buf[1] = 0x22;
+
+    if(HAL_CAN_AddTxMessage(&hcan,&TxHeader,buf,&TxMailBox)!= HAL_OK)
+    {
+      Error_Handler();
+    }
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -196,7 +215,7 @@ static void MX_CAN_Init(void)
   hcan.Init.TimeTriggeredMode = DISABLE;
   hcan.Init.AutoBusOff = DISABLE;
   hcan.Init.AutoWakeUp = DISABLE;
-  hcan.Init.AutoRetransmission = DISABLE;
+  hcan.Init.AutoRetransmission = ENABLE;
   hcan.Init.ReceiveFifoLocked = DISABLE;
   hcan.Init.TransmitFifoPriority = DISABLE;
   if (HAL_CAN_Init(&hcan) != HAL_OK)
@@ -204,6 +223,24 @@ static void MX_CAN_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN CAN_Init 2 */
+  CAN_FilterTypeDef CAN_Filter;
+  CAN_Filter.FilterBank = 0;
+  CAN_Filter.FilterMode = CAN_FILTERMODE_IDLIST;
+  CAN_Filter.FilterScale = CAN_FILTERSCALE_32BIT;
+  CAN_Filter.FilterIdLow = 0x0000;
+  CAN_Filter.FilterIdHigh = 0x00FF;
+  CAN_Filter.FilterFIFOAssignment = CAN_RX_FIFO0;
+  CAN_Filter.FilterActivation = ENABLE;
+
+  if(HAL_CAN_ConfigFilter(&hcan,&CAN_Filter)!=HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  if(HAL_CAN_Start(&hcan)!=HAL_OK)
+  {
+    Error_Handler();
+  }
 
   /* USER CODE END CAN_Init 2 */
 
