@@ -1196,9 +1196,6 @@
         <group>
             <name>User</name>
             <file>
-                <name>$PROJ_DIR$\..\Src\freertos.c</name>
-            </file>
-            <file>
                 <name>$PROJ_DIR$\..\Src\main.c</name>
             </file>
             <file>
@@ -1265,9 +1262,6 @@
                 <name>$PROJ_DIR$\..\Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal_i2c_ex.c</name>
             </file>
             <file>
-                <name>$PROJ_DIR$\..\Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal_iwdg.c</name>
-            </file>
-            <file>
                 <name>$PROJ_DIR$\..\Drivers\STM32F3xx_HAL_Driver\Src\stm32f3xx_hal_pcd.c</name>
             </file>
             <file>
@@ -1301,45 +1295,36 @@
     </group>
     <group>
         <name>libraries</name>
+        <group>
+            <name>CLI</name>
+            <file>
+                <name>$PROJ_DIR$\..\libraries\CLI\cli.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\libraries\CLI\cli.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\libraries\CLI\cli_base.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\libraries\CLI\cli_cmd.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\libraries\CLI\cli_cmd.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\libraries\CLI\cli_config.h</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\libraries\CLI\cli_port.cpp</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\libraries\CLI\cli_port.h</name>
+            </file>
+        </group>
     </group>
     <group>
         <name>Middlewares</name>
-        <group>
-            <name>FreeRTOS</name>
-            <file>
-                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os2.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\croutine.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\event_groups.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\portable\MemMang\heap_4.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\list.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM4F\port.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM4F\portasm.s</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\queue.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\stream_buffer.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\tasks.c</name>
-            </file>
-            <file>
-                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\timers.c</name>
-            </file>
-        </group>
         <group>
             <name>USB_Device_Library</name>
             <file>

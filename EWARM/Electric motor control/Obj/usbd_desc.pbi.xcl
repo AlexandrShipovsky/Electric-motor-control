@@ -1,57 +1,45 @@
-"C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\Src\usbd_desc.c"
+"C:\Users\Jumper\Desktop\firmware\Electric-motor-control\Src\usbd_desc.c"
 -std=c11
 -ferror-limit=0
 -fbracket-depth=512
 -I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\Src
+C:\Users\Jumper\Desktop\firmware\Electric-motor-control\Src
 -I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM/../Inc
+C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM/../Inc
 -I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc
+C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc
 -I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy
+C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM/../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy
 -I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM/../Middlewares/Third_Party/FreeRTOS/Source/include
+C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM/../Drivers/CMSIS/Device/ST/STM32F3xx/Include
 -I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM/../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2
+C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM/../Drivers/CMSIS/Include
 -I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM/../Middlewares/Third_Party/FreeRTOS/Source/portable/IAR/ARM_CM4F
+C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\..\libraries
 -I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM/../Middlewares/ST/STM32_USB_Device_Library/Core/Inc
+C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM/../Middlewares/ST/STM32_USB_Device_Library/Core/Inc
 -I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM/../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc
+C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM/../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc
 -I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM/../Drivers/CMSIS/Device/ST/STM32F3xx/Include
+B:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\arm\inc
 -I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM/../Drivers/CMSIS/Include
+B:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\arm\inc\c
 -I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\..\libraries
+C:\Users\Jumper\Desktop\firmware\Electric-motor-control\Inc
 -I
-C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\arm\inc
+C:\Users\Jumper\Desktop\firmware\Electric-motor-control\Drivers\STM32F3xx_HAL_Driver\Inc
 -I
-C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\arm\inc\c
+C:\Users\Jumper\Desktop\firmware\Electric-motor-control\Drivers\STM32F3xx_HAL_Driver\Inc\Legacy
 -I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\Inc
+C:\Users\Jumper\Desktop\firmware\Electric-motor-control\Drivers\CMSIS\Device\ST\STM32F3xx\Include
 -I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\Drivers\STM32F3xx_HAL_Driver\Inc
+C:\Users\Jumper\Desktop\firmware\Electric-motor-control\Drivers\CMSIS\Include
 -I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\Drivers\STM32F3xx_HAL_Driver\Inc\Legacy
+C:\Users\Jumper\Desktop\firmware\Electric-motor-control\libraries
 -I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\Middlewares\Third_Party\FreeRTOS\Source\include
+C:\Users\Jumper\Desktop\firmware\Electric-motor-control\Middlewares\ST\STM32_USB_Device_Library\Core\Inc
 -I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2
--I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM4F
--I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\Middlewares\ST\STM32_USB_Device_Library\Core\Inc
--I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc
--I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\Drivers\CMSIS\Device\ST\STM32F3xx\Include
--I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\Drivers\CMSIS\Include
--I
-C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\libraries
+C:\Users\Jumper\Desktop\firmware\Electric-motor-control\Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc
 -D__CHAR_BITS__=8
 -D__CHAR_MAX__=0xff
 -D__CHAR_MIN__=0
@@ -345,8 +333,8 @@ C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мот
 -D__EDG_FLOAT128_ENABLING_POSSIBLE=0
 -DUSE_HAL_DRIVER=1
 -DSTM32F373xC=1
--D_DLIB_CONFIG_FILE_HEADER_NAME="C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.1\\arm\\inc\\c\\DLib_Config_Full.h"
--D_DLIB_CONFIG_FILE_STRING="C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.1\\arm\\inc\\c\\DLib_Config_Full.h"
+-D_DLIB_CONFIG_FILE_HEADER_NAME="B:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.1\\arm\\inc\\c\\DLib_Config_Full.h"
+-D_DLIB_CONFIG_FILE_STRING="B:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 8.1\\arm\\inc\\c\\DLib_Config_Full.h"
 -D__VERSION__="IAR ANSI C/C++ Compiler V8.30.1.114/W32 for ARM"
 -D__ICCARM_OLD_DEFINED_VAARGS__=1
 -D__VA_STACK_ALIGN__=8

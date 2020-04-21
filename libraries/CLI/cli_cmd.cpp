@@ -11,11 +11,8 @@
 #include "cli_port.h"
 #include "cli_base.h"
 #include "cli_cmd.h"
-#include "stm32f1xx_hal.h"
+#include "stm32f3xx_hal.h"
 
-
-
-extern float rpm;
 
 void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len)
 {
@@ -44,25 +41,7 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 		CLI_INVALID_KEYWORD();
 		return;
 	}
-	CLI_IF_CMD("ENC", "Value of encoder")
-	{
-		int32_t EncCount = 0;
-		extern TIM_HandleTypeDef htim2;
-		while (1)
-		{
-			EncCount = __HAL_TIM_GET_COUNTER(&htim2);
-			DbgPrintf("EnCount = %d\n\r", EncCount);
-			HAL_Delay(200);
-		}
-		return;
-	}
-	CLI_IF_CMD("RPM", "Value of RPM")
-	{
-		DbgPrintf("\n\rRPM = %f\n\r", rpm);
-		return;
-	}
 	
-
 	//----------------------------------------------------------------------------------
 	CLI_UNKNOWN_COMMAND();
 }

@@ -1,7 +1,7 @@
 /*
  * cli_port.h
  *
- *  Created on: 12 ˜˜˜˜. 2019 ˜.
+ *  Created on: 12 ï¿½ï¿½ï¿½ï¿½. 2019 ï¿½.
  *      Author: d.semenyuk
  */
 
@@ -9,8 +9,6 @@
 #define APP_CLI_CLI_PORT_H_
 
 #include <stdint.h>
-#include "stm32f1xx_hal.h"
-#include "usbd_cdc_if.h"
 
 
 #define CLI_MAX_DELAY		(-1)
