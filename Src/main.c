@@ -112,7 +112,10 @@ int main(void)
   MX_TIM5_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_4);
+  __HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,500);
+   __HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,500);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -323,9 +326,9 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 7200;
+  htim2.Init.Prescaler = 71;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 10;
+  htim2.Init.Period = 1000;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -484,9 +487,9 @@ static void MX_TIM5_Init(void)
 
   /* USER CODE END TIM5_Init 1 */
   htim5.Instance = TIM5;
-  htim5.Init.Prescaler = 7200;
+  htim5.Init.Prescaler = 71;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim5.Init.Period = 10;
+  htim5.Init.Period = 1000;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim5) != HAL_OK)

@@ -42,7 +42,7 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 		return;
 	}
 
-	CLI_IF_CMD("CANTX", "Send CAN") // ������� ���������� ����������� PC13
+	CLI_IF_CMD("CANTX", "Send CAN") 
 	{
 		CAN_TxHeaderTypeDef TxHeader;
 		extern CAN_HandleTypeDef hcan;
@@ -63,6 +63,12 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 		{
 			Error_Handler();
 		}
+		return;
+	}
+
+	CLI_IF_CMD("CANTX", "Send CAN") 
+	{
+		
 		return;
 	}
 
