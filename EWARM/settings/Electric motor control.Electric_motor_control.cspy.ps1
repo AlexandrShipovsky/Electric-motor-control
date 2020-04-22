@@ -23,9 +23,9 @@
 
 if ($debugfile -eq "")
 {
-& "B:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\common\bin\cspybat" -f "C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\settings\Electric motor control.Electric_motor_control.general.xcl" --backend -f "C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\settings\Electric motor control.Electric_motor_control.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\common\bin\cspybat" -f "C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\settings\Electric motor control.Electric_motor_control.general.xcl" --backend -f "C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\settings\Electric motor control.Electric_motor_control.driver.xcl" 
 }
 else
 {
-& "B:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\common\bin\cspybat" -f "C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\settings\Electric motor control.Electric_motor_control.general.xcl" --debug_file=$debugfile --backend -f "C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\settings\Electric motor control.Electric_motor_control.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\common\bin\cspybat" -f "C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\settings\Electric motor control.Electric_motor_control.general.xcl" --debug_file=$debugfile --backend -f "C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\settings\Electric motor control.Electric_motor_control.driver.xcl" 
 }

@@ -121,27 +121,8 @@ int main(void)
   {
     /*HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
     HAL_Delay(500);
-
-    CAN_TxHeaderTypeDef TxHeader;
-
-    TxHeader.DLC = 2;
-    TxHeader.StdId = 0x000F;
-    TxHeader.RTR = CAN_RTR_DATA;
-    TxHeader.IDE = CAN_ID_STD;
-    TxHeader.TransmitGlobalTime = DISABLE;
-
-    uint8_t buf[2];
-    uint32_t TxMailBox;
-
-    buf[0] = 0x11;
-    buf[1] = 0x22;
-
-    if(HAL_CAN_AddTxMessage(&hcan,&TxHeader,buf,&TxMailBox)!= HAL_OK)
-    {
-      Error_Handler();
-    }
     */
-    //DBG_CLI_USB_Task();
+    DBG_CLI_USB_Task();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -174,7 +155,8 @@ void SystemClock_Config(void)
   }
   /** Initializes the CPU, AHB and APB busses clocks 
   */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -184,7 +166,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB | RCC_PERIPHCLK_SDADC;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB|RCC_PERIPHCLK_SDADC;
   PeriphClkInit.USBClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5;
   PeriphClkInit.SdadcClockSelection = RCC_SDADCSYSCLK_DIV12;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
@@ -229,10 +211,10 @@ static void MX_CAN_Init(void)
   /* USER CODE BEGIN CAN_Init 2 */
   CAN_FilterTypeDef CAN_Filter;
   CAN_Filter.FilterBank = 0;
-  CAN_Filter.FilterMode = CAN_FILTERMODE_IDLIST;
+  CAN_Filter.FilterMode = CAN_FILTERMODE_IDMASK;
   CAN_Filter.FilterScale = CAN_FILTERSCALE_32BIT;
-  CAN_Filter.FilterIdLow = 0x0000;
-  CAN_Filter.FilterIdHigh = 0x00FF;
+  CAN_Filter.FilterMaskIdHigh = 0x0000;
+  CAN_Filter.FilterMaskIdLow = 0x0000;
   CAN_Filter.FilterFIFOAssignment = CAN_RX_FIFO0;
   CAN_Filter.FilterActivation = ENABLE;
 
@@ -246,7 +228,13 @@ static void MX_CAN_Init(void)
     Error_Handler();
   }
 
+  if (HAL_CAN_ActivateNotification(&hcan, CAN_IT_RX_FIFO0_MSG_PENDING) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
   /* USER CODE END CAN_Init 2 */
+
 }
 
 /**
@@ -279,6 +267,7 @@ static void MX_SDADC1_Init(void)
   /* USER CODE BEGIN SDADC1_Init 2 */
 
   /* USER CODE END SDADC1_Init 2 */
+
 }
 
 /**
@@ -311,6 +300,7 @@ static void MX_SDADC3_Init(void)
   /* USER CODE BEGIN SDADC3_Init 2 */
 
   /* USER CODE END SDADC3_Init 2 */
+
 }
 
 /**
@@ -373,6 +363,7 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 2 */
   HAL_TIM_MspPostInit(&htim2);
+
 }
 
 /**
@@ -421,6 +412,7 @@ static void MX_TIM3_Init(void)
   /* USER CODE BEGIN TIM3_Init 2 */
 
   /* USER CODE END TIM3_Init 2 */
+
 }
 
 /**
@@ -469,6 +461,7 @@ static void MX_TIM4_Init(void)
   /* USER CODE BEGIN TIM4_Init 2 */
 
   /* USER CODE END TIM4_Init 2 */
+
 }
 
 /**
@@ -531,6 +524,7 @@ static void MX_TIM5_Init(void)
 
   /* USER CODE END TIM5_Init 2 */
   HAL_TIM_MspPostInit(&htim5);
+
 }
 
 /**
@@ -554,7 +548,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, M1_EN_Pin | M2_EN_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, M1_EN_Pin|M2_EN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : LED_Pin */
   GPIO_InitStruct.Pin = LED_Pin;
@@ -564,18 +558,40 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(LED_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : M1_EN_Pin M2_EN_Pin */
-  GPIO_InitStruct.Pin = M1_EN_Pin | M2_EN_Pin;
+  GPIO_InitStruct.Pin = M1_EN_Pin|M2_EN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
 }
 
 /* USER CODE BEGIN 4 */
 
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
+{
+  uint8_t buf[8];
+  CAN_RxHeaderTypeDef RxHeader;
+  
+  if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RxHeader, buf) != HAL_OK)
+  {
+    Error_Handler();
+  }
+    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+    HAL_Delay(100);
+    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+    HAL_Delay(100);
+    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+    HAL_Delay(100);
+    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+    HAL_Delay(100);
+    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+    HAL_Delay(100);
+    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+}
 /* USER CODE END 4 */
 
-/**
+ /**
   * @brief  Period elapsed callback in non blocking mode
   * @note   This function is called  when TIM6 interrupt took place, inside
   * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
@@ -588,8 +604,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE BEGIN Callback 0 */
 
   /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM6)
-  {
+  if (htim->Instance == TIM6) {
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
@@ -607,10 +622,15 @@ void Error_Handler(void)
   /* User can add his own implementation to report the HAL error return state */
   HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
   HAL_Delay(100);
+  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  HAL_Delay(100);
+  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  HAL_Delay(100);
+  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef USE_FULL_ASSERT
+#ifdef  USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
@@ -619,7 +639,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{
+{ 
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

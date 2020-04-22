@@ -12,7 +12,7 @@
 #include "cli_base.h"
 #include "cli_cmd.h"
 #include "stm32f3xx_hal.h"
-
+#include "main.h"
 
 void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len)
 {
@@ -41,7 +41,31 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 		CLI_INVALID_KEYWORD();
 		return;
 	}
-	
+
+	CLI_IF_CMD("CANTX", "Send CAN") // ������� ���������� ����������� PC13
+	{
+		CAN_TxHeaderTypeDef TxHeader;
+		extern CAN_HandleTypeDef hcan;
+
+		TxHeader.DLC = 2;
+		TxHeader.StdId = 0x00FF;
+		TxHeader.RTR = CAN_RTR_DATA;
+		TxHeader.IDE = CAN_ID_STD;
+		TxHeader.TransmitGlobalTime = DISABLE;
+
+		uint8_t buf[2];
+		uint32_t TxMailBox;
+
+		buf[0] = 0x11;
+		buf[1] = 0x22;
+
+		if (HAL_CAN_AddTxMessage(&hcan, &TxHeader, buf, &TxMailBox) != HAL_OK)
+		{
+			Error_Handler();
+		}
+		return;
+	}
+
 	//----------------------------------------------------------------------------------
 	CLI_UNKNOWN_COMMAND();
 }

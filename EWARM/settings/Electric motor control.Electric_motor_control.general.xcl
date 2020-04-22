@@ -1,14 +1,14 @@
-"B:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\arm\bin\armproc.dll" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\arm\bin\armproc.dll" 
 
-"B:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\arm\bin\armstlink2.dll" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\arm\bin\armstlink2.dll" 
 
-"C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Exe\Electric motor control.out" 
+"C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Exe\Electric motor control.out" 
 
---plugin="B:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\arm\bin\armbat.dll" 
+--plugin="C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\arm\bin\armbat.dll" 
 
---device_macro="B:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\arm\config\debugger\ST\STM32F3xx.dmac" 
+--device_macro="C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\arm\config\debugger\ST\STM32F3xx.dmac" 
 
---flash_loader="B:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\arm\config\flashloader\ST\FlashSTM32F37xxC.board" 
+--flash_loader="C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\arm\config\flashloader\ST\FlashSTM32F37xxC.board" 
 
 
 
