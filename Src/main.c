@@ -25,6 +25,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "cli.h"
+#include "MotorDC.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -53,7 +54,7 @@ TIM_HandleTypeDef htim4;
 TIM_HandleTypeDef htim5;
 
 /* USER CODE BEGIN PV */
-
+MotorDCTypeDef MotorRoll;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -67,7 +68,7 @@ static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_TIM5_Init(void);
 /* USER CODE BEGIN PFP */
-
+static void MotorDC_Init(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -112,10 +113,12 @@ int main(void)
   MX_TIM5_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_3);
-  HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_4);
-  __HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,500);
-   __HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,500);
+  MotorDC_Init();
+
+  //HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_3);
+  //HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_4);
+  //__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,500);
+  // __HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,500);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -125,6 +128,7 @@ int main(void)
     /*HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
     HAL_Delay(500);
     */
+    
     DBG_CLI_USB_Task();
     /* USER CODE END WHILE */
 
@@ -352,7 +356,7 @@ static void MX_TIM2_Init(void)
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
   sConfigOC.Pulse = 0;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_LOW;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
   {
@@ -513,7 +517,7 @@ static void MX_TIM5_Init(void)
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
   sConfigOC.Pulse = 0;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_LOW;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim5, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
   {
@@ -548,24 +552,14 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, LED_Pin|M2_EN_Pin|M1_EN_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, M1_EN_Pin|M2_EN_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin : LED_Pin */
-  GPIO_InitStruct.Pin = LED_Pin;
+  /*Configure GPIO pins : LED_Pin M2_EN_Pin M1_EN_Pin */
+  GPIO_InitStruct.Pin = LED_Pin|M2_EN_Pin|M1_EN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LED_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : M1_EN_Pin M2_EN_Pin */
-  GPIO_InitStruct.Pin = M1_EN_Pin|M2_EN_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
 }
 
@@ -575,22 +569,37 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
   uint8_t buf[8];
   CAN_RxHeaderTypeDef RxHeader;
-  
+
   if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RxHeader, buf) != HAL_OK)
   {
     Error_Handler();
   }
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-    HAL_Delay(100);
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-    HAL_Delay(100);
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-    HAL_Delay(100);
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-    HAL_Delay(100);
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-    HAL_Delay(100);
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+  HAL_Delay(100);
+  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+  HAL_Delay(100);
+  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+  HAL_Delay(100);
+  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+  HAL_Delay(100);
+  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+  HAL_Delay(100);
+  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+}
+/**
+  * @brief  Motor initialization
+  * @note   This function is 
+  * @retval None
+  */
+void MotorDC_Init(void)
+{
+  MotorRoll.htim = &htim2;
+  MotorRoll.PWM_ChannelFirst = TIM_CHANNEL_3;
+  MotorRoll.PWM_ChannelSnd = TIM_CHANNEL_4;
+  MotorRoll.DirOfRot = 0;
+  MotorRoll.pulse = 0;
+  MotorRoll.port = M1_EN_GPIO_Port;
+  MotorRoll.pin = M1_EN_Pin;
 }
 /* USER CODE END 4 */
 

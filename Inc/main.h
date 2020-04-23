@@ -62,6 +62,10 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define LED_Pin GPIO_PIN_13
 #define LED_GPIO_Port GPIOC
+#define M2_EN_Pin GPIO_PIN_14
+#define M2_EN_GPIO_Port GPIOC
+#define M1_EN_Pin GPIO_PIN_15
+#define M1_EN_GPIO_Port GPIOC
 #define M22_PWM_Pin GPIO_PIN_0
 #define M22_PWM_GPIO_Port GPIOA
 #define M21_PWM_Pin GPIO_PIN_1
@@ -90,10 +94,6 @@ void Error_Handler(void);
 #define TENSO_2_GPIO_Port GPIOB
 #define FREE_SDADC_Pin GPIO_PIN_8
 #define FREE_SDADC_GPIO_Port GPIOD
-#define M1_EN_Pin GPIO_PIN_4
-#define M1_EN_GPIO_Port GPIOB
-#define M2_EN_Pin GPIO_PIN_5
-#define M2_EN_GPIO_Port GPIOB
 #define ENCODER_2P_Pin GPIO_PIN_6
 #define ENCODER_2P_GPIO_Port GPIOB
 #define ENCODER_2M_Pin GPIO_PIN_7

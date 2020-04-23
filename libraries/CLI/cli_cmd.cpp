@@ -13,6 +13,7 @@
 #include "cli_cmd.h"
 #include "stm32f3xx_hal.h"
 #include "main.h"
+#include "MotorDC.h"
 
 void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len)
 {
@@ -42,7 +43,7 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 		return;
 	}
 
-	CLI_IF_CMD("CANTX", "Send CAN") 
+	CLI_IF_CMD("CANTX", "Send CAN")
 	{
 		CAN_TxHeaderTypeDef TxHeader;
 		extern CAN_HandleTypeDef hcan;
@@ -66,9 +67,42 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 		return;
 	}
 
-	CLI_IF_CMD("CANTX", "Send CAN") 
+	CLI_IF_CMD("ROT", "Rotation DC")
 	{
-		
+		float pulse;
+		extern MotorDCTypeDef MotorRoll;
+		CLI_NEXT_WORD();
+
+		CLI_IF_CMD("DIRPLUS", "Direct plus rotation")
+		{
+			CLI_SCAN_PARAM("%f", pulse, "Pulse = ");
+
+			MotorRoll.pulse = pulse;
+			MotorRoll.DirOfRot = DIRECT_ROTATION;
+
+			rotation(&MotorRoll);
+			return;
+		}
+
+		CLI_IF_CMD("DIRMIN", "Direct minus rotation")
+		{
+			CLI_SCAN_PARAM("%f", pulse, "Pulse = ");
+
+			MotorRoll.pulse = pulse;
+			MotorRoll.DirOfRot = REVERSE_ROTATION;
+
+			rotation(&MotorRoll);
+			return;
+		}
+
+		CLI_INVALID_KEYWORD();
+		return;
+	}
+
+	CLI_IF_CMD("STOPROT", "Rotation DC")
+	{
+		extern MotorDCTypeDef MotorRoll;
+		StopRotation(&MotorRoll);
 		return;
 	}
 

@@ -1,37 +1,38 @@
-﻿C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\Electric motor control.pbd
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\main.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_msp.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_timebase_tim.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_it.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usb_device.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usbd_cdc_if.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usbd_conf.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usbd_desc.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\system_stm32f3xx.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_can.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_cortex.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_dma.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_exti.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_flash.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_flash_ex.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_gpio.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_i2c.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_i2c_ex.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_pcd.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_pcd_ex.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_pwr.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_pwr_ex.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_rcc.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_rcc_ex.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_sdadc.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_tim.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_tim_ex.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_ll_usb.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\cli.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\cli_cmd.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\cli_port.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usbd_cdc.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usbd_core.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usbd_ctlreq.pbi
-C:\Users\Jumper\Desktop\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usbd_ioreq.pbi
+﻿C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\Electric motor control.pbd
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\cli.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\cli_cmd.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\cli_port.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\main.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\MotorDC.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_can.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_cortex.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_dma.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_exti.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_flash.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_flash_ex.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_gpio.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_i2c.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_i2c_ex.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_msp.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_pcd.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_pcd_ex.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_pwr.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_pwr_ex.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_rcc.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_rcc_ex.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_sdadc.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_tim.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_tim_ex.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_timebase_tim.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_it.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_ll_usb.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\system_stm32f3xx.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usb_device.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usbd_cdc.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usbd_cdc_if.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usbd_conf.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usbd_core.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usbd_ctlreq.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usbd_desc.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usbd_ioreq.pbi

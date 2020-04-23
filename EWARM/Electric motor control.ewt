@@ -1322,6 +1322,15 @@
                 <name>$PROJ_DIR$\..\libraries\CLI\cli_port.h</name>
             </file>
         </group>
+        <group>
+            <name>MotorDC</name>
+            <file>
+                <name>$PROJ_DIR$\..\libraries\MotorDC\MotorDC.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\libraries\MotorDC\MotorDC.h</name>
+            </file>
+        </group>
     </group>
     <group>
         <name>Middlewares</name>
