@@ -26,6 +26,7 @@
 /* USER CODE BEGIN Includes */
 #include "cli.h"
 #include "MotorDC.h"
+#include "encoder.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -55,6 +56,9 @@ TIM_HandleTypeDef htim5;
 
 /* USER CODE BEGIN PV */
 MotorDCTypeDef MotorRoll;
+MotorDCTypeDef MotorPitch;
+EncTypeDef EncRoll;
+EncTypeDef EncPitch;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -69,6 +73,7 @@ static void MX_TIM4_Init(void);
 static void MX_TIM5_Init(void);
 /* USER CODE BEGIN PFP */
 static void MotorDC_Init(void);
+static void Encoder_Init(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -114,6 +119,7 @@ int main(void)
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
   MotorDC_Init();
+  Encoder_Init();
 
   //HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_3);
   //HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_4);
@@ -128,7 +134,7 @@ int main(void)
     /*HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
     HAL_Delay(500);
     */
-    
+
     DBG_CLI_USB_Task();
     /* USER CODE END WHILE */
 
@@ -394,7 +400,7 @@ static void MX_TIM3_Init(void)
   htim3.Instance = TIM3;
   htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 16000;
+  htim3.Init.Period = 32000;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   sConfig.EncoderMode = TIM_ENCODERMODE_TI1;
@@ -441,20 +447,20 @@ static void MX_TIM4_Init(void)
 
   /* USER CODE END TIM4_Init 1 */
   htim4.Instance = TIM4;
-  htim4.Init.Prescaler = 0;
+  htim4.Init.Prescaler = 1;
   htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim4.Init.Period = 16000;
+  htim4.Init.Period = 0xFFFF;
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   sConfig.EncoderMode = TIM_ENCODERMODE_TI1;
   sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
   sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
   sConfig.IC1Prescaler = TIM_ICPSC_DIV1;
-  sConfig.IC1Filter = 0;
+  sConfig.IC1Filter = 5;
   sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
   sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
   sConfig.IC2Prescaler = TIM_ICPSC_DIV1;
-  sConfig.IC2Filter = 0;
+  sConfig.IC2Filter = 5;
   if (HAL_TIM_Encoder_Init(&htim4, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -600,6 +606,35 @@ void MotorDC_Init(void)
   MotorRoll.pulse = 0;
   MotorRoll.port = M1_EN_GPIO_Port;
   MotorRoll.pin = M1_EN_Pin;
+
+  MotorPitch.htim = &htim5;
+  MotorPitch.PWM_ChannelFirst = TIM_CHANNEL_2;
+  MotorPitch.PWM_ChannelSnd = TIM_CHANNEL_1;
+  MotorPitch.DirOfRot = 0;
+  MotorPitch.pulse = 0;
+  MotorPitch.port = M2_EN_GPIO_Port;
+  MotorPitch.pin = M2_EN_Pin;
+}
+/**
+  * @brief  Encoder initialization
+  * @note   This function is 
+  * @retval None
+  */
+void Encoder_Init(void)
+{
+  EncRoll.htim = &htim3;
+  EncRoll.channel = TIM_CHANNEL_1;
+  EncRoll.zero = 16000;
+  SetZero(&EncRoll);
+  HAL_TIM_Encoder_Start(EncRoll.htim, EncRoll.channel);
+
+  
+  EncPitch.htim = &htim4;
+  EncPitch.channel = TIM_CHANNEL_1;
+  EncPitch.zero = 25000;
+  SetZero(&EncPitch);
+  HAL_TIM_Encoder_Start(EncPitch.htim, EncPitch.channel);
+
 }
 /* USER CODE END 4 */
 

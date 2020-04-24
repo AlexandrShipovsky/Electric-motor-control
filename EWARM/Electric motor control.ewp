@@ -360,6 +360,7 @@
           <state>$PROJ_DIR$/../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc</state>
           <state>$PROJ_DIR$\..\libraries\CLI</state>
           <state>$PROJ_DIR$\..\libraries\MotorDC</state>
+          <state>$PROJ_DIR$\..\libraries\Encoder</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1173,6 +1174,15 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\libraries\CLI\cli_port.h</name>
+      </file>
+    </group>
+    <group>
+      <name>Encoder</name>
+      <file>
+        <name>$PROJ_DIR$\..\libraries\Encoder\encoder.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\libraries\Encoder\encoder.h</name>
       </file>
     </group>
     <group>

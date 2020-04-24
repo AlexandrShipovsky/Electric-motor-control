@@ -14,6 +14,7 @@
 #include "stm32f3xx_hal.h"
 #include "main.h"
 #include "MotorDC.h"
+#include "encoder.h"
 
 void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len)
 {
@@ -70,31 +71,84 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 	CLI_IF_CMD("ROT", "Rotation DC")
 	{
 		float pulse;
+		int16_t pos;
 		extern MotorDCTypeDef MotorRoll;
+		extern MotorDCTypeDef MotorPitch;
+		extern EncTypeDef EncRoll;
+		extern EncTypeDef EncPitch;
+
 		CLI_NEXT_WORD();
 
-		CLI_IF_CMD("DIRPLUS", "Direct plus rotation")
+		// ROLL
+		CLI_IF_CMD("ROLL", "Rotation roll motor")
 		{
 			CLI_SCAN_PARAM("%f", pulse, "Pulse = ");
+			CLI_SCAN_PARAM("%i", pos, "Position = ");
 
+			DbgPrintf("Value = %d\n\r", pos);
 			MotorRoll.pulse = pulse;
-			MotorRoll.DirOfRot = DIRECT_ROTATION;
 
-			rotation(&MotorRoll);
+			if (pos > GetEnc(&EncRoll))
+			{
+				MotorRoll.DirOfRot = DIRECT_ROTATION;
+				rotation(&MotorRoll);
+				while (pos > GetEnc(&EncRoll))
+				{
+					DbgPrintf("Enc value = %d\n\r", GetEnc(&EncRoll));
+				}
+				StopRotation(&MotorRoll);
+				return;
+			}
+			if (pos < GetEnc(&EncRoll))
+			{
+				MotorRoll.DirOfRot = REVERSE_ROTATION;
+				rotation(&MotorRoll);
+				while (pos < GetEnc(&EncRoll))
+				{
+					DbgPrintf("Enc value = %d\n\r", GetEnc(&EncRoll));
+				}
+				StopRotation(&MotorRoll);
+				return;
+			}
+
 			return;
 		}
 
-		CLI_IF_CMD("DIRMIN", "Direct minus rotation")
+		// PITCH
+		CLI_IF_CMD("PITCH", "Rotation pitch motor")
 		{
 			CLI_SCAN_PARAM("%f", pulse, "Pulse = ");
+			CLI_SCAN_PARAM("%d", pos, "Position = ");
 
-			MotorRoll.pulse = pulse;
-			MotorRoll.DirOfRot = REVERSE_ROTATION;
+			DbgPrintf("Value = %i\n\r", pos);
 
-			rotation(&MotorRoll);
+			MotorPitch.pulse = pulse;
+
+			if (pos > GetEnc(&EncPitch))
+			{
+				MotorPitch.DirOfRot = DIRECT_ROTATION;
+				rotation(&MotorPitch);
+				while (pos > GetEnc(&EncPitch))
+				{
+					DbgPrintf("\n\rEnc value = %d\n\r", GetEnc(&EncPitch));
+				}
+				StopRotation(&MotorPitch);
+				return;
+			}
+			if (pos < GetEnc(&EncPitch))
+			{
+				MotorPitch.DirOfRot = REVERSE_ROTATION;
+				rotation(&MotorPitch);
+				while (pos < GetEnc(&EncPitch))
+				{
+					DbgPrintf("\n\rEnc value = %d\n\r", GetEnc(&EncPitch));
+				}
+				StopRotation(&MotorPitch);
+				return;
+			}
+
 			return;
 		}
-
 		CLI_INVALID_KEYWORD();
 		return;
 	}
@@ -102,7 +156,29 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 	CLI_IF_CMD("STOPROT", "Rotation DC")
 	{
 		extern MotorDCTypeDef MotorRoll;
+		extern MotorDCTypeDef MotorPitch;
 		StopRotation(&MotorRoll);
+		StopRotation(&MotorPitch);
+		return;
+	}
+
+	CLI_IF_CMD("PITCH", "Get value of encoder")
+	{
+		extern EncTypeDef EncPitch;
+		int16_t val = 13;
+		val = GetEnc(&EncPitch);
+
+		DbgPrintf("\n\rEnc value = %d\n\r", val);
+		return;
+	}
+
+	CLI_IF_CMD("ROLL", "Get value of encoder")
+	{
+		extern EncTypeDef EncRoll;
+		int16_t val = 13;
+		val = GetEnc(&EncRoll);
+
+		DbgPrintf("\n\rEnc value = %d\n\r", val);
 		return;
 	}
 

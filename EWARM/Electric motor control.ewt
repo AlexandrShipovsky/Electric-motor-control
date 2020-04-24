@@ -1323,6 +1323,15 @@
             </file>
         </group>
         <group>
+            <name>Encoder</name>
+            <file>
+                <name>$PROJ_DIR$\..\libraries\Encoder\encoder.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\libraries\Encoder\encoder.h</name>
+            </file>
+        </group>
+        <group>
             <name>MotorDC</name>
             <file>
                 <name>$PROJ_DIR$\..\libraries\MotorDC\MotorDC.c</name>
