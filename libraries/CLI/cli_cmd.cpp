@@ -15,6 +15,7 @@
 #include "main.h"
 #include "MotorDC.h"
 #include "encoder.h"
+#include "vbat.h"
 
 void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len)
 {
@@ -179,6 +180,16 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 		val = GetEnc(&EncRoll);
 
 		DbgPrintf("\n\rEnc value = %d\n\r", val);
+		return;
+	}
+
+	CLI_IF_CMD("VBAT", "Get votage battery")
+	{
+		extern vbatTypeDef vbat;;
+		float voltage = 13.0;
+		voltage = GetVoltageBat(&vbat);
+
+		DbgPrintf("\n\rVotage battery = %f\n\r", voltage);
 		return;
 	}
 

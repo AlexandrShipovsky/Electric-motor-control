@@ -27,6 +27,7 @@
 #include "cli.h"
 #include "MotorDC.h"
 #include "encoder.h"
+#include "vbat.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -48,6 +49,7 @@ CAN_HandleTypeDef hcan;
 
 SDADC_HandleTypeDef hsdadc1;
 SDADC_HandleTypeDef hsdadc3;
+DMA_HandleTypeDef hdma_sdadc1;
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
@@ -59,11 +61,13 @@ MotorDCTypeDef MotorRoll;
 MotorDCTypeDef MotorPitch;
 EncTypeDef EncRoll;
 EncTypeDef EncPitch;
+vbatTypeDef vbat;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
 static void MX_CAN_Init(void);
 static void MX_SDADC1_Init(void);
 static void MX_SDADC3_Init(void);
@@ -74,6 +78,7 @@ static void MX_TIM5_Init(void);
 /* USER CODE BEGIN PFP */
 static void MotorDC_Init(void);
 static void Encoder_Init(void);
+static void VBAT_Init(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -109,6 +114,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_CAN_Init();
   MX_SDADC1_Init();
   MX_SDADC3_Init();
@@ -120,20 +126,14 @@ int main(void)
   /* USER CODE BEGIN 2 */
   MotorDC_Init();
   Encoder_Init();
+  VBAT_Init();
 
-  //HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_3);
-  //HAL_TIM_PWM_Start(&htim2,TIM_CHANNEL_4);
-  //__HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_3,500);
-  // __HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_4,500);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /*HAL_GPIO_TogglePin(LED_GPIO_Port,LED_Pin);
-    HAL_Delay(500);
-    */
 
     DBG_CLI_USB_Task();
     /* USER CODE END WHILE */
@@ -262,6 +262,8 @@ static void MX_SDADC1_Init(void)
 
   /* USER CODE END SDADC1_Init 0 */
 
+  SDADC_ConfParamTypeDef ConfParamStruct = {0};
+
   /* USER CODE BEGIN SDADC1_Init 1 */
 
   /* USER CODE END SDADC1_Init 1 */
@@ -273,7 +275,44 @@ static void MX_SDADC1_Init(void)
   hsdadc1.Init.FastConversionMode = SDADC_FAST_CONV_DISABLE;
   hsdadc1.Init.SlowClockMode = SDADC_SLOW_CLOCK_DISABLE;
   hsdadc1.Init.ReferenceVoltage = SDADC_VREF_EXT;
+  hsdadc1.InjectedTrigger = SDADC_SOFTWARE_TRIGGER;
   if (HAL_SDADC_Init(&hsdadc1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure The Regular Mode 
+  */
+  if (HAL_SDADC_SelectRegularTrigger(&hsdadc1, SDADC_SOFTWARE_TRIGGER) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure the Injected Mode 
+  */
+  if (HAL_SDADC_SelectInjectedDelay(&hsdadc1, SDADC_INJECTED_DELAY_NONE) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_SDADC_SelectInjectedTrigger(&hsdadc1, SDADC_SOFTWARE_TRIGGER) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_SDADC_InjectedConfigChannel(&hsdadc1, SDADC_CHANNEL_4, SDADC_CONTINUOUS_CONV_OFF) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Set parameters for SDADC configuration 0 Register 
+  */
+  ConfParamStruct.InputMode = SDADC_INPUT_MODE_SE_ZERO_REFERENCE;
+  ConfParamStruct.Gain = SDADC_GAIN_2;
+  ConfParamStruct.CommonMode = SDADC_COMMON_MODE_VSSA;
+  ConfParamStruct.Offset = 0;
+  if (HAL_SDADC_PrepareChannelConfig(&hsdadc1, SDADC_CONF_INDEX_0, &ConfParamStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure the Injected Channel 
+  */
+  if (HAL_SDADC_AssociateChannelConfig(&hsdadc1, SDADC_CHANNEL_4, SDADC_CONF_INDEX_0) != HAL_OK)
   {
     Error_Handler();
   }
@@ -295,6 +334,8 @@ static void MX_SDADC3_Init(void)
 
   /* USER CODE END SDADC3_Init 0 */
 
+  SDADC_ConfParamTypeDef ConfParamStruct = {0};
+
   /* USER CODE BEGIN SDADC3_Init 1 */
 
   /* USER CODE END SDADC3_Init 1 */
@@ -306,7 +347,38 @@ static void MX_SDADC3_Init(void)
   hsdadc3.Init.FastConversionMode = SDADC_FAST_CONV_DISABLE;
   hsdadc3.Init.SlowClockMode = SDADC_SLOW_CLOCK_DISABLE;
   hsdadc3.Init.ReferenceVoltage = SDADC_VREF_EXT;
+  hsdadc3.InjectedTrigger = SDADC_SOFTWARE_TRIGGER;
   if (HAL_SDADC_Init(&hsdadc3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure the Injected Mode 
+  */
+  if (HAL_SDADC_SelectInjectedDelay(&hsdadc3, SDADC_INJECTED_DELAY_NONE) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_SDADC_SelectInjectedTrigger(&hsdadc3, SDADC_SOFTWARE_TRIGGER) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_SDADC_InjectedConfigChannel(&hsdadc3, SDADC_CHANNEL_6, SDADC_CONTINUOUS_CONV_OFF) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Set parameters for SDADC configuration 0 Register 
+  */
+  ConfParamStruct.InputMode = SDADC_INPUT_MODE_SE_OFFSET;
+  ConfParamStruct.Gain = SDADC_GAIN_1_2;
+  ConfParamStruct.CommonMode = SDADC_COMMON_MODE_VSSA;
+  ConfParamStruct.Offset = 0;
+  if (HAL_SDADC_PrepareChannelConfig(&hsdadc3, SDADC_CONF_INDEX_0, &ConfParamStruct) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure the Injected Channel 
+  */
+  if (HAL_SDADC_AssociateChannelConfig(&hsdadc3, SDADC_CHANNEL_6, SDADC_CONF_INDEX_0) != HAL_OK)
   {
     Error_Handler();
   }
@@ -540,6 +612,22 @@ static void MX_TIM5_Init(void)
 
 }
 
+/** 
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void) 
+{
+
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA2_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA2_Channel3_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Channel3_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Channel3_IRQn);
+
+}
+
 /**
   * @brief GPIO Initialization Function
   * @param None
@@ -628,13 +716,34 @@ void Encoder_Init(void)
   SetZero(&EncRoll);
   HAL_TIM_Encoder_Start(EncRoll.htim, EncRoll.channel);
 
-  
   EncPitch.htim = &htim4;
   EncPitch.channel = TIM_CHANNEL_1;
   EncPitch.zero = 25000;
   SetZero(&EncPitch);
   HAL_TIM_Encoder_Start(EncPitch.htim, EncPitch.channel);
+}
+/**
+  * @brief  VBAT voltmeter initialization
+  * @note   This function is 
+  * @retval None
+  */
+void VBAT_Init(void)
+{
+  vbat.hsdadc = &hsdadc3;
+  vbat.channel = SDADC_CHANNEL_6;
+  vbat.k = 0.00086138;
+  vbat.b = 0;
 
+  HAL_SDADC_CalibrationStart(vbat.hsdadc, SDADC_CALIBRATION_SEQ_1);
+  if(HAL_SDADC_PollForCalibEvent(vbat.hsdadc,100)!= HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  if (HAL_SDADC_InjectedStart(vbat.hsdadc) != HAL_OK)
+  {
+    Error_Handler();
+  }
 }
 /* USER CODE END 4 */
 

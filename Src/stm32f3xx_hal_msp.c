@@ -24,6 +24,7 @@
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
+extern DMA_HandleTypeDef hdma_sdadc1;
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
@@ -172,18 +173,34 @@ void HAL_SDADC_MspInit(SDADC_HandleTypeDef* hsdadc)
     PB0     ------> SDADC1_AIN6P
     PB1     ------> SDADC1_AIN5P
     PB2     ------> SDADC1_AIN4P
-    PE8     ------> SDADC1_AIN8P
-    PE9     ------> SDADC1_AIN7P 
+    PE8     ------> SDADC1_AIN8P 
     */
-    GPIO_InitStruct.Pin = M11_SDADC_Pin|M12_SDADC_Pin|M21_SDADC_Pin;
+    GPIO_InitStruct.Pin = M22_SDADC_Pin|M21_SDADC_Pin|M12_SDADC_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = M22_SDADC_Pin|BAT_SDADC_Pin;
+    GPIO_InitStruct.Pin = M11_SDADC_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+    HAL_GPIO_Init(M11_SDADC_GPIO_Port, &GPIO_InitStruct);
+
+    /* SDADC1 DMA Init */
+    /* SDADC1 Init */
+    hdma_sdadc1.Instance = DMA2_Channel3;
+    hdma_sdadc1.Init.Direction = DMA_PERIPH_TO_MEMORY;
+    hdma_sdadc1.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_sdadc1.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_sdadc1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+    hdma_sdadc1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+    hdma_sdadc1.Init.Mode = DMA_NORMAL;
+    hdma_sdadc1.Init.Priority = DMA_PRIORITY_LOW;
+    if (HAL_DMA_Init(&hdma_sdadc1) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
+    __HAL_LINKDMA(hsdadc,hdma,hdma_sdadc1);
 
   /* USER CODE BEGIN SDADC1_MspInit 1 */
 
@@ -197,22 +214,14 @@ void HAL_SDADC_MspInit(SDADC_HandleTypeDef* hsdadc)
     /* Peripheral clock enable */
     __HAL_RCC_SDADC3_CLK_ENABLE();
   
-    __HAL_RCC_GPIOB_CLK_ENABLE();
     __HAL_RCC_GPIOD_CLK_ENABLE();
     /**SDADC3 GPIO Configuration    
-    PB14     ------> SDADC3_AIN8P
-    PB15     ------> SDADC3_AIN7P
     PD8     ------> SDADC3_AIN6P 
     */
-    GPIO_InitStruct.Pin = TENSO_1_Pin|TENSO_2_Pin;
+    GPIO_InitStruct.Pin = BAT_SDADC_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-    GPIO_InitStruct.Pin = FREE_SDADC_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(FREE_SDADC_GPIO_Port, &GPIO_InitStruct);
+    HAL_GPIO_Init(BAT_SDADC_GPIO_Port, &GPIO_InitStruct);
 
   /* USER CODE BEGIN SDADC3_MspInit 1 */
 
@@ -241,13 +250,14 @@ void HAL_SDADC_MspDeInit(SDADC_HandleTypeDef* hsdadc)
     PB0     ------> SDADC1_AIN6P
     PB1     ------> SDADC1_AIN5P
     PB2     ------> SDADC1_AIN4P
-    PE8     ------> SDADC1_AIN8P
-    PE9     ------> SDADC1_AIN7P 
+    PE8     ------> SDADC1_AIN8P 
     */
-    HAL_GPIO_DeInit(GPIOB, M11_SDADC_Pin|M12_SDADC_Pin|M21_SDADC_Pin);
+    HAL_GPIO_DeInit(GPIOB, M22_SDADC_Pin|M21_SDADC_Pin|M12_SDADC_Pin);
 
-    HAL_GPIO_DeInit(GPIOE, M22_SDADC_Pin|BAT_SDADC_Pin);
+    HAL_GPIO_DeInit(M11_SDADC_GPIO_Port, M11_SDADC_Pin);
 
+    /* SDADC1 DMA DeInit */
+    HAL_DMA_DeInit(hsdadc->hdma);
   /* USER CODE BEGIN SDADC1_MspDeInit 1 */
 
   /* USER CODE END SDADC1_MspDeInit 1 */
@@ -261,13 +271,9 @@ void HAL_SDADC_MspDeInit(SDADC_HandleTypeDef* hsdadc)
     __HAL_RCC_SDADC3_CLK_DISABLE();
   
     /**SDADC3 GPIO Configuration    
-    PB14     ------> SDADC3_AIN8P
-    PB15     ------> SDADC3_AIN7P
     PD8     ------> SDADC3_AIN6P 
     */
-    HAL_GPIO_DeInit(GPIOB, TENSO_1_Pin|TENSO_2_Pin);
-
-    HAL_GPIO_DeInit(FREE_SDADC_GPIO_Port, FREE_SDADC_Pin);
+    HAL_GPIO_DeInit(BAT_SDADC_GPIO_Port, BAT_SDADC_Pin);
 
   /* USER CODE BEGIN SDADC3_MspDeInit 1 */
 

@@ -1340,6 +1340,15 @@
                 <name>$PROJ_DIR$\..\libraries\MotorDC\MotorDC.h</name>
             </file>
         </group>
+        <group>
+            <name>VBAT24</name>
+            <file>
+                <name>$PROJ_DIR$\..\libraries\VBAT24\vbat.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\libraries\VBAT24\vbat.h</name>
+            </file>
+        </group>
     </group>
     <group>
         <name>Middlewares</name>
