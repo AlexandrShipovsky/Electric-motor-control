@@ -362,6 +362,9 @@
           <state>$PROJ_DIR$\..\libraries\MotorDC</state>
           <state>$PROJ_DIR$\..\libraries\Encoder</state>
           <state>$PROJ_DIR$\..\libraries\VBAT24</state>
+          <state>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/include</state>
+          <state>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/portable/IAR/ARM_CM4F</state>
+          <state>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1054,6 +1057,9 @@
         <name>$PROJ_DIR$\..\Src\main.c</name>
       </file>
       <file>
+        <name>$PROJ_DIR$/../Src/freertos.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Src\usb_device.c</name>
       </file>
       <file>
@@ -1220,6 +1226,42 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Src\usbd_cdc.c</name>
+      </file>
+    </group>
+    <group>
+      <name>FreeRTOS</name>
+      <file>
+        <name>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/croutine.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/event_groups.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/list.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/queue.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/stream_buffer.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/tasks.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/timers.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/portable/IAR/ARM_CM4F/port.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$/../Middlewares/Third_Party/FreeRTOS/Source/portable/IAR/ARM_CM4F/portasm.s</name>
       </file>
     </group>
   </group>

@@ -30,7 +30,7 @@ typedef struct
     TIM_HandleTypeDef *htim;   /*Указатель на таймер энкодера*/
     uint16_t channel; /*Канал таймера по которому идет счет*/
     uint32_t zero; /* Значение регистра CNT в нуле*/
-    uint8_t DirOfRot;
+    uint8_t DirOfRot; /*Направление вращения. 0 - прямое (значение увеличивается), 1 - обратное*/
 
 }EncTypeDef;
 

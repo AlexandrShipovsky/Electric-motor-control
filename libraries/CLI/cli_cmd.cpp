@@ -11,8 +11,11 @@
 #include "cli_port.h"
 #include "cli_base.h"
 #include "cli_cmd.h"
-#include "stm32f3xx_hal.h"
+#include "FreeRTOS.h"
+#include "task.h"
 #include "main.h"
+
+#include "stm32f3xx_hal.h"
 #include "MotorDC.h"
 #include "encoder.h"
 #include "vbat.h"
@@ -190,6 +193,17 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 		voltage = GetVoltageBat(&vbat);
 
 		DbgPrintf("\n\rVotage battery = %f\n\r", voltage);
+		return;
+	}
+
+	CLI_IF_CMD("STACK", "Get size stack of tasks")
+	{
+		char InfoStack[1024];
+
+		vTaskList(InfoStack);
+		DbgPrintf("\n\r");
+		DbgPrintf(InfoStack);
+		DbgPrintf("\n\r");
 		return;
 	}
 

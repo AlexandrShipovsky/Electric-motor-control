@@ -20,6 +20,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "cmsis_os.h"
 #include "usb_device.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -56,6 +57,9 @@ TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
 TIM_HandleTypeDef htim5;
 
+osThreadId defaultTaskHandle;
+osThreadId cliTaskHandle;
+osThreadId pidTaskHandle;
 /* USER CODE BEGIN PV */
 MotorDCTypeDef MotorRoll;
 MotorDCTypeDef MotorPitch;
@@ -75,6 +79,10 @@ static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_TIM5_Init(void);
+void StartDefaultTask(void const * argument);
+void cliStartTask(void const * argument);
+void pidStartTask(void const * argument);
+
 /* USER CODE BEGIN PFP */
 static void MotorDC_Init(void);
 static void Encoder_Init(void);
@@ -122,7 +130,6 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM4_Init();
   MX_TIM5_Init();
-  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
   MotorDC_Init();
   Encoder_Init();
@@ -130,12 +137,49 @@ int main(void)
 
   /* USER CODE END 2 */
 
+  /* USER CODE BEGIN RTOS_MUTEX */
+  /* add mutexes, ... */
+  /* USER CODE END RTOS_MUTEX */
+
+  /* USER CODE BEGIN RTOS_SEMAPHORES */
+  /* add semaphores, ... */
+  /* USER CODE END RTOS_SEMAPHORES */
+
+  /* USER CODE BEGIN RTOS_TIMERS */
+  /* start timers, add new ones, ... */
+  /* USER CODE END RTOS_TIMERS */
+
+  /* USER CODE BEGIN RTOS_QUEUES */
+  /* add queues, ... */
+  /* USER CODE END RTOS_QUEUES */
+
+  /* Create the thread(s) */
+  /* definition and creation of defaultTask */
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
+  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+
+  /* definition and creation of cliTask */
+  osThreadDef(cliTask, cliStartTask, osPriorityLow, 0, 2000);
+  cliTaskHandle = osThreadCreate(osThread(cliTask), NULL);
+
+  /* definition and creation of pidTask */
+  osThreadDef(pidTask, pidStartTask, osPriorityBelowNormal, 0, 128);
+  pidTaskHandle = osThreadCreate(osThread(pidTask), NULL);
+
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* add threads, ... */
+  /* USER CODE END RTOS_THREADS */
+
+  /* Start scheduler */
+  osKernelStart();
+ 
+  /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
 
-    DBG_CLI_USB_Task();
+    
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -623,7 +667,7 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA2_Channel3_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA2_Channel3_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(DMA2_Channel3_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA2_Channel3_IRQn);
 
 }
@@ -735,7 +779,7 @@ void VBAT_Init(void)
   vbat.b = 0;
 
   HAL_SDADC_CalibrationStart(vbat.hsdadc, SDADC_CALIBRATION_SEQ_1);
-  if(HAL_SDADC_PollForCalibEvent(vbat.hsdadc,100)!= HAL_OK)
+  if(HAL_SDADC_PollForCalibEvent(vbat.hsdadc,1000)!= HAL_OK)
   {
     Error_Handler();
   }
@@ -746,6 +790,64 @@ void VBAT_Init(void)
   }
 }
 /* USER CODE END 4 */
+
+/* USER CODE BEGIN Header_StartDefaultTask */
+/**
+  * @brief  Function implementing the defaultTask thread.
+  * @param  argument: Not used 
+  * @retval None
+  */
+/* USER CODE END Header_StartDefaultTask */
+void StartDefaultTask(void const * argument)
+{
+  /* init code for USB_DEVICE */
+  MX_USB_DEVICE_Init();
+  /* USER CODE BEGIN 5 */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END 5 */ 
+}
+
+/* USER CODE BEGIN Header_cliStartTask */
+/**
+* @brief Function implementing the cliTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_cliStartTask */
+void cliStartTask(void const * argument)
+{
+  /* USER CODE BEGIN cliStartTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    DBG_CLI_USB_Task();
+    //osDelay(1);
+  }
+  /* USER CODE END cliStartTask */
+}
+
+/* USER CODE BEGIN Header_pidStartTask */
+/**
+* @brief Function implementing the pidTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_pidStartTask */
+void pidStartTask(void const * argument)
+{
+  /* USER CODE BEGIN pidStartTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+    osDelay(500);
+  }
+  /* USER CODE END pidStartTask */
+}
 
  /**
   * @brief  Period elapsed callback in non blocking mode
