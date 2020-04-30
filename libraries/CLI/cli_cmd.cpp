@@ -19,6 +19,7 @@
 #include "MotorDC.h"
 #include "encoder.h"
 #include "vbat.h"
+#include "pid.h"
 
 void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len)
 {
@@ -203,6 +204,27 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 		vTaskList(InfoStack);
 		DbgPrintf("\n\r");
 		DbgPrintf(InfoStack);
+		DbgPrintf("\n\r");
+		return;
+	}
+
+	CLI_IF_CMD("TIMESTATS", "Get time in percent processor")
+	{
+		char InfoStack[1024];
+
+		vTaskGetRunTimeStats(InfoStack);
+		DbgPrintf("\n\r");
+		DbgPrintf(InfoStack);
+		DbgPrintf("\n\r");
+		return;
+	}
+
+	CLI_IF_CMD("PIDPITCH", "Get inform pid of pitch")
+	{
+		extern pidTypeDef pidPitch;
+		DbgPrintf("\n\r");
+		DbgPrintf("ManipulVal = %f\n\r",pidPitch.ManipulVal);
+		DbgPrintf("DirOfRot = %i\n\r",pidPitch.DirOfRot);
 		DbgPrintf("\n\r");
 		return;
 	}

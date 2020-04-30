@@ -29,6 +29,12 @@ C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мот
 -I
 C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\..\libraries\VBAT24
 -I
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM/../Middlewares/Third_Party/FreeRTOS/Source/include
+-I
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM/../Middlewares/Third_Party/FreeRTOS/Source/portable/IAR/ARM_CM4F
+-I
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM/../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
+-I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\arm\inc
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.1\arm\inc\c
@@ -56,6 +62,12 @@ C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мот
 C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\libraries\Encoder
 -I
 C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\libraries\VBAT24
+-I
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\Middlewares\Third_Party\FreeRTOS\Source\include
+-I
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM4F
+-I
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS
 -D__CHAR_BITS__=8
 -D__CHAR_MAX__=0xff
 -D__CHAR_MIN__=0

@@ -1,7 +1,7 @@
 /*
  * cli_port.cpp
  *
- *  Created on: 12 ˜˜˜˜. 2019 ˜.
+ *  Created on: 12 ï¿½ï¿½ï¿½ï¿½. 2019 ï¿½.
  *      Author: d.semenyuk
  */
 
@@ -13,6 +13,9 @@
 #include "cli_base.h"
 #include "cli_cmd.h"
 #include "usbd_cdc_if.h"
+
+#include "FreeRTOS.h"
+#include "task.h"
 
 using namespace cli;
 
@@ -33,7 +36,7 @@ void cli::cli_sleep(uint32_t time_ms)
 }
 //#####################################################################################################
 //	INPUT/OUTPUT
-//	˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜˜˜ CLI ˜˜˜˜˜˜ ˜˜˜˜˜˜˜ ˜˜˜˜˜/˜˜˜˜˜˜ ˜˜˜ ˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜˜˜
+//	ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ CLI ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------------------------------
 //	USB
 
@@ -61,6 +64,8 @@ extern "C" int DbgPrintf(const char *format, ...)
 {
 	static char USB_printf_buff[CLI_PRINTF_WORK_BUFFER_SIZE] = {};
 	__Va_list ap;
+
+	//taskENTER_CRITICAL();
 	va_start(ap, format);
 	int len = vsprintf(USB_printf_buff, format, ap);
 	va_end(ap);
@@ -84,6 +89,7 @@ extern "C" int DbgPrintf(const char *format, ...)
 			DbgUSBPutChar(USB_printf_buff[i]);
 		}
 	}
+	//taskEXIT_CRITICAL();
 	return len;
 }
 
@@ -91,19 +97,23 @@ extern "C" bool DbgUSBReadChar(char *const val, uint32_t timeout)
 {
 	uint32_t j = 0;
 	uint16_t i = 0;
-	static uint16_t APP_RX_DATA_SIZE = sizeof(&UserRxBufferFS);
+	//static 
+	//taskENTER_CRITICAL();
+	uint16_t APP_RX_DATA_SIZE = sizeof(&UserRxBufferFS);
 	while (j < timeout)
 	{
 		if (UserRxBufferFS[i] != '\0')
 		{
 			*val = (char)UserRxBufferFS[i];
 			UserRxBufferFS[i] = '\0';
+			//taskEXIT_CRITICAL();
 			return true;
 		}
 		i++;
 		j++;
 		if (i == APP_RX_DATA_SIZE) i = 0;
 	}
+	//taskEXIT_CRITICAL();
 	return false;
 }
 extern "C" int DbgScanf(const char *format, ...)
@@ -111,6 +121,8 @@ extern "C" int DbgScanf(const char *format, ...)
 	static char USB_scanf_buff[CLI_SCANF_WORK_BUFFER_SIZE];
 	int result;
 	uint32_t buf_index = 0;
+
+	//taskENTER_CRITICAL();
 	while (1)
 	{
 		char tmp;
@@ -118,6 +130,7 @@ extern "C" int DbgScanf(const char *format, ...)
 
 		if (tmp == '\r' || tmp == '\n')
 		{
+			//taskEXIT_CRITICAL();
 			break;
 		}
 		DbgUSBPutChar(tmp);
@@ -138,6 +151,7 @@ extern "C" int DbgScanf(const char *format, ...)
 	va_start(ap, format);
 	result = vsscanf(USB_scanf_buff, format, ap);
 	va_end(ap);
+	//taskEXIT_CRITICAL();
 	return result;
 }
 
@@ -149,7 +163,7 @@ const TCLI_IO DBG_CLI_IOStruct = {
 
 //#####################################################################################################
 //	CLI
-//	˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜˜ CLI
+//	ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ CLI
 
 //-----------------------------------------------------------------------------------------------------
 //	Debug CLI
@@ -162,7 +176,7 @@ TT_CLI<CLI_MAX_INPUT_STR_LEN, CLI_MAX_HISTORY_STR>
 
 //#####################################################################################################
 //	TASKS
-//	˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜˜ CLI. ˜˜˜˜˜˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜ CLI ˜ ˜˜˜˜˜˜˜˜˜ ˜˜˜˜˜˜˜˜
+//	ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ CLI. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ CLI ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 //-----------------------------------------------------------------------------------------------------
 //	USB

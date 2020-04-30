@@ -25,7 +25,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */     
-
+#include "cli.h"
+#include "MotorDC.h"
+#include "encoder.h"
+#include "vbat.h"
+#include "pid.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,33 +49,97 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-
+extern unsigned long ulHighFrequencyTimerTicks;
 /* USER CODE END Variables */
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-   
+
 /* USER CODE END FunctionPrototypes */
 
 /* GetIdleTaskMemory prototype (linked to static allocation support) */
 void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize );
 
+/* Hook prototypes */
+void configureTimerForRunTimeStats(void);
+unsigned long getRunTimeCounterValue(void);
+
+/* USER CODE BEGIN 1 */
+/* Functions needed when configGENERATE_RUN_TIME_STATS is on */
+__weak void configureTimerForRunTimeStats(void)
+{
+  ulHighFrequencyTimerTicks = 0UL;
+}
+
+__weak unsigned long getRunTimeCounterValue(void)
+{
+  return ulHighFrequencyTimerTicks;
+}
+/* USER CODE END 1 */
+
 /* USER CODE BEGIN GET_IDLE_TASK_MEMORY */
 static StaticTask_t xIdleTaskTCBBuffer;
 static StackType_t xIdleStack[configMINIMAL_STACK_SIZE];
-  
-void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize )
+
+void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize)
 {
   *ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
   *ppxIdleTaskStackBuffer = &xIdleStack[0];
   *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
   /* place for user code */
-}                   
+}
 /* USER CODE END GET_IDLE_TASK_MEMORY */
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
-     
+/**
+* @brief Function implementing the cliTask thread.
+* @param argument: Not used
+* @retval None
+*/
+void cliStartTask(void const *argument)
+{
+  /* USER CODE BEGIN cliStartTask */
+  /* Infinite loop */
+  for (;;)
+  {
+    DBG_CLI_USB_Task();
+    //vTaskDelay(500);
+  }
+}
+/**
+* @brief Function implementing the pidTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_pidStartTask */
+void pidStartTask(void const *argument)
+{
+  /* USER CODE BEGIN pidStartTask */
+
+  extern MotorDCTypeDef MotorRoll;
+  extern MotorDCTypeDef MotorPitch;
+  extern EncTypeDef EncRoll;
+  extern EncTypeDef EncPitch;
+  extern pidTypeDef pidPitch;
+
+  /* Infinite loop */
+  for (;;)
+  {
+    taskENTER_CRITICAL();
+    pidPitch.ProcessVal = GetEnc(&EncPitch);
+    pidUpdate(&pidPitch);
+    taskEXIT_CRITICAL();
+
+    taskENTER_CRITICAL();
+    MotorPitch.DirOfRot = pidPitch.DirOfRot;
+		MotorPitch.pulse = pidPitch.ManipulVal;
+		rotation(&MotorPitch);
+    taskEXIT_CRITICAL();
+    vTaskDelay(200);
+  }
+}
+
 /* USER CODE END Application */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

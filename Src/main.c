@@ -29,6 +29,7 @@
 #include "MotorDC.h"
 #include "encoder.h"
 #include "vbat.h"
+#include "pid.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,6 +57,8 @@ TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
 TIM_HandleTypeDef htim5;
+TIM_HandleTypeDef htim7;
+TIM_HandleTypeDef htim17;
 
 osThreadId defaultTaskHandle;
 osThreadId cliTaskHandle;
@@ -66,6 +69,9 @@ MotorDCTypeDef MotorPitch;
 EncTypeDef EncRoll;
 EncTypeDef EncPitch;
 vbatTypeDef vbat;
+pidTypeDef pidPitch;
+
+volatile unsigned long ulHighFrequencyTimerTicks;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -79,6 +85,8 @@ static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_TIM5_Init(void);
+static void MX_TIM7_Init(void);
+static void MX_TIM17_Init(void);
 void StartDefaultTask(void const * argument);
 void cliStartTask(void const * argument);
 void pidStartTask(void const * argument);
@@ -87,6 +95,7 @@ void pidStartTask(void const * argument);
 static void MotorDC_Init(void);
 static void Encoder_Init(void);
 static void VBAT_Init(void);
+static void pid_Init(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -130,11 +139,15 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM4_Init();
   MX_TIM5_Init();
+  MX_TIM7_Init();
+  MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
   MotorDC_Init();
   Encoder_Init();
   VBAT_Init();
+  pid_Init();
 
+  HAL_TIM_Base_Start_IT(&htim7); // Таймер для счета занятости задачами процессорного времени
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -159,11 +172,11 @@ int main(void)
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* definition and creation of cliTask */
-  osThreadDef(cliTask, cliStartTask, osPriorityLow, 0, 2000);
+  osThreadDef(cliTask, cliStartTask, osPriorityLow, 0, 1024);
   cliTaskHandle = osThreadCreate(osThread(cliTask), NULL);
 
   /* definition and creation of pidTask */
-  osThreadDef(pidTask, pidStartTask, osPriorityBelowNormal, 0, 128);
+  osThreadDef(pidTask, pidStartTask, osPriorityBelowNormal, 0, 2048);
   pidTaskHandle = osThreadCreate(osThread(pidTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
@@ -179,7 +192,6 @@ int main(void)
   while (1)
   {
 
-    
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -656,6 +668,76 @@ static void MX_TIM5_Init(void)
 
 }
 
+/**
+  * @brief TIM7 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM7_Init(void)
+{
+
+  /* USER CODE BEGIN TIM7_Init 0 */
+
+  /* USER CODE END TIM7_Init 0 */
+
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM7_Init 1 */
+
+  /* USER CODE END TIM7_Init 1 */
+  htim7.Instance = TIM7;
+  htim7.Init.Prescaler = 359;
+  htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim7.Init.Period = 10;
+  htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim7, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM7_Init 2 */
+
+  /* USER CODE END TIM7_Init 2 */
+
+}
+
+/**
+  * @brief TIM17 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM17_Init(void)
+{
+
+  /* USER CODE BEGIN TIM17_Init 0 */
+
+  /* USER CODE END TIM17_Init 0 */
+
+  /* USER CODE BEGIN TIM17_Init 1 */
+
+  /* USER CODE END TIM17_Init 1 */
+  htim17.Instance = TIM17;
+  htim17.Init.Prescaler = 71;
+  htim17.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim17.Init.Period = 65535;
+  htim17.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim17.Init.RepetitionCounter = 0;
+  htim17.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim17) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM17_Init 2 */
+
+  /* USER CODE END TIM17_Init 2 */
+
+}
+
 /** 
   * Enable DMA controller clock
   */
@@ -779,7 +861,7 @@ void VBAT_Init(void)
   vbat.b = 0;
 
   HAL_SDADC_CalibrationStart(vbat.hsdadc, SDADC_CALIBRATION_SEQ_1);
-  if(HAL_SDADC_PollForCalibEvent(vbat.hsdadc,1000)!= HAL_OK)
+  if (HAL_SDADC_PollForCalibEvent(vbat.hsdadc, 1000) != HAL_OK)
   {
     Error_Handler();
   }
@@ -788,6 +870,27 @@ void VBAT_Init(void)
   {
     Error_Handler();
   }
+}
+
+void pid_Init(void)
+{
+  pidPitch.Kp = 0.004f;
+  pidPitch.Ki = 0.00008f;
+  pidPitch.Kd = 0.004f;
+
+  pidPitch.epsilon = 0;     /* Ошибка рассогласования*/
+  pidPitch.epsilonPrev = 0; /* Ошибка рассогласования предыдущая*/
+  pidPitch.dt = 0;          /* Шаг времени*/
+
+  pidPitch.ProcessVal = 0; /* Текущее значение датчика*/
+
+  pidPitch.SetPoint = 0; /* Уставка*/
+
+  pidPitch.ManipulVal = 0; /* Управляющий сигнал (от 0 до 100%)*/
+  pidPitch.DirOfRot = 0;   /*Направление вращения. Если 0 - прямое, > 0 - обратное*/
+
+  pidPitch.htim = &htim17;
+  HAL_TIM_Base_Start(&htim17);
 }
 /* USER CODE END 4 */
 
@@ -798,13 +901,13 @@ void VBAT_Init(void)
   * @retval None
   */
 /* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void const * argument)
+__weak void StartDefaultTask(void const * argument)
 {
   /* init code for USB_DEVICE */
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
-  for(;;)
+  for (;;)
   {
     osDelay(1);
   }
@@ -818,14 +921,12 @@ void StartDefaultTask(void const * argument)
 * @retval None
 */
 /* USER CODE END Header_cliStartTask */
-void cliStartTask(void const * argument)
+__weak void cliStartTask(void const * argument)
 {
   /* USER CODE BEGIN cliStartTask */
   /* Infinite loop */
-  for(;;)
+  for (;;)
   {
-    DBG_CLI_USB_Task();
-    //osDelay(1);
   }
   /* USER CODE END cliStartTask */
 }
@@ -837,11 +938,11 @@ void cliStartTask(void const * argument)
 * @retval None
 */
 /* USER CODE END Header_pidStartTask */
-void pidStartTask(void const * argument)
+__weak void pidStartTask(void const * argument)
 {
   /* USER CODE BEGIN pidStartTask */
   /* Infinite loop */
-  for(;;)
+  for (;;)
   {
     HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
     osDelay(500);
@@ -860,7 +961,10 @@ void pidStartTask(void const * argument)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
-
+  if (htim->Instance == TIM7) // Таймер для счета занятости задачами процессорного времени
+  {
+    ulHighFrequencyTimerTicks++;
+  }
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM6) {
     HAL_IncTick();

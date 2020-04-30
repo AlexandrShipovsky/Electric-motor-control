@@ -1196,6 +1196,9 @@
         <group>
             <name>User</name>
             <file>
+                <name>$PROJ_DIR$\..\Src\freertos.c</name>
+            </file>
+            <file>
                 <name>$PROJ_DIR$\..\Src\main.c</name>
             </file>
             <file>
@@ -1341,6 +1344,15 @@
             </file>
         </group>
         <group>
+            <name>PID</name>
+            <file>
+                <name>$PROJ_DIR$\..\libraries\PID\pid.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\libraries\PID\pid.h</name>
+            </file>
+        </group>
+        <group>
             <name>VBAT24</name>
             <file>
                 <name>$PROJ_DIR$\..\libraries\VBAT24\vbat.c</name>
@@ -1352,6 +1364,42 @@
     </group>
     <group>
         <name>Middlewares</name>
+        <group>
+            <name>FreeRTOS</name>
+            <file>
+                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS\cmsis_os.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\croutine.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\event_groups.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\portable\MemMang\heap_4.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\list.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM4F\port.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\portable\IAR\ARM_CM4F\portasm.s</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\queue.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\stream_buffer.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\tasks.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\Middlewares\Third_Party\FreeRTOS\Source\timers.c</name>
+            </file>
+        </group>
         <group>
             <name>USB_Device_Library</name>
             <file>

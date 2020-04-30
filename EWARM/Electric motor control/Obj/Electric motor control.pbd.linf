@@ -1,4 +1,5 @@
 ﻿C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\Electric motor control.pbd
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\freertos.pbi
 C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\main.pbi
 C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_msp.pbi
 C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stm32f3xx_hal_timebase_tim.pbi
@@ -33,6 +34,17 @@ C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мот
 C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\cli_port.pbi
 C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\encoder.pbi
 C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\MotorDC.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\vbat.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\cmsis_os.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\croutine.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\event_groups.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\heap_4.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\list.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\port.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\queue.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\stream_buffer.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\tasks.pbi
+C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\timers.pbi
 C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usbd_cdc.pbi
 C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usbd_core.pbi
 C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj\usbd_ctlreq.pbi
