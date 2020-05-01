@@ -189,7 +189,8 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 
 	CLI_IF_CMD("VBAT", "Get votage battery")
 	{
-		extern vbatTypeDef vbat;;
+		extern vbatTypeDef vbat;
+		;
 		float voltage = 13.0;
 		voltage = GetVoltageBat(&vbat);
 
@@ -223,9 +224,47 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 	{
 		extern pidTypeDef pidPitch;
 		DbgPrintf("\n\r");
-		DbgPrintf("ManipulVal = %f\n\r",pidPitch.ManipulVal);
-		DbgPrintf("DirOfRot = %i\n\r",pidPitch.DirOfRot);
+		DbgPrintf("ManipulVal = %f\n\r", pidPitch.ManipulVal);
+		DbgPrintf("DirOfRot = %i\n\r", pidPitch.DirOfRot);
 		DbgPrintf("\n\r");
+		return;
+	}
+
+	CLI_IF_CMD("PIDROLL", "Get inform pid of roll")
+	{
+		extern pidTypeDef pidRoll;
+		DbgPrintf("\n\r");
+		DbgPrintf("ManipulVal = %f\n\r", pidRoll.ManipulVal);
+		DbgPrintf("DirOfRot = %i\n\r", pidRoll.DirOfRot);
+		DbgPrintf("Set point = %i\n\r", pidRoll.SetPoint);
+		DbgPrintf("\n\r");
+		return;
+	}
+
+	CLI_IF_CMD("SETZERO", "Get inform pid of roll")
+	{
+		extern EncTypeDef EncRoll;
+		extern EncTypeDef EncPitch;
+		SetZero(&EncPitch);
+		SetZero(&EncRoll);
+		return;
+	}
+
+	CLI_IF_CMD("MROLL", "Rotation roll with PID")
+	{
+		int16_t pos;
+		extern pidTypeDef pidRoll;
+		CLI_SCAN_PARAM("%d", pos, "");
+		pidRoll.SetPoint = pos;
+		return;
+	}
+
+	CLI_IF_CMD("MPITCH", "Rotation pitch with PID")
+	{
+		int16_t pos;
+		extern pidTypeDef pidPitch;
+		CLI_SCAN_PARAM("%d", pos, "");
+		pidPitch.SetPoint = pos;
 		return;
 	}
 

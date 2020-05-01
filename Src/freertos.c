@@ -100,11 +100,13 @@ void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackTyp
 void cliStartTask(void const *argument)
 {
   /* USER CODE BEGIN cliStartTask */
+  extern SemaphoreHandle_t CliMutex;
+  CliMutex = xSemaphoreCreateMutex();
   /* Infinite loop */
   for (;;)
   {
     DBG_CLI_USB_Task();
-    //vTaskDelay(500);
+    vTaskDelay(10);
   }
 }
 /**
@@ -122,21 +124,28 @@ void pidStartTask(void const *argument)
   extern EncTypeDef EncRoll;
   extern EncTypeDef EncPitch;
   extern pidTypeDef pidPitch;
-
+  extern pidTypeDef pidRoll;
   /* Infinite loop */
   for (;;)
   {
+    
     taskENTER_CRITICAL();
     pidPitch.ProcessVal = GetEnc(&EncPitch);
     pidUpdate(&pidPitch);
-    taskEXIT_CRITICAL();
-
-    taskENTER_CRITICAL();
     MotorPitch.DirOfRot = pidPitch.DirOfRot;
 		MotorPitch.pulse = pidPitch.ManipulVal;
 		rotation(&MotorPitch);
+
+
+    pidRoll.ProcessVal = GetEnc(&EncRoll);
+    pidUpdate(&pidRoll);
+    MotorRoll.DirOfRot = pidRoll.DirOfRot;
+		MotorRoll.pulse = pidRoll.ManipulVal;
+		rotation(&MotorRoll);
     taskEXIT_CRITICAL();
-    vTaskDelay(200);
+    
+    vTaskDelay(1);
+    
   }
 }
 

@@ -11,7 +11,7 @@ void pidUpdate(pidTypeDef *pid)
     }
 
     pid->epsilon = (pid->SetPoint - pid->ProcessVal);
-    static int32_t integral;
+    int32_t integral;
     integral= pid->dt * (pid->epsilon+pid->epsilonPrev);
     float diff;
     diff = (pid->epsilon - pid->epsilonPrev) / ((float)pid->dt);
@@ -24,6 +24,7 @@ void pidUpdate(pidTypeDef *pid)
         pid->ManipulVal *= (-1);
     }
 
+
     if (pid->ManipulVal > 100.0)
     {
         pid->ManipulVal = 100.0;
@@ -32,4 +33,5 @@ void pidUpdate(pidTypeDef *pid)
     pid->epsilonPrev = pid->epsilon;
 
     __HAL_TIM_SET_COUNTER(pid->htim, (uint16_t)0);
+    return;
 }

@@ -14,12 +14,10 @@
 #include "cli_cmd.h"
 #include "usbd_cdc_if.h"
 
-#include "FreeRTOS.h"
-#include "task.h"
-
 using namespace cli;
 
 extern uint8_t UserRxBufferFS[];
+SemaphoreHandle_t CliMutex;
 //#####################################################################################################
 
 void cli::cli_sleep(uint32_t time_ms)
@@ -32,7 +30,8 @@ void cli::cli_sleep(uint32_t time_ms)
 	{
 		time_ms = 0;
 	}
-	HAL_Delay(time_ms);
+	//HAL_Delay(time_ms);
+	vTaskDelay(time_ms);
 }
 //#####################################################################################################
 //	INPUT/OUTPUT
@@ -46,15 +45,18 @@ extern "C" void DbgUSBPutChar(char val)
 	char str[2];
 	str[0] = val;
 	str[1] = '\0';
+	
 	while (1)
 	{
 		result = CDC_Transmit_FS((uint8_t *)str, strlen(str));
 		if (result == USBD_OK)
 		{
+			
 			break;
 		}
 		else if (result == USBD_FAIL)
 		{
+			
 			//ERROR
 		}
 	}
@@ -63,9 +65,9 @@ extern "C" void DbgUSBPutChar(char val)
 extern "C" int DbgPrintf(const char *format, ...)
 {
 	static char USB_printf_buff[CLI_PRINTF_WORK_BUFFER_SIZE] = {};
+	xSemaphoreTake(CliMutex, 100);
 	__Va_list ap;
 
-	//taskENTER_CRITICAL();
 	va_start(ap, format);
 	int len = vsprintf(USB_printf_buff, format, ap);
 	va_end(ap);
@@ -89,7 +91,7 @@ extern "C" int DbgPrintf(const char *format, ...)
 			DbgUSBPutChar(USB_printf_buff[i]);
 		}
 	}
-	//taskEXIT_CRITICAL();
+	xSemaphoreGive(CliMutex);
 	return len;
 }
 
@@ -97,8 +99,6 @@ extern "C" bool DbgUSBReadChar(char *const val, uint32_t timeout)
 {
 	uint32_t j = 0;
 	uint16_t i = 0;
-	//static 
-	//taskENTER_CRITICAL();
 	uint16_t APP_RX_DATA_SIZE = sizeof(&UserRxBufferFS);
 	while (j < timeout)
 	{
@@ -106,23 +106,24 @@ extern "C" bool DbgUSBReadChar(char *const val, uint32_t timeout)
 		{
 			*val = (char)UserRxBufferFS[i];
 			UserRxBufferFS[i] = '\0';
-			//taskEXIT_CRITICAL();
+
 			return true;
 		}
 		i++;
 		j++;
-		if (i == APP_RX_DATA_SIZE) i = 0;
+		if (i == APP_RX_DATA_SIZE)
+			i = 0;
 	}
-	//taskEXIT_CRITICAL();
 	return false;
 }
 extern "C" int DbgScanf(const char *format, ...)
 {
 	static char USB_scanf_buff[CLI_SCANF_WORK_BUFFER_SIZE];
+	xSemaphoreTake(CliMutex, 100);
+
 	int result;
 	uint32_t buf_index = 0;
 
-	//taskENTER_CRITICAL();
 	while (1)
 	{
 		char tmp;
@@ -130,7 +131,7 @@ extern "C" int DbgScanf(const char *format, ...)
 
 		if (tmp == '\r' || tmp == '\n')
 		{
-			//taskEXIT_CRITICAL();
+			xSemaphoreGive(CliMutex);
 			break;
 		}
 		DbgUSBPutChar(tmp);
@@ -151,7 +152,7 @@ extern "C" int DbgScanf(const char *format, ...)
 	va_start(ap, format);
 	result = vsscanf(USB_scanf_buff, format, ap);
 	va_end(ap);
-	//taskEXIT_CRITICAL();
+	xSemaphoreGive(CliMutex);
 	return result;
 }
 
@@ -188,7 +189,6 @@ extern "C" void DBG_CLI_USB_Task()
 		DBG_CLI_USB.Process();
 	}
 }
-
 
 // Serial
 extern "C" void DBG_CLI_Serial_Task()

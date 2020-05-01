@@ -13,8 +13,7 @@ void rotation(MotorDCTypeDef *motor)
     {
         return;
     }
-
-    HAL_GPIO_WritePin(motor->port, motor->pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(motor->port, motor->pin, GPIO_PIN_SET);
     HAL_TIM_PWM_Stop(motor->htim, motor->PWM_ChannelFirst);
     HAL_TIM_PWM_Stop(motor->htim, motor->PWM_ChannelSnd);
     pulse = (uint32_t)((motor->htim->Init.Period * motor->pulse) / 100);
@@ -30,7 +29,6 @@ void rotation(MotorDCTypeDef *motor)
         __HAL_TIM_SET_COMPARE(motor->htim, motor->PWM_ChannelSnd, pulse);
     }
 
-    HAL_GPIO_WritePin(motor->port, motor->pin, GPIO_PIN_SET);
     HAL_TIM_PWM_Start(motor->htim, motor->PWM_ChannelFirst);
     HAL_TIM_PWM_Start(motor->htim, motor->PWM_ChannelSnd);
 }

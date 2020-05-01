@@ -59,6 +59,7 @@ TIM_HandleTypeDef htim4;
 TIM_HandleTypeDef htim5;
 TIM_HandleTypeDef htim7;
 TIM_HandleTypeDef htim17;
+TIM_HandleTypeDef htim18;
 
 osThreadId defaultTaskHandle;
 osThreadId cliTaskHandle;
@@ -69,7 +70,8 @@ MotorDCTypeDef MotorPitch;
 EncTypeDef EncRoll;
 EncTypeDef EncPitch;
 vbatTypeDef vbat;
-pidTypeDef pidPitch;
+volatile pidTypeDef pidPitch;
+volatile pidTypeDef pidRoll;
 
 volatile unsigned long ulHighFrequencyTimerTicks;
 /* USER CODE END PV */
@@ -86,6 +88,7 @@ static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_TIM5_Init(void);
 static void MX_TIM7_Init(void);
+static void MX_TIM18_Init(void);
 static void MX_TIM17_Init(void);
 void StartDefaultTask(void const * argument);
 void cliStartTask(void const * argument);
@@ -140,6 +143,7 @@ int main(void)
   MX_TIM4_Init();
   MX_TIM5_Init();
   MX_TIM7_Init();
+  MX_TIM18_Init();
   MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
   MotorDC_Init();
@@ -181,6 +185,14 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  HAL_Delay(100);
+  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  HAL_Delay(100);
+  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  HAL_Delay(100);
+  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  HAL_Delay(100);
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
@@ -466,7 +478,7 @@ static void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 0;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 14400;
+  htim2.Init.Period = 2880;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -627,7 +639,7 @@ static void MX_TIM5_Init(void)
   htim5.Instance = TIM5;
   htim5.Init.Prescaler = 0;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim5.Init.Period = 14400;
+  htim5.Init.Period = 2880;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim5) != HAL_OK)
@@ -722,9 +734,9 @@ static void MX_TIM17_Init(void)
 
   /* USER CODE END TIM17_Init 1 */
   htim17.Instance = TIM17;
-  htim17.Init.Prescaler = 71;
+  htim17.Init.Prescaler = 719;
   htim17.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim17.Init.Period = 65535;
+  htim17.Init.Period = 65500;
   htim17.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim17.Init.RepetitionCounter = 0;
   htim17.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -735,6 +747,44 @@ static void MX_TIM17_Init(void)
   /* USER CODE BEGIN TIM17_Init 2 */
 
   /* USER CODE END TIM17_Init 2 */
+
+}
+
+/**
+  * @brief TIM18 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM18_Init(void)
+{
+
+  /* USER CODE BEGIN TIM18_Init 0 */
+
+  /* USER CODE END TIM18_Init 0 */
+
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM18_Init 1 */
+
+  /* USER CODE END TIM18_Init 1 */
+  htim18.Instance = TIM18;
+  htim18.Init.Prescaler = 719;
+  htim18.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim18.Init.Period = 65500;
+  htim18.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim18) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim18, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM18_Init 2 */
+
+  /* USER CODE END TIM18_Init 2 */
 
 }
 
@@ -874,9 +924,10 @@ void VBAT_Init(void)
 
 void pid_Init(void)
 {
-  pidPitch.Kp = 0.004f;
-  pidPitch.Ki = 0.00008f;
-  pidPitch.Kd = 0.004f;
+  /*PITCH*/
+  pidPitch.Kp = 0.03f;
+  pidPitch.Ki = 0.0008f;
+  pidPitch.Kd = 0.04f;
 
   pidPitch.epsilon = 0;     /* Ошибка рассогласования*/
   pidPitch.epsilonPrev = 0; /* Ошибка рассогласования предыдущая*/
@@ -889,7 +940,27 @@ void pid_Init(void)
   pidPitch.ManipulVal = 0; /* Управляющий сигнал (от 0 до 100%)*/
   pidPitch.DirOfRot = 0;   /*Направление вращения. Если 0 - прямое, > 0 - обратное*/
 
-  pidPitch.htim = &htim17;
+  pidPitch.htim = &htim18;
+  HAL_TIM_Base_Start(&htim18);
+
+
+  /*ROLL*/
+  pidRoll.Kp = 0.1f;
+  pidRoll.Ki = 0.001f;
+  pidRoll.Kd = 0.05f;
+
+  pidRoll.epsilon = 0;     /* Ошибка рассогласования*/
+  pidRoll.epsilonPrev = 0; /* Ошибка рассогласования предыдущая*/
+  pidRoll.dt = 0;          /* Шаг времени*/
+
+  pidRoll.ProcessVal = 0; /* Текущее значение датчика*/
+
+  pidRoll.SetPoint = 0; /* Уставка*/
+
+  pidRoll.ManipulVal = 0; /* Управляющий сигнал (от 0 до 100%)*/
+  pidRoll.DirOfRot = 0;   /*Направление вращения. Если 0 - прямое, > 0 - обратное*/
+
+  pidRoll.htim = &htim17;
   HAL_TIM_Base_Start(&htim17);
 }
 /* USER CODE END 4 */
@@ -944,8 +1015,7 @@ __weak void pidStartTask(void const * argument)
   /* Infinite loop */
   for (;;)
   {
-    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-    osDelay(500);
+    
   }
   /* USER CODE END pidStartTask */
 }

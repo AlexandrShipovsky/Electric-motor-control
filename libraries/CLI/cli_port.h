@@ -10,6 +10,10 @@
 
 #include <stdint.h>
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
+
 
 #define CLI_MAX_DELAY		(-1)
 #define CLI_TICK_DELAY_1ms	1
