@@ -226,6 +226,9 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 		DbgPrintf("\n\r");
 		DbgPrintf("ManipulVal = %f\n\r", pidPitch.ManipulVal);
 		DbgPrintf("DirOfRot = %i\n\r", pidPitch.DirOfRot);
+		DbgPrintf("Kp = %f\n\r", pidPitch.Kp);
+		DbgPrintf("Kp = %f\n\r", pidPitch.Ki);
+		DbgPrintf("Kp = %f\n\r", pidPitch.Kd);
 		DbgPrintf("\n\r");
 		return;
 	}
@@ -237,6 +240,9 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 		DbgPrintf("ManipulVal = %f\n\r", pidRoll.ManipulVal);
 		DbgPrintf("DirOfRot = %i\n\r", pidRoll.DirOfRot);
 		DbgPrintf("Set point = %i\n\r", pidRoll.SetPoint);
+		DbgPrintf("Kp = %f\n\r", pidRoll.Kp);
+		DbgPrintf("Kp = %f\n\r", pidRoll.Ki);
+		DbgPrintf("Kp = %f\n\r", pidRoll.Kd);
 		DbgPrintf("\n\r");
 		return;
 	}
