@@ -13,7 +13,7 @@ void pidUpdate(pidTypeDef *pid)
     pid->epsilon = (pid->SetPoint - pid->ProcessVal);
     pid->integral += pid->dt * pid->epsilon;
     float diff;
-    diff = (pid->epsilon - pid->epsilonPrev) / ((float)pid->dt);
+    diff = (pid->epsilon - pid->epsilonPrev) / (float)(pid->dt);
 
     pid->DirOfRot = 0;
     pid->ManipulVal = pid->Kp * (pid->epsilon + pid->Ki * pid->integral + pid->Kd * diff);

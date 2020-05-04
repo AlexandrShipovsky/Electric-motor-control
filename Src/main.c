@@ -912,10 +912,10 @@ void VBAT_Init(void)
 void pid_Init(void)
 {
   /*PITCH*/
-  pidPitch.Kp = 0.03f;
-  pidPitch.Ki = 0.0f;
-  pidPitch.Kd = 0.0f;
-  pidPitch.integral = 0; /*�?нтеграл ошибки рассогласования*/
+  pidPitch.Kp = 0.01f;
+  pidPitch.Ki = 0.00004f;
+  pidPitch.Kd = 500.0f;
+  pidPitch.integral = 0; /*Интеграл ошибки рассогласования*/
 
   pidPitch.epsilon = 0;     /* Ошибка рассогласования*/
   pidPitch.epsilonPrev = 0; /* Ошибка рассогласования предыдущая*/
