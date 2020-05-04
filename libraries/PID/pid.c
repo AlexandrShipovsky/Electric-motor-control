@@ -11,19 +11,17 @@ void pidUpdate(pidTypeDef *pid)
     }
 
     pid->epsilon = (pid->SetPoint - pid->ProcessVal);
-    int32_t integral;
-    integral= pid->dt * (pid->epsilon+pid->epsilonPrev);
+    pid->integral += pid->dt * pid->epsilon;
     float diff;
     diff = (pid->epsilon - pid->epsilonPrev) / ((float)pid->dt);
 
     pid->DirOfRot = 0;
-    pid->ManipulVal = pid->Kp * (pid->epsilon + pid->Ki * integral + pid->Kd * diff);
+    pid->ManipulVal = pid->Kp * (pid->epsilon + pid->Ki * pid->integral + pid->Kd * diff);
     if (pid->ManipulVal < 0)
     {
         pid->DirOfRot = 1;
         pid->ManipulVal *= (-1);
     }
-
 
     if (pid->ManipulVal > 100.0)
     {

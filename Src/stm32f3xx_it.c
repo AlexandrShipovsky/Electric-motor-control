@@ -62,6 +62,8 @@ extern PCD_HandleTypeDef hpcd_USB_FS;
 extern CAN_HandleTypeDef hcan;
 extern DMA_HandleTypeDef hdma_sdadc1;
 extern TIM_HandleTypeDef htim7;
+extern TIM_HandleTypeDef htim17;
+extern TIM_HandleTypeDef htim18;
 extern TIM_HandleTypeDef htim6;
 
 /* USER CODE BEGIN EV */
@@ -176,6 +178,34 @@ void CAN_RX0_IRQHandler(void)
   /* USER CODE BEGIN CAN_RX0_IRQn 1 */
 
   /* USER CODE END CAN_RX0_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM17 global interrupt.
+  */
+void TIM17_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM17_IRQn 0 */
+
+  /* USER CODE END TIM17_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim17);
+  /* USER CODE BEGIN TIM17_IRQn 1 */
+
+  /* USER CODE END TIM17_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM18 global interrupt and DAC2 underrun error interrupt.
+  */
+void TIM18_DAC2_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM18_DAC2_IRQn 0 */
+
+  /* USER CODE END TIM18_DAC2_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim18);
+  /* USER CODE BEGIN TIM18_DAC2_IRQn 1 */
+
+  /* USER CODE END TIM18_DAC2_IRQn 1 */
 }
 
 /**
