@@ -913,8 +913,8 @@ void pid_Init(void)
 {
   /*PITCH*/
   pidPitch.Kp = 0.03f;
-  pidPitch.Ki = 0.0008f;
-  pidPitch.Kd = 0.04f;
+  pidPitch.Ki = 0.0f;
+  pidPitch.Kd = 0.0f;
   pidPitch.integral = 0; /*�?нтеграл ошибки рассогласования*/
 
   pidPitch.epsilon = 0;     /* Ошибка рассогласования*/
@@ -933,8 +933,8 @@ void pid_Init(void)
 
   /*ROLL*/
   pidRoll.Kp = 0.1f;
-  pidRoll.Ki = 0.001f;
-  pidRoll.Kd = 0.05f;
+  pidRoll.Ki = 0.0f;
+  pidRoll.Kd = 0.0f;
 
   pidRoll.integral = 0; /*�?нтеграл ошибки рассогласования*/
 
