@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.30.1.114/W32 for ARM                  04/May/2020  18:05:18
+# IAR ELF Linker V8.30.1.114/W32 for ARM                  04/May/2020  18:12:27
 # Copyright 2007-2018 IAR Systems AB.
 #
 #    Output file  =  
@@ -16,7 +16,7 @@
 #        электроприводами\firmware\Electric-motor-control\EWARM\Electric
 #        motor control\List\Electric motor control.map
 #    Command line =  
-#        -f C:\Users\A146~1\AppData\Local\Temp\EW1B8A.tmp
+#        -f C:\Users\A146~1\AppData\Local\Temp\EWA33B.tmp
 #        ("C:\Users\Чистое небо\Desktop\Э.01.00.00
 #        Беспилотный мотодельтаплан\Блок
 #        управления
@@ -289,7 +289,7 @@ initialize by copy { rw };
   .intvec                ro code   0x800'0000   0x188  startup_stm32f373xc.o [1]
                                  - 0x800'0188   0x188
 
-"P1":                                          0xec0d
+"P1":                                          0xec1b
   .text                  ro code   0x800'0188  0x1060  tasks.o [1]
   .text                  ro code   0x800'11e8   0x274  heap_4.o [1]
   .text                  ro code   0x800'145c    0x66  ABImemset.o [5]
@@ -422,70 +422,71 @@ initialize by copy { rw };
   .text                  ro code   0x800'c36a     0x2  stm32f3xx_hal_can.o [1]
   .text                  ro code   0x800'c36c     0x2  stm32f3xx_hal_sdadc.o [1]
   .text                  ro code   0x800'c36e   0xaea  stm32f3xx_ll_usb.o [1]
-  .text                  ro code   0x800'ce58   0xb4c  cli_cmd.o [1]
-  .text                  ro code   0x800'd9a4    0x3c  vbat.o [1]
-  .rodata                const     0x800'd9e0   0x42c  cli_port.o [1]
-  .rodata                const     0x800'de0c   0x330  cli_port.o [1]
-  .text                  ro code   0x800'e13c   0x15e  usbd_desc.o [1]
-  .rodata                const     0x800'e29c    0x78  cli_port.o [1]
-  .text                  ro code   0x800'e314    0x70  stm32f3xx_it.o [1]
-  .rodata                const     0x800'e384    0x48  cli_port.o [1]
-  .rodata                const     0x800'e3cc    0x48  cli_port.o [1]
-  .rodata                const     0x800'e414    0x48  cli_port.o [1]
-  .rodata                const     0x800'e45c    0x34  cli_port.o [1]
-  .rodata                const     0x800'e490    0x34  cli_port.o [1]
-  .text                  ro code   0x800'e4c4    0x28  data_init.o [5]
-  .text                  ro code   0x800'e4ec    0x22  fpinit_M.o [4]
-  .iar.init_table        const     0x800'e510    0x24  - Linker created -
-  .rodata                const     0x800'e534    0x20  cli_cmd.o [1]
-  .rodata                const     0x800'e554    0x20  cli_cmd.o [1]
-  .rodata                const     0x800'e574    0x20  cli_cmd.o [1]
-  .rodata                const     0x800'e594    0x20  cli_cmd.o [1]
-  .rodata                const     0x800'e5b4    0x20  cli_port.o [1]
-  .rodata                const     0x800'e5d4    0x20  cli_port.o [1]
-  .text                  ro code   0x800'e5f4    0x20  cmain_call_ctors.o [5]
-  .text                  ro code   0x800'e614    0x18  cppinit.o [2]
-  .text                  ro code   0x800'e62c    0x1e  cmain.o [5]
-  .text                  ro code   0x800'e64a     0x4  low_level_init.o [2]
-  .text                  ro code   0x800'e64e     0x4  exit.o [2]
-  .text                  ro code   0x800'e654     0xa  cexit.o [5]
-  .rodata                const     0x800'e660    0x1c  cli_cmd.o [1]
-  .rodata                const     0x800'e67c    0x1c  cli_cmd.o [1]
-  .rodata                const     0x800'e698    0x1c  cli_port.o [1]
-  .rodata                const     0x800'e6b4    0x1c  main.o [1]
-  .rodata                const     0x800'e6d0    0x1c  main.o [1]
-  .rodata                const     0x800'e6ec    0x1c  main.o [1]
-  .text                  ro code   0x800'e708    0x1c  system_stm32f3xx.o [1]
-  .rodata                const     0x800'e724    0x18  cli_cmd.o [1]
-  .rodata                const     0x800'e73c    0x18  cli_cmd.o [1]
-  .rodata                const     0x800'e754    0x18  cli_cmd.o [1]
-  .rodata                const     0x800'e76c    0x18  cli_cmd.o [1]
-  .rodata                const     0x800'e784    0x18  cli_cmd.o [1]
-  .rodata                const     0x800'e79c    0x18  cli_cmd.o [1]
-  .rodata                const     0x800'e7b4    0x18  cli_cmd.o [1]
-  .rodata                const     0x800'e7cc    0x18  cli_cmd.o [1]
-  .rodata                const     0x800'e7e4    0x18  cli_cmd.o [1]
-  .rodata                const     0x800'e7fc    0x18  usbd_desc.o [1]
-  .rodata                const     0x800'e814    0x14  cli_cmd.o [1]
-  .rodata                const     0x800'e828    0x14  cli_cmd.o [1]
-  .rodata                const     0x800'e83c    0x14  cli_cmd.o [1]
-  .rodata                const     0x800'e850    0x14  cli_cmd.o [1]
-  .rodata                const     0x800'e864    0x14  cli_cmd.o [1]
-  .rodata                const     0x800'e878    0x14  cli_cmd.o [1]
-  .rodata                const     0x800'e88c    0x14  cli_port.o [1]
-  .rodata                const     0x800'e8a0    0x14  cli_port.o [1]
-  .rodata                const     0x800'e8b4    0x14  usbd_desc.o [1]
-  .rodata                const     0x800'e8c8    0x10  cli_cmd.o [1]
-  .rodata                const     0x800'e8d8    0x10  cli_cmd.o [1]
-  .rodata                const     0x800'e8e8    0x10  cli_cmd.o [1]
-  .rodata                const     0x800'e8f8    0x10  cli_cmd.o [1]
-  .rodata                const     0x800'e908    0x10  cli_port.o [1]
-  .rodata                const     0x800'e918    0x10  stm32f3xx_hal_rcc.o [1]
-  .rodata                const     0x800'e928    0x10  stm32f3xx_hal_rcc.o [1]
-  .rodata                const     0x800'e938    0x10  system_stm32f3xx.o [1]
-  .rodata                const     0x800'e948    0x10  tasks.o [1]
-  .rodata                const     0x800'e958    0x10  usbd_desc.o [1]
-  .text                  ro code   0x800'e968    0x10  startup_stm32f373xc.o [1]
+  .text                  ro code   0x800'ce58   0xb40  cli_cmd.o [1]
+  .text                  ro code   0x800'd998    0x3c  vbat.o [1]
+  .rodata                const     0x800'd9d4   0x42c  cli_port.o [1]
+  .rodata                const     0x800'de00   0x330  cli_port.o [1]
+  .text                  ro code   0x800'e130   0x15e  usbd_desc.o [1]
+  .rodata                const     0x800'e290    0x78  cli_port.o [1]
+  .text                  ro code   0x800'e308    0x70  stm32f3xx_it.o [1]
+  .rodata                const     0x800'e378    0x48  cli_port.o [1]
+  .rodata                const     0x800'e3c0    0x48  cli_port.o [1]
+  .rodata                const     0x800'e408    0x48  cli_port.o [1]
+  .rodata                const     0x800'e450    0x34  cli_port.o [1]
+  .rodata                const     0x800'e484    0x34  cli_port.o [1]
+  .text                  ro code   0x800'e4b8    0x28  data_init.o [5]
+  .text                  ro code   0x800'e4e0    0x22  fpinit_M.o [4]
+  .iar.init_table        const     0x800'e504    0x24  - Linker created -
+  .rodata                const     0x800'e528    0x20  cli_cmd.o [1]
+  .rodata                const     0x800'e548    0x20  cli_cmd.o [1]
+  .rodata                const     0x800'e568    0x20  cli_cmd.o [1]
+  .rodata                const     0x800'e588    0x20  cli_cmd.o [1]
+  .rodata                const     0x800'e5a8    0x20  cli_port.o [1]
+  .rodata                const     0x800'e5c8    0x20  cli_port.o [1]
+  .text                  ro code   0x800'e5e8    0x20  cmain_call_ctors.o [5]
+  .text                  ro code   0x800'e608    0x18  cppinit.o [2]
+  .text                  ro code   0x800'e620    0x1e  cmain.o [5]
+  .text                  ro code   0x800'e63e     0x4  low_level_init.o [2]
+  .text                  ro code   0x800'e642     0x4  exit.o [2]
+  .text                  ro code   0x800'e648     0xa  cexit.o [5]
+  .rodata                const     0x800'e654    0x1c  cli_cmd.o [1]
+  .rodata                const     0x800'e670    0x1c  cli_cmd.o [1]
+  .rodata                const     0x800'e68c    0x1c  cli_port.o [1]
+  .rodata                const     0x800'e6a8    0x1c  main.o [1]
+  .rodata                const     0x800'e6c4    0x1c  main.o [1]
+  .rodata                const     0x800'e6e0    0x1c  main.o [1]
+  .text                  ro code   0x800'e6fc    0x1c  system_stm32f3xx.o [1]
+  .rodata                const     0x800'e718    0x18  cli_cmd.o [1]
+  .rodata                const     0x800'e730    0x18  cli_cmd.o [1]
+  .rodata                const     0x800'e748    0x18  cli_cmd.o [1]
+  .rodata                const     0x800'e760    0x18  cli_cmd.o [1]
+  .rodata                const     0x800'e778    0x18  cli_cmd.o [1]
+  .rodata                const     0x800'e790    0x18  cli_cmd.o [1]
+  .rodata                const     0x800'e7a8    0x18  cli_cmd.o [1]
+  .rodata                const     0x800'e7c0    0x18  cli_cmd.o [1]
+  .rodata                const     0x800'e7d8    0x18  cli_cmd.o [1]
+  .rodata                const     0x800'e7f0    0x18  usbd_desc.o [1]
+  .rodata                const     0x800'e808    0x14  cli_cmd.o [1]
+  .rodata                const     0x800'e81c    0x14  cli_cmd.o [1]
+  .rodata                const     0x800'e830    0x14  cli_cmd.o [1]
+  .rodata                const     0x800'e844    0x14  cli_cmd.o [1]
+  .rodata                const     0x800'e858    0x14  cli_cmd.o [1]
+  .rodata                const     0x800'e86c    0x14  cli_cmd.o [1]
+  .rodata                const     0x800'e880    0x14  cli_port.o [1]
+  .rodata                const     0x800'e894    0x14  cli_port.o [1]
+  .rodata                const     0x800'e8a8    0x14  usbd_desc.o [1]
+  .rodata                const     0x800'e8bc    0x10  cli_cmd.o [1]
+  .rodata                const     0x800'e8cc    0x10  cli_cmd.o [1]
+  .rodata                const     0x800'e8dc    0x10  cli_cmd.o [1]
+  .rodata                const     0x800'e8ec    0x10  cli_cmd.o [1]
+  .rodata                const     0x800'e8fc    0x10  cli_port.o [1]
+  .rodata                const     0x800'e90c    0x10  stm32f3xx_hal_rcc.o [1]
+  .rodata                const     0x800'e91c    0x10  stm32f3xx_hal_rcc.o [1]
+  .rodata                const     0x800'e92c    0x10  system_stm32f3xx.o [1]
+  .rodata                const     0x800'e93c    0x10  tasks.o [1]
+  .rodata                const     0x800'e94c    0x10  usbd_desc.o [1]
+  .text                  ro code   0x800'e95c    0x10  startup_stm32f373xc.o [1]
+  .rodata                const     0x800'e96c     0xc  cli_cmd.o [1]
   .rodata                const     0x800'e978     0xc  cli_cmd.o [1]
   .rodata                const     0x800'e984     0xc  cli_cmd.o [1]
   .rodata                const     0x800'e990     0xc  cli_cmd.o [1]
@@ -495,50 +496,48 @@ initialize by copy { rw };
   .rodata                const     0x800'e9c0     0xc  cli_cmd.o [1]
   .rodata                const     0x800'e9cc     0xc  cli_cmd.o [1]
   .rodata                const     0x800'e9d8     0xc  cli_cmd.o [1]
-  .rodata                const     0x800'e9e4     0xc  cli_port.o [1]
-  .rodata                const     0x800'e9f0     0xc  main.o [1]
-  .rodata                const     0x800'e9fc     0xc  tasks.o [1]
+  .rodata                const     0x800'e9e4     0xc  cli_cmd.o [1]
+  .rodata                const     0x800'e9f0     0xc  cli_port.o [1]
+  .rodata                const     0x800'e9fc     0xc  main.o [1]
   .rodata                const     0x800'ea08     0xc  tasks.o [1]
-  .rodata                const     0x800'ea14     0xc  usbd_desc.o [1]
-  .text                  ro code   0x800'ea20     0xc  cstartup_M.o [5]
-  .rodata                const     0x800'ea2c     0x8  cli_cmd.o [1]
-  .rodata                const     0x800'ea34     0x8  cli_cmd.o [1]
-  .rodata                const     0x800'ea3c     0x8  cli_cmd.o [1]
-  .rodata                const     0x800'ea44     0x8  cli_cmd.o [1]
-  .rodata                const     0x800'ea4c     0x8  cli_cmd.o [1]
-  .rodata                const     0x800'ea54     0x8  cli_cmd.o [1]
-  .rodata                const     0x800'ea5c     0x8  cli_cmd.o [1]
-  .rodata                const     0x800'ea64     0x8  cli_cmd.o [1]
-  .rodata                const     0x800'ea6c     0x8  cli_cmd.o [1]
-  .rodata                const     0x800'ea74     0x8  cli_cmd.o [1]
-  .rodata                const     0x800'ea7c     0x8  cli_cmd.o [1]
-  .rodata                const     0x800'ea84     0x8  cli_cmd.o [1]
-  .rodata                const     0x800'ea8c     0x8  cli_cmd.o [1]
-  .rodata                const     0x800'ea94     0x8  cli_port.o [1]
-  .rodata                const     0x800'ea9c     0x8  cli_port.o [1]
-  .rodata                const     0x800'eaa4     0x8  cli_port.o [1]
-  .rodata                const     0x800'eaac     0x8  cli_port.o [1]
-  .rodata                const     0x800'eab4     0x8  cli_port.o [1]
-  .rodata                const     0x800'eabc     0x8  cli_port.o [1]
-  .rodata                const     0x800'eac4     0x8  cli_port.o [1]
-  .rodata                const     0x800'eacc     0x8  cli_port.o [1]
-  .rodata                const     0x800'ead4     0x8  cli_port.o [1]
-  .rodata                const     0x800'eadc     0x8  cli_port.o [1]
-  .rodata                const     0x800'eae4     0x8  cli_port.o [1]
-  .rodata                const     0x800'eaec     0x8  main.o [1]
-  .rodata                const     0x800'eaf4     0x8  main.o [1]
-  .rodata                const     0x800'eafc     0x8  main.o [1]
-  .rodata                const     0x800'eb04     0x8  main.o [1]
-  .rodata                const     0x800'eb0c     0x8  main.o [1]
-  .rodata                const     0x800'eb14     0x8  main.o [1]
-  .rodata                const     0x800'eb1c     0x8  main.o [1]
-  .rodata                const     0x800'eb24     0x8  main.o [1]
-  .rodata                const     0x800'eb2c     0x8  system_stm32f3xx.o [1]
-  .rodata                const     0x800'eb34     0x8  tasks.o [1]
-  .rodata                const     0x800'eb3c     0x6  xlocale_c.o [2]
-  .rodata                const     0x800'eb44     0x4  cli_port.o [1]
-  .rodata                const     0x800'eb48     0x4  cli_port.o [1]
-  .rodata                const     0x800'eb4c     0x4  cli_port.o [1]
+  .rodata                const     0x800'ea14     0xc  tasks.o [1]
+  .rodata                const     0x800'ea20     0xc  usbd_desc.o [1]
+  .text                  ro code   0x800'ea2c     0xc  cstartup_M.o [5]
+  .rodata                const     0x800'ea38     0x8  cli_cmd.o [1]
+  .rodata                const     0x800'ea40     0x8  cli_cmd.o [1]
+  .rodata                const     0x800'ea48     0x8  cli_cmd.o [1]
+  .rodata                const     0x800'ea50     0x8  cli_cmd.o [1]
+  .rodata                const     0x800'ea58     0x8  cli_cmd.o [1]
+  .rodata                const     0x800'ea60     0x8  cli_cmd.o [1]
+  .rodata                const     0x800'ea68     0x8  cli_cmd.o [1]
+  .rodata                const     0x800'ea70     0x8  cli_cmd.o [1]
+  .rodata                const     0x800'ea78     0x8  cli_cmd.o [1]
+  .rodata                const     0x800'ea80     0x8  cli_cmd.o [1]
+  .rodata                const     0x800'ea88     0x8  cli_cmd.o [1]
+  .rodata                const     0x800'ea90     0x8  cli_cmd.o [1]
+  .rodata                const     0x800'ea98     0x8  cli_cmd.o [1]
+  .rodata                const     0x800'eaa0     0x8  cli_port.o [1]
+  .rodata                const     0x800'eaa8     0x8  cli_port.o [1]
+  .rodata                const     0x800'eab0     0x8  cli_port.o [1]
+  .rodata                const     0x800'eab8     0x8  cli_port.o [1]
+  .rodata                const     0x800'eac0     0x8  cli_port.o [1]
+  .rodata                const     0x800'eac8     0x8  cli_port.o [1]
+  .rodata                const     0x800'ead0     0x8  cli_port.o [1]
+  .rodata                const     0x800'ead8     0x8  cli_port.o [1]
+  .rodata                const     0x800'eae0     0x8  cli_port.o [1]
+  .rodata                const     0x800'eae8     0x8  cli_port.o [1]
+  .rodata                const     0x800'eaf0     0x8  cli_port.o [1]
+  .rodata                const     0x800'eaf8     0x8  main.o [1]
+  .rodata                const     0x800'eb00     0x8  main.o [1]
+  .rodata                const     0x800'eb08     0x8  main.o [1]
+  .rodata                const     0x800'eb10     0x8  main.o [1]
+  .rodata                const     0x800'eb18     0x8  main.o [1]
+  .rodata                const     0x800'eb20     0x8  main.o [1]
+  .rodata                const     0x800'eb28     0x8  main.o [1]
+  .rodata                const     0x800'eb30     0x8  main.o [1]
+  .rodata                const     0x800'eb38     0x8  system_stm32f3xx.o [1]
+  .rodata                const     0x800'eb40     0x8  tasks.o [1]
+  .rodata                const     0x800'eb48     0x6  xlocale_c.o [2]
   .rodata                const     0x800'eb50     0x4  cli_port.o [1]
   .rodata                const     0x800'eb54     0x4  cli_port.o [1]
   .rodata                const     0x800'eb58     0x4  cli_port.o [1]
@@ -556,10 +555,10 @@ initialize by copy { rw };
   .rodata                const     0x800'eb88     0x4  cli_port.o [1]
   .rodata                const     0x800'eb8c     0x4  cli_port.o [1]
   .rodata                const     0x800'eb90     0x4  cli_port.o [1]
-  .rodata                const     0x800'eb94     0x4  heap_4.o [1]
-  .text                  ro code   0x800'eb98     0x4  startup_stm32f373xc.o [1]
-  .text                  ro code   0x800'eb9c     0x4  startup_stm32f373xc.o [1]
-  .text                  ro code   0x800'eba0     0x4  startup_stm32f373xc.o [1]
+  .rodata                const     0x800'eb94     0x4  cli_port.o [1]
+  .rodata                const     0x800'eb98     0x4  cli_port.o [1]
+  .rodata                const     0x800'eb9c     0x4  cli_port.o [1]
+  .rodata                const     0x800'eba0     0x4  heap_4.o [1]
   .text                  ro code   0x800'eba4     0x4  startup_stm32f373xc.o [1]
   .text                  ro code   0x800'eba8     0x4  startup_stm32f373xc.o [1]
   .text                  ro code   0x800'ebac     0x4  startup_stm32f373xc.o [1]
@@ -614,14 +613,17 @@ initialize by copy { rw };
   .text                  ro code   0x800'ec70     0x4  startup_stm32f373xc.o [1]
   .text                  ro code   0x800'ec74     0x4  startup_stm32f373xc.o [1]
   .text                  ro code   0x800'ec78     0x4  startup_stm32f373xc.o [1]
-  SHT$$PREINIT_ARRAY               0x800'ec7c     0x0  <Block>
-  SHT$$INIT_ARRAY                  0x800'ec7c     0x4  <Block>
-    .init_array          const     0x800'ec7c     0x4  cli_port.o [1]
-  __iar_tls$$INIT_ARRAY            0x800'ec80     0x0  <Block>
-  .rodata                const     0x800'ec80     0x0  zero_init3.o [5]
-  .rodata                const     0x800'ec80     0x0  lz77_init_single.o [5]
-  Initializer bytes      const     0x800'ec80   0x115  <for P2-1>
-                                 - 0x800'ed95  0xec0d
+  .text                  ro code   0x800'ec7c     0x4  startup_stm32f373xc.o [1]
+  .text                  ro code   0x800'ec80     0x4  startup_stm32f373xc.o [1]
+  .text                  ro code   0x800'ec84     0x4  startup_stm32f373xc.o [1]
+  SHT$$PREINIT_ARRAY               0x800'ec88     0x0  <Block>
+  SHT$$INIT_ARRAY                  0x800'ec88     0x4  <Block>
+    .init_array          const     0x800'ec88     0x4  cli_port.o [1]
+  __iar_tls$$INIT_ARRAY            0x800'ec8c     0x0  <Block>
+  .rodata                const     0x800'ec8c     0x0  zero_init3.o [5]
+  .rodata                const     0x800'ec8c     0x0  lz77_init_single.o [5]
+  Initializer bytes      const     0x800'ec8c   0x117  <for P2-1>
+                                 - 0x800'eda3  0xec1b
 
 "P2", part 1 of 3:                              0x1fd
   P2-1                            0x2000'0000   0x1fd  <Init block>
@@ -726,7 +728,7 @@ Unused ranges:
 
          From           To      Size
          ----           --      ----
-   0x800'ed95   0x803'ffff  0x3'126b
+   0x800'eda3   0x803'ffff  0x3'125d
   0x2000'01fd  0x2000'01ff       0x3
   0x2000'7a9c  0x2000'7a9f       0x4
   0x2000'7ea0  0x2000'7fff     0x160
@@ -743,8 +745,8 @@ Zero (__iar_zero_init3)
           0x2000'0200  0x789b
 
 Copy/lz77 (__iar_lz77_init_single3)
-    1 source range, total size 0x115 (54% of destination):
-           0x800'ec80   0x115
+    1 source range, total size 0x117 (54% of destination):
+           0x800'ec8c   0x117
     1 destination range, total size 0x1fd:
           0x2000'0000   0x1fd
 
@@ -765,7 +767,7 @@ command line/config:
 C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управления электроприводами\firmware\Electric-motor-control\EWARM\Electric motor control\Obj: [1]
     MotorDC.o                         432
     cli.o                             274
-    cli_cmd.o                       2 892      796
+    cli_cmd.o                       2 880      820
     cli_port.o                      3 676    2 658    4 069
     cmsis_os.o                        156
     encoder.o                          64
@@ -798,16 +800,16 @@ C:\Users\Чистое небо\Desktop\Э.01.00.00 Беспилотный мотодельтаплан\Блок управлен
     system_stm32f3xx.o                 28       26        4
     tasks.o                         4 192       48      308
     usb_device.o                       88               708
-    usbd_cdc.o                      1 008      148      272
+    usbd_cdc.o                      1 008      149      272
     usbd_cdc_if.o                     188        9    2 016
     usbd_conf.o                       934             1 164
     usbd_core.o                       894
     usbd_ctlreq.o                   2 128                 1
-    usbd_desc.o                       350      115      592
+    usbd_desc.o                       350      116      592
     usbd_ioreq.o                      196
     vbat.o                             60
     -------------------------------------------------------
-    Total:                         40 948    4 001   31 252
+    Total:                         40 936    4 027   31 252
 
 dl7M_tlf.a: [2]
     abort.o                             6
@@ -892,7 +894,7 @@ shb_l.a: [6]
     Gaps                               39        8
     Linker created                              36    1 024
 -----------------------------------------------------------
-    Grand Total:                   56 699    4 122   32 408
+    Grand Total:                   56 687    4 148   32 408
 
 
 *******************************************************************************
@@ -901,36 +903,36 @@ shb_l.a: [6]
 
 Entry                       Address    Size  Type      Object
 -----                       -------    ----  ----      ------
-.iar.init_table$$Base    0x800'e510           --   Gb  - Linker created -
-.iar.init_table$$Limit   0x800'e534           --   Gb  - Linker created -
-?main                    0x800'e62d          Code  Gb  cmain.o [5]
-AHBPrescTable            0x800'e938    0x10  Data  Gb  system_stm32f3xx.o [1]
-APBPrescTable            0x800'eb2c     0x8  Data  Gb  system_stm32f3xx.o [1]
-BusFault_Handler         0x800'e31b     0x2  Code  Gb  stm32f3xx_it.o [1]
-CAN_RX0_IRQHandler       0x800'e321     0xa  Code  Gb  stm32f3xx_it.o [1]
+.iar.init_table$$Base    0x800'e504           --   Gb  - Linker created -
+.iar.init_table$$Limit   0x800'e528           --   Gb  - Linker created -
+?main                    0x800'e621          Code  Gb  cmain.o [5]
+AHBPrescTable            0x800'e92c    0x10  Data  Gb  system_stm32f3xx.o [1]
+APBPrescTable            0x800'eb38     0x8  Data  Gb  system_stm32f3xx.o [1]
+BusFault_Handler         0x800'e30f     0x2  Code  Gb  stm32f3xx_it.o [1]
+CAN_RX0_IRQHandler       0x800'e315     0xa  Code  Gb  stm32f3xx_it.o [1]
 CDC_Control_FS           0x800'35eb    0x42  Code  Lc  usbd_cdc_if.o [1]
 CDC_DeInit_FS            0x800'35e7     0x4  Code  Lc  usbd_cdc_if.o [1]
 CDC_Init_FS              0x800'35cd    0x1a  Code  Lc  usbd_cdc_if.o [1]
 CDC_Receive_FS           0x800'362d    0x1a  Code  Lc  usbd_cdc_if.o [1]
 CDC_Transmit_FS          0x800'3647    0x34  Code  Gb  usbd_cdc_if.o [1]
-CLI_CommandsParser       0x800'ce59   0xb4c  Code  Gb  cli_cmd.o [1]
-CLI_HLP                  0x800'd9e0   0x42c  Data  Lc  cli_port.o [1]
+CLI_CommandsParser       0x800'ce59   0xb40  Code  Gb  cli_cmd.o [1]
+CLI_HLP                  0x800'd9d4   0x42c  Data  Lc  cli_port.o [1]
 CLI_STR_INVALID_KEYWORD
-                         0x800'e594    0x20  Data  Lc  cli_cmd.o [1]
+                         0x800'e588    0x20  Data  Lc  cli_cmd.o [1]
 CLI_STR_INVALID_KEYWORD
-                         0x800'e5d4    0x20  Data  Lc  cli_port.o [1]
+                         0x800'e5c8    0x20  Data  Lc  cli_port.o [1]
 CLI_STR_UNKNOWN_COMMAND
-                         0x800'e574    0x20  Data  Lc  cli_cmd.o [1]
+                         0x800'e568    0x20  Data  Lc  cli_cmd.o [1]
 CSTACK$$Base            0x2000'7aa0           --   Gb  - Linker created -
 CSTACK$$Limit           0x2000'7ea0           --   Gb  - Linker created -
 CacheMore                0x800'4635    0x24  Code  Lc  xlocale_c.o [2]
 CliMutex                0x2000'7a24     0x4  Data  Gb  cli_port.o [1]
-DBG_CLI_IOStruct         0x800'e908    0x10  Data  Lc  cli_port.o [1]
+DBG_CLI_IOStruct         0x800'e8fc    0x10  Data  Lc  cli_port.o [1]
 DBG_CLI_UART            0x2000'57d0   0x5d0  Data  Gb  cli_port.o [1]
 DBG_CLI_USB             0x2000'5200   0x5d0  Data  Gb  cli_port.o [1]
 DBG_CLI_USB_Task         0x800'221d     0xa  Code  Gb  cli_port.o [1]
 DMA2_Channel3_IRQHandler
-                         0x800'e353     0xa  Code  Gb  stm32f3xx_it.o [1]
+                         0x800'e347     0xa  Code  Gb  stm32f3xx_it.o [1]
 DMA_CalcBaseAndBitshift
                          0x800'95ad    0x34  Code  Lc  stm32f3xx_hal_dma.o [1]
 DbgPrintf                0x800'20b7    0x86  Code  Gb  cli_port.o [1]
@@ -941,7 +943,7 @@ DbgScanf::USB_scanf_buff
                         0x2000'7678    0x40  Data  Lc  cli_port.o [1]
 DbgUSBPutChar            0x800'2089    0x2e  Code  Gb  cli_port.o [1]
 DbgUSBReadChar           0x800'213d    0x4a  Code  Gb  cli_port.o [1]
-DebugMon_Handler         0x800'e31f     0x2  Code  Gb  stm32f3xx_it.o [1]
+DebugMon_Handler         0x800'e313     0x2  Code  Gb  stm32f3xx_it.o [1]
 Dtentox                  0x800'8b65   0x192  Code  Lc  strto64.o [4]
 EncPitch                0x2000'79fc    0x10  Data  Gb  main.o [1]
 EncRoll                 0x2000'79ec    0x10  Data  Gb  main.o [1]
@@ -949,8 +951,8 @@ Encoder_Init             0x800'7779    0x40  Code  Lc  main.o [1]
 Error_Handler            0x800'78c1    0x40  Code  Gb  main.o [1]
 FS_Desc                 0x2000'012c    0x1c  Data  Gb  usbd_desc.o [1]
 GetEnc                   0x800'2255    0x22  Code  Gb  encoder.o [1]
-GetVoltageBat            0x800'd9a5    0x3c  Code  Gb  vbat.o [1]
-Get_SerialNum            0x800'e1f1    0x2e  Code  Lc  usbd_desc.o [1]
+GetVoltageBat            0x800'd999    0x3c  Code  Gb  vbat.o [1]
+Get_SerialNum            0x800'e1e5    0x2e  Code  Lc  usbd_desc.o [1]
 HAL_CAN_ActivateNotification
                          0x800'a7eb    0x34  Code  Gb  stm32f3xx_hal_can.o [1]
 HAL_CAN_AddTxMessage     0x800'a55b   0x138  Code  Gb  stm32f3xx_hal_can.o [1]
@@ -1062,8 +1064,8 @@ HAL_TIM_PWM_Start        0x800'3df9    0x62  Code  Gb  stm32f3xx_hal_tim.o [1]
 HAL_TIM_PWM_Stop         0x800'3e5b    0x8c  Code  Gb  stm32f3xx_hal_tim.o [1]
 HAL_TIM_PeriodElapsedCallback
                          0x800'787f    0x42  Code  Gb  main.o [1]
-HardFault_Handler        0x800'e317     0x2  Code  Gb  stm32f3xx_it.o [1]
-IntToUnicode             0x800'e24d    0x4e  Code  Lc  usbd_desc.o [1]
+HardFault_Handler        0x800'e30b     0x2  Code  Gb  stm32f3xx_it.o [1]
+IntToUnicode             0x800'e241    0x4e  Code  Lc  usbd_desc.o [1]
 LoadInt                  0x800'26f7    0x7a  Code  Lc  xprintffull.o [2]
 MX_CAN_Init              0x800'7075    0x9c  Code  Lc  main.o [1]
 MX_DMA_Init              0x800'75f1    0x28  Code  Lc  main.o [1]
@@ -1078,38 +1080,38 @@ MX_TIM4_Init             0x800'73c5    0x88  Code  Lc  main.o [1]
 MX_TIM5_Init             0x800'744d    0xc8  Code  Lc  main.o [1]
 MX_TIM7_Init             0x800'7515    0x52  Code  Lc  main.o [1]
 MX_USB_DEVICE_Init       0x800'b001    0x58  Code  Gb  usb_device.o [1]
-MemManage_Handler        0x800'e319     0x2  Code  Gb  stm32f3xx_it.o [1]
+MemManage_Handler        0x800'e30d     0x2  Code  Gb  stm32f3xx_it.o [1]
 MotorDC_Init             0x800'7739    0x40  Code  Lc  main.o [1]
 MotorPitch              0x2000'796c    0x1c  Data  Gb  main.o [1]
 MotorRoll               0x2000'7950    0x1c  Data  Gb  main.o [1]
-NMI_Handler              0x800'e315     0x2  Code  Gb  stm32f3xx_it.o [1]
+NMI_Handler              0x800'e309     0x2  Code  Gb  stm32f3xx_it.o [1]
 NVIC_EncodePriority      0x800'93e9    0x40  Code  Lc  stm32f3xx_hal_cortex.o [1]
 PCD_EP_ISR_Handler       0x800'b96f   0x3b0  Code  Lc  stm32f3xx_hal_pcd.o [1]
 PendSV_Handler           0x800'1955          Code  Gb  portasm.o [1]
-Region$$Table$$Base      0x800'e510           --   Gb  - Linker created -
-Region$$Table$$Limit     0x800'e534           --   Gb  - Linker created -
+Region$$Table$$Base      0x800'e504           --   Gb  - Linker created -
+Region$$Table$$Limit     0x800'e528           --   Gb  - Linker created -
 SDADC_EnterInitMode      0x800'ae71    0x30  Code  Lc  stm32f3xx_hal_sdadc.o [1]
 SDADC_ExitInitMode       0x800'aea1     0xe  Code  Lc  stm32f3xx_hal_sdadc.o [1]
 SDADC_GetInjChannelsNbr
                          0x800'aeaf    0x1e  Code  Lc  stm32f3xx_hal_sdadc.o [1]
 SDADC_InjConvStart       0x800'aecd    0x7a  Code  Lc  stm32f3xx_hal_sdadc.o [1]
-SHT$$INIT_ARRAY$$Base    0x800'ec7c           --   Gb  - Linker created -
-SHT$$INIT_ARRAY$$Limit   0x800'ec80           --   Gb  - Linker created -
+SHT$$INIT_ARRAY$$Base    0x800'ec88           --   Gb  - Linker created -
+SHT$$INIT_ARRAY$$Limit   0x800'ec8c           --   Gb  - Linker created -
 SHT$$PREINIT_ARRAY$$Base
-                         0x800'ec7c           --   Gb  - Linker created -
+                         0x800'ec88           --   Gb  - Linker created -
 SHT$$PREINIT_ARRAY$$Limit
-                         0x800'ec7c           --   Gb  - Linker created -
+                         0x800'ec88           --   Gb  - Linker created -
 SVC_Handler              0x800'19ad          Code  Gb  portasm.o [1]
 SetZero                  0x800'2277    0x1e  Code  Gb  encoder.o [1]
 StopRotation             0x800'2515    0x20  Code  Gb  MotorDC.o [1]
 SysTick_Handler          0x800'16dd    0x28  Code  Gb  port.o [1]
 SystemClock_Config       0x800'6fd5    0xa0  Code  Gb  main.o [1]
 SystemCoreClock         0x2000'0008     0x4  Data  Gb  system_stm32f3xx.o [1]
-SystemInit               0x800'e709    0x14  Code  Gb  system_stm32f3xx.o [1]
-TIM17_IRQHandler         0x800'e32b     0xa  Code  Gb  stm32f3xx_it.o [1]
-TIM18_DAC2_IRQHandler    0x800'e335     0xa  Code  Gb  stm32f3xx_it.o [1]
-TIM6_DAC1_IRQHandler     0x800'e33f     0xa  Code  Gb  stm32f3xx_it.o [1]
-TIM7_IRQHandler          0x800'e349     0xa  Code  Gb  stm32f3xx_it.o [1]
+SystemInit               0x800'e6fd    0x14  Code  Gb  system_stm32f3xx.o [1]
+TIM17_IRQHandler         0x800'e31f     0xa  Code  Gb  stm32f3xx_it.o [1]
+TIM18_DAC2_IRQHandler    0x800'e329     0xa  Code  Gb  stm32f3xx_it.o [1]
+TIM6_DAC1_IRQHandler     0x800'e333     0xa  Code  Gb  stm32f3xx_it.o [1]
+TIM7_IRQHandler          0x800'e33d     0xa  Code  Gb  stm32f3xx_it.o [1]
 TIM_Base_SetConfig       0x800'435d    0xa4  Code  Gb  stm32f3xx_hal_tim.o [1]
 TIM_CCxChannelCmd        0x800'45cf    0x24  Code  Gb  stm32f3xx_hal_tim.o [1]
 TIM_ETR_SetConfig        0x800'45b7    0x18  Code  Gb  stm32f3xx_hal_tim.o [1]
@@ -1159,20 +1161,20 @@ USBD_CtlReceiveStatus    0x800'7ea9    0x1a  Code  Gb  usbd_ioreq.o [1]
 USBD_CtlSendData         0x800'7dff    0x2c  Code  Gb  usbd_ioreq.o [1]
 USBD_CtlSendStatus       0x800'7e8f    0x1a  Code  Gb  usbd_ioreq.o [1]
 USBD_FS_ConfigStrDescriptor
-                         0x800'e1a1    0x28  Code  Gb  usbd_desc.o [1]
+                         0x800'e195    0x28  Code  Gb  usbd_desc.o [1]
 USBD_FS_DeviceDesc      0x2000'0148    0x14  Data  Gb  usbd_desc.o [1]
 USBD_FS_DeviceDescriptor
-                         0x800'e13d     0xa  Code  Gb  usbd_desc.o [1]
+                         0x800'e131     0xa  Code  Gb  usbd_desc.o [1]
 USBD_FS_InterfaceStrDescriptor
-                         0x800'e1c9    0x28  Code  Gb  usbd_desc.o [1]
+                         0x800'e1bd    0x28  Code  Gb  usbd_desc.o [1]
 USBD_FS_LangIDStrDescriptor
-                         0x800'e147     0xa  Code  Gb  usbd_desc.o [1]
+                         0x800'e13b     0xa  Code  Gb  usbd_desc.o [1]
 USBD_FS_ManufacturerStrDescriptor
-                         0x800'e179    0x16  Code  Gb  usbd_desc.o [1]
+                         0x800'e16d    0x16  Code  Gb  usbd_desc.o [1]
 USBD_FS_ProductStrDescriptor
-                         0x800'e151    0x28  Code  Gb  usbd_desc.o [1]
+                         0x800'e145    0x28  Code  Gb  usbd_desc.o [1]
 USBD_FS_SerialStrDescriptor
-                         0x800'e18f    0x12  Code  Gb  usbd_desc.o [1]
+                         0x800'e183    0x12  Code  Gb  usbd_desc.o [1]
 USBD_GetConfig           0x800'8591    0x4e  Code  Lc  usbd_ctlreq.o [1]
 USBD_GetDescriptor       0x800'8255   0x202  Code  Lc  usbd_ctlreq.o [1]
 USBD_GetLen              0x800'8701    0x14  Code  Lc  usbd_ctlreq.o [1]
@@ -1229,12 +1231,12 @@ USB_EPClearStall         0x800'cccd    0xae  Code  Gb  stm32f3xx_ll_usb.o [1]
 USB_EPSetStall           0x800'cc83    0x4a  Code  Gb  stm32f3xx_ll_usb.o [1]
 USB_EPStartXfer          0x800'c90d   0x376  Code  Gb  stm32f3xx_ll_usb.o [1]
 USB_EnableGlobalInt      0x800'c36f    0x14  Code  Gb  stm32f3xx_ll_usb.o [1]
-USB_LP_IRQHandler        0x800'e35d     0xa  Code  Gb  stm32f3xx_it.o [1]
+USB_LP_IRQHandler        0x800'e351     0xa  Code  Gb  stm32f3xx_it.o [1]
 USB_ReadInterrupts       0x800'cd95     0x8  Code  Gb  stm32f3xx_ll_usb.o [1]
 USB_ReadPMA              0x800'cdfb    0x5e  Code  Gb  stm32f3xx_ll_usb.o [1]
 USB_SetDevAddress        0x800'cd7b    0x14  Code  Gb  stm32f3xx_ll_usb.o [1]
 USB_WritePMA             0x800'cda3    0x58  Code  Gb  stm32f3xx_ll_usb.o [1]
-UsageFault_Handler       0x800'e31d     0x2  Code  Gb  stm32f3xx_it.o [1]
+UsageFault_Handler       0x800'e311     0x2  Code  Gb  stm32f3xx_it.o [1]
 UserRxBufferFS          0x2000'61a0   0x3e8  Data  Gb  usbd_cdc_if.o [1]
 UserTxBufferFS          0x2000'6588   0x3e8  Data  Gb  usbd_cdc_if.o [1]
 VBAT_Init                0x800'77b9    0x3e  Code  Lc  main.o [1]
@@ -1292,8 +1294,8 @@ __aeabi_memcpy8          0x800'34f5          Code  Gb  ABImemcpy.o [5]
 __aeabi_memset           0x800'145d          Code  Gb  ABImemset.o [5]
 __aeabi_ui2d             0x800'4f81          Code  Gb  U32ToDbl.o [4]
 __aeabi_uldivmod         0x800'47b5          Code  Gb  I64DivMod.o [5]
-__call_ctors             0x800'e615    0x18  Code  Gb  cppinit.o [2]
-__cmain                  0x800'e62d          Code  Gb  cmain.o [5]
+__call_ctors             0x800'e609    0x18  Code  Gb  cppinit.o [2]
+__cmain                  0x800'e621          Code  Gb  cmain.o [5]
 __exit                   0x800'b059    0x14  Code  Gb  exit.o [6]
 __iar_Fail_s             0x800'4711    0x1c  Code  Gb  xfail_s.o [2]
 __iar_Mbcurmax           0x800'47a9     0xa  Code  Gb  xmbcurmax.o [2]
@@ -1312,9 +1314,9 @@ __iar_Stoxflt::digits    0x800'c250    0x18  Data  Lc  iar_Stoxflt.o [2]
 __iar_Stoxflt::vals      0x800'c268    0x18  Data  Lc  iar_Stoxflt.o [2]
 __iar_Strchr             0x800'46f9          Code  Gb  strchr.o [5]
 __iar_cstart_call_ctors
-                         0x800'e5f5    0x20  Code  Gb  cmain_call_ctors.o [5]
+                         0x800'e5e9    0x20  Code  Gb  cmain_call_ctors.o [5]
 __iar_dadd               0x800'4c3d          Code  Gb  DblSub.o [4]
-__iar_data_init3         0x800'e4c5    0x28  Code  Gb  data_init.o [5]
+__iar_data_init3         0x800'e4b9    0x28  Code  Gb  data_init.o [5]
 __iar_debug_exceptions   0x800'38e2     0x1  Data  Gb  unwind_debug.o [6]
 __iar_dsub               0x800'38f5          Code  Gb  DblAdd.o [4]
 __iar_dsubStart          0x800'3907          Code  Gb  DblAdd.o [4]
@@ -1322,11 +1324,11 @@ __iar_frexp              0x800'49f1          Code  Gb  frexp.o [4]
 __iar_frexpl             0x800'49f1          Code  Gb  frexp.o [4]
 __iar_globLocale        0x2000'01b4    0x48  Data  Lc  xlocale_c.o [2]
 __iar_global_Locale      0x800'4631     0x4  Code  Gb  xlocale_c.o [2]
-__iar_init_vfp           0x800'e4ed          Code  Gb  fpinit_M.o [4]
+__iar_init_vfp           0x800'e4e1          Code  Gb  fpinit_M.o [4]
 __iar_ldexp64            0x800'4ab5          Code  Gb  ldexp.o [4]
 __iar_lz77_init_single3
                          0x800'189b    0x7a  Code  Gb  lz77_init_single.o [5]
-__iar_program_start      0x800'ea21          Code  Gb  cstartup_M.o [5]
+__iar_program_start      0x800'ea2d          Code  Gb  cstartup_M.o [5]
 __iar_scalbln64          0x800'4ab5          Code  Gb  ldexp.o [4]
 __iar_scalbn64           0x800'4ab5          Code  Gb  ldexp.o [4]
 __iar_softfp___iar_frexp64
@@ -1334,79 +1336,79 @@ __iar_softfp___iar_frexp64
 __iar_softfp_frexp       0x800'49e5          Code  Gb  frexp.o [4]
 __iar_softfp_frexpl      0x800'49e5          Code  Gb  frexp.o [4]
 __iar_tls$$INIT_ARRAY$$Base
-                         0x800'ec80           --   Gb  - Linker created -
+                         0x800'ec8c           --   Gb  - Linker created -
 __iar_tls$$INIT_ARRAY$$Limit
-                         0x800'ec80           --   Gb  - Linker created -
+                         0x800'ec8c           --   Gb  - Linker created -
 __iar_zero_init3         0x800'2013    0x3a  Code  Gb  zero_init3.o [5]
-__low_level_init         0x800'e64b     0x4  Code  Gb  low_level_init.o [2]
+__low_level_init         0x800'e63f     0x4  Code  Gb  low_level_init.o [2]
 __sti__routine           0x800'204d    0x22  Code  Lc  cli_port.o [1]
 __vector_table           0x800'0000          Data  Gb  startup_stm32f373xc.o [1]
-_call_main               0x800'e639          Code  Gb  cmain.o [5]
-_exit                    0x800'e655          Code  Gb  cexit.o [5]
+_call_main               0x800'e62d          Code  Gb  cmain.o [5]
+_exit                    0x800'e649          Code  Gb  cexit.o [5]
 _gLocale_mblen           0x800'46d7     0x4  Code  Gb  xlocale_c.o [2]
 _gLocale_mblenInt        0x800'4659    0x2c  Code  Gb  xlocale_c.o [2]
 _gLocale_mbtowc          0x800'46db     0xc  Code  Gb  xlocale_c.o [2]
 _gLocale_mbtowcInt       0x800'4685    0x42  Code  Gb  xlocale_c.o [2]
 _gLocale_wctomb          0x800'46e7     0x4  Code  Gb  xlocale_c.o [2]
 _gLocale_wctombInt       0x800'46d3     0x4  Code  Gb  xlocale_c.o [2]
-_main                    0x800'e647          Code  Gb  cmain.o [5]
-aPLLMULFactorTable       0x800'e918    0x10  Data  Gb  stm32f3xx_hal_rcc.o [1]
-aPredivFactorTable       0x800'e928    0x10  Data  Gb  stm32f3xx_hal_rcc.o [1]
+_main                    0x800'e63b          Code  Gb  cmain.o [5]
+aPLLMULFactorTable       0x800'e90c    0x10  Data  Gb  stm32f3xx_hal_rcc.o [1]
+aPredivFactorTable       0x800'e91c    0x10  Data  Gb  stm32f3xx_hal_rcc.o [1]
 abort                    0x800'79e3     0x6  Code  Gb  abort.o [2]
 cli::TT_CLI<(int)64, (signed char)8>::Pars(char *, int)
                          0x800'6899   0x240  Code  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::Pars(char *, int)::string
-                         0x800'eacc     0x8  Data  Gb  cli_port.o [1]
+                         0x800'ead8     0x8  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::Pars(char *, int)::string (instance 10)
-                         0x800'e384    0x48  Data  Gb  cli_port.o [1]
+                         0x800'e378    0x48  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::Pars(char *, int)::string (instance 11)
-                         0x800'eae4     0x8  Data  Gb  cli_port.o [1]
+                         0x800'eaf0     0x8  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::Pars(char *, int)::string (instance 12)
-                         0x800'e3cc    0x48  Data  Gb  cli_port.o [1]
+                         0x800'e3c0    0x48  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::Pars(char *, int)::string (instance 2)
                          0x800'373e     0x2  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::Pars(char *, int)::string (instance 3)
-                         0x800'eb5c     0x4  Data  Gb  cli_port.o [1]
+                         0x800'eb68     0x4  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::Pars(char *, int)::string (instance 4)
-                         0x800'e9e4     0xc  Data  Gb  cli_port.o [1]
+                         0x800'e9f0     0xc  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::Pars(char *, int)::string (instance 5)
-                         0x800'ead4     0x8  Data  Gb  cli_port.o [1]
+                         0x800'eae0     0x8  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::Pars(char *, int)::string (instance 6)
-                         0x800'e29c    0x78  Data  Gb  cli_port.o [1]
+                         0x800'e290    0x78  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::Pars(char *, int)::string (instance 7)
-                         0x800'eb60     0x4  Data  Gb  cli_port.o [1]
+                         0x800'eb6c     0x4  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::Pars(char *, int)::string (instance 8)
-                         0x800'e45c    0x34  Data  Gb  cli_port.o [1]
+                         0x800'e450    0x34  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::Pars(char *, int)::string (instance 9)
-                         0x800'eadc     0x8  Data  Gb  cli_port.o [1]
+                         0x800'eae8     0x8  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::Process()
                          0x800'36dd    0x36  Code  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::ReadString(char *)
                          0x800'62f1   0x5a8  Code  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::ReadString(char *)::string
-                         0x800'eb44     0x4  Data  Gb  cli_port.o [1]
-cli::TT_CLI<(int)64, (signed char)8>::ReadString(char *)::string (instance 10)
                          0x800'eb50     0x4  Data  Gb  cli_port.o [1]
+cli::TT_CLI<(int)64, (signed char)8>::ReadString(char *)::string (instance 10)
+                         0x800'eb5c     0x4  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::ReadString(char *)::string (instance 11)
-                         0x800'eac4     0x8  Data  Gb  cli_port.o [1]
+                         0x800'ead0     0x8  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::ReadString(char *)::string (instance 12)
-                         0x800'eb54     0x4  Data  Gb  cli_port.o [1]
+                         0x800'eb60     0x4  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::ReadString(char *)::string (instance 2)
-                         0x800'ea94     0x8  Data  Gb  cli_port.o [1]
+                         0x800'eaa0     0x8  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::ReadString(char *)::string (instance 3)
-                         0x800'ea9c     0x8  Data  Gb  cli_port.o [1]
+                         0x800'eaa8     0x8  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::ReadString(char *)::string (instance 4)
-                         0x800'eb48     0x4  Data  Gb  cli_port.o [1]
+                         0x800'eb54     0x4  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::ReadString(char *)::string (instance 5)
-                         0x800'eb4c     0x4  Data  Gb  cli_port.o [1]
+                         0x800'eb58     0x4  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::ReadString(char *)::string (instance 6)
-                         0x800'eaa4     0x8  Data  Gb  cli_port.o [1]
+                         0x800'eab0     0x8  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::ReadString(char *)::string (instance 7)
-                         0x800'eaac     0x8  Data  Gb  cli_port.o [1]
+                         0x800'eab8     0x8  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::ReadString(char *)::string (instance 8)
-                         0x800'eab4     0x8  Data  Gb  cli_port.o [1]
+                         0x800'eac0     0x8  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::ReadString(char *)::string (instance 9)
-                         0x800'eabc     0x8  Data  Gb  cli_port.o [1]
+                         0x800'eac8     0x8  Data  Gb  cli_port.o [1]
 cli::TT_CLI<(int)64, (signed char)8>::TT_CLI(TCLI_IO const *, char const *, void (*)(TCLI_IO const *, char *, int))
                          0x800'357b    0x34  Code  Gb  cli_port.o [1]
 cli::TT_CLI_Binder<(int)64>::ReadFromBinder(cli::TT_CLI_Binder<(int)64>::FuncKeys_t, char *)
@@ -1418,15 +1420,15 @@ cli::TT_CLI_Binder<(int)64>::TT_CLI_Binder(TCLI_IO const *) [subobject]
 cli::TT_CLI_Binder<(int)64>::bind(char const *, char const *, int)
                          0x800'924d    0x90  Code  Gb  cli_port.o [1]
 cli::TT_CLI_Binder<(int)64>::bind(char const *, char const *, int)::string
-                         0x800'e5b4    0x20  Data  Gb  cli_port.o [1]
+                         0x800'e5a8    0x20  Data  Gb  cli_port.o [1]
 cli::TT_CLI_Binder<(int)64>::unbind(char const *)
                          0x800'92dd    0x94  Code  Gb  cli_port.o [1]
 cli::TT_CLI_Binder<(int)64>::unbind(char const *)::string
-                         0x800'eb58     0x4  Data  Gb  cli_port.o [1]
+                         0x800'eb64     0x4  Data  Gb  cli_port.o [1]
 cli::TT_CLI_Binder<(int)64>::unbind(char const *)::string (instance 2)
-                         0x800'e88c    0x14  Data  Gb  cli_port.o [1]
+                         0x800'e880    0x14  Data  Gb  cli_port.o [1]
 cli::TT_CLI_Binder<(int)64>::unbind(char const *)::string (instance 3)
-                         0x800'e8a0    0x14  Data  Gb  cli_port.o [1]
+                         0x800'e894    0x14  Data  Gb  cli_port.o [1]
 cli::TT_CLI_CycleCmd<(int)64>::TT_CLI_CycleCmd(TCLI_IO const *)
                          0x800'7a4d     0xc  Code  Gb  cli_port.o [1]
 cli::TT_CLI_CycleCmd<(int)64>::TT_CLI_CycleCmd(TCLI_IO const *) [subobject]
@@ -1463,7 +1465,7 @@ defaultTaskHandle       0x2000'7a38     0x4  Data  Gb  main.o [1]
 digits                   0x800'8970    0x28  Data  Lc  iar_Stoullx.o [2]
 dmul                     0x800'89c1    0xca  Code  Lc  strto64.o [4]
 eTaskGetState            0x800'0471    0x78  Code  Gb  tasks.o [1]
-exit                     0x800'e64f     0x4  Code  Gb  exit.o [2]
+exit                     0x800'e643     0x4  Code  Gb  exit.o [2]
 getRunTimeCounterValue   0x800'180d     0xc  Code  Wk  freertos.o [1]
 hUsbDeviceFS            0x2000'6970   0x2c4  Data  Gb  usb_device.o [1]
 hcan                    0x2000'7928    0x28  Data  Gb  main.o [1]
@@ -1605,7 +1607,7 @@ xBlockAllocatedBit      0x2000'7a34     0x4  Data  Lc  heap_4.o [1]
 xDelayedTaskList1       0x2000'7988    0x14  Data  Lc  tasks.o [1]
 xDelayedTaskList2       0x2000'799c    0x14  Data  Lc  tasks.o [1]
 xFreeBytesRemaining     0x2000'7a2c     0x4  Data  Lc  heap_4.o [1]
-xHeapStructSize          0x800'eb94     0x4  Data  Lc  heap_4.o [1]
+xHeapStructSize          0x800'eba0     0x4  Data  Lc  heap_4.o [1]
 xIdleStack              0x2000'70c0   0x200  Data  Lc  freertos.o [1]
 xIdleTaskHandle         0x2000'7a84     0x4  Data  Lc  tasks.o [1]
 xIdleTaskTCBBuffer      0x2000'754c    0x60  Data  Lc  freertos.o [1]
@@ -1647,8 +1649,8 @@ xYieldPending           0x2000'7a74     0x4  Data  Lc  tasks.o [1]
 [5] = rt7M_tl.a
 [6] = shb_l.a
 
-  56 699 bytes of readonly  code memory
-   4 122 bytes of readonly  data memory
+  56 687 bytes of readonly  code memory
+   4 148 bytes of readonly  data memory
   32 408 bytes of readwrite data memory
 
 Errors: none
