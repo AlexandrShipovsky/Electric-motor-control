@@ -912,9 +912,9 @@ void VBAT_Init(void)
 void pid_Init(void)
 {
   /*PITCH*/
-  pidPitch.Kp = 0.01f;
-  pidPitch.Ki = 0.00004f;
-  pidPitch.Kd = 500.0f;
+  pidPitch.Kp = 0.03f;
+  pidPitch.Ki = 0.00007f;
+  pidPitch.Kd = 0.0f;
   pidPitch.integral = 0; /*Интеграл ошибки рассогласования*/
 
   pidPitch.epsilon = 0;     /* Ошибка рассогласования*/
@@ -932,9 +932,9 @@ void pid_Init(void)
   HAL_TIM_Base_Start(&htim18);
 
   /*ROLL*/
-  pidRoll.Kp = 0.1f;
-  pidRoll.Ki = 0.0f;
-  pidRoll.Kd = 0.0f;
+  pidRoll.Kp = 0.2f;
+  pidRoll.Ki = 0.000084f;
+  pidRoll.Kd = 15.5f;
 
   pidRoll.integral = 0; /*�?нтеграл ошибки рассогласования*/
 

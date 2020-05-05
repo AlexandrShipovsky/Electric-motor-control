@@ -277,27 +277,27 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 	CLI_IF_CMD("KP", "Proportional koeficient PID")
 	{
 		uint32_t varible;
-		extern pidTypeDef pidPitch;
+		extern pidTypeDef pidRoll;
 		CLI_SCAN_PARAM("%i", varible, "");
-		pidPitch.Kp = varible/100000.0;
+		pidRoll.Kp = varible/100000.0;
 		return;
 	}
 
 	CLI_IF_CMD("KI", "Integral koeficient PID")
 	{
 		uint32_t varible;
-		extern pidTypeDef pidPitch;
+		extern pidTypeDef pidRoll;
 		CLI_SCAN_PARAM("%i", varible, "");
-		pidPitch.Ki = varible/100000.0;;
+		pidRoll.Ki = varible/100000.0;
 		return;
 	}
 
 	CLI_IF_CMD("KD", "Differencial koeficient PID")
 	{
 		uint32_t varible;
-		extern pidTypeDef pidPitch;
+		extern pidTypeDef pidRoll;
 		CLI_SCAN_PARAM("%i", varible, "");
-		pidPitch.Kd = varible/100000.0;;
+		pidRoll.Kd = varible/100000.0;
 		return;
 	}
 

@@ -13,9 +13,15 @@ void rotation(MotorDCTypeDef *motor)
     {
         return;
     }
-    HAL_GPIO_WritePin(motor->port, motor->pin, GPIO_PIN_SET);
-    HAL_TIM_PWM_Stop(motor->htim, motor->PWM_ChannelFirst);
-    HAL_TIM_PWM_Stop(motor->htim, motor->PWM_ChannelSnd);
+
+    if (motor->pulse < 3.0)
+    {
+        motor->pulse = 3.0;
+    }
+    
+    /*Dead time автоматически рассчитывается в BTN8962*/
+    //HAL_TIM_PWM_Stop(motor->htim, motor->PWM_ChannelFirst);
+    //HAL_TIM_PWM_Stop(motor->htim, motor->PWM_ChannelSnd);
     pulse = (uint32_t)((motor->htim->Init.Period * motor->pulse) / 100);
     if (motor->DirOfRot)
     {
@@ -29,12 +35,13 @@ void rotation(MotorDCTypeDef *motor)
         __HAL_TIM_SET_COMPARE(motor->htim, motor->PWM_ChannelSnd, pulse);
     }
 
+    HAL_GPIO_WritePin(motor->port, motor->pin, GPIO_PIN_SET);
     HAL_TIM_PWM_Start(motor->htim, motor->PWM_ChannelFirst);
     HAL_TIM_PWM_Start(motor->htim, motor->PWM_ChannelSnd);
 }
 
 /**
-  * @brief  Srop rotation motor.
+  * @brief  Stop rotation motor.
   * @param  motor is motor handle
   * @retval None
   */

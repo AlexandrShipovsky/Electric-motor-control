@@ -130,6 +130,7 @@ void pidStartTask(void const *argument)
   {
     
     taskENTER_CRITICAL();
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
     pidPitch.ProcessVal = GetEnc(&EncPitch);
     pidUpdate(&pidPitch);
     MotorPitch.DirOfRot = pidPitch.DirOfRot;
