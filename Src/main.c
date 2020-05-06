@@ -831,17 +831,11 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
   {
     Error_Handler();
   }
-  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-  HAL_Delay(100);
-  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-  HAL_Delay(100);
-  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-  HAL_Delay(100);
-  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-  HAL_Delay(100);
-  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-  HAL_Delay(100);
-  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+  if(buf[0] == '5')
+  {
+    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+  }
+  
 }
 /**
   * @brief  Motor initialization
