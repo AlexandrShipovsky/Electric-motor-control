@@ -831,11 +831,10 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
   {
     Error_Handler();
   }
-  if(buf[0] == '5')
+  if (buf[0] == '5')
   {
     HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
   }
-  
 }
 /**
   * @brief  Motor initialization
@@ -909,7 +908,7 @@ void pid_Init(void)
   pidPitch.Kp = 0.03f;
   pidPitch.Ki = 0.00007f;
   pidPitch.Kd = 0.0f;
-  pidPitch.integral = 0; /*Интеграл ошибки рассогласования*/
+  pidPitch.integral = 0; /*�?нтеграл ошибки рассогласования*/
 
   pidPitch.epsilon = 0;     /* Ошибка рассогласования*/
   pidPitch.epsilonPrev = 0; /* Ошибка рассогласования предыдущая*/
@@ -963,7 +962,32 @@ __weak void StartDefaultTask(void const *argument)
   /* Infinite loop */
   for (;;)
   {
-    osDelay(1);
+    CAN_TxHeaderTypeDef TxHeader;
+    extern CAN_HandleTypeDef hcan;
+
+    TxHeader.DLC = 8;
+    TxHeader.StdId = 0x00FF;
+    TxHeader.RTR = CAN_RTR_DATA;
+    TxHeader.IDE = CAN_ID_STD;
+    TxHeader.TransmitGlobalTime = DISABLE;
+
+    uint8_t buf[8];
+    uint32_t TxMailBox;
+
+    buf[0] = '5';
+    buf[1] = 0xFF;
+    buf[2] = 0xFF;
+    buf[3] = 0xFF;
+    buf[4] = 0xFF;
+    buf[5] = 0xFF;
+    buf[6] = 0xFF;
+    buf[7] = 0xFF;
+
+    if (HAL_CAN_AddTxMessage(&hcan, &TxHeader, buf, &TxMailBox) != HAL_OK)
+    {
+      Error_Handler();
+    }
+    osDelay(300);
   }
   /* USER CODE END 5 */
 }
@@ -1025,17 +1049,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     ulHighFrequencyTimerTicks++;
   }
 
-  if (htim->Instance == pidPitch.htim->Instance) // Если таймер ПИДа досчитал до максимального значения
+  if (htim->Instance == pidPitch.htim->Instance) // Если таймер П�?Да досчитал до максимального значения
   {
     pid_Init();
   }
 
-  if (htim->Instance == pidRoll.htim->Instance) // Если таймер ПИДа досчитал до максимального значения
+  if (htim->Instance == pidRoll.htim->Instance) // Если таймер П�?Да досчитал до максимального значения
   {
     pid_Init();
   }
 
-  
   /* USER CODE END Callback 1 */
 }
 
@@ -1047,13 +1070,14 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  /*HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
   HAL_Delay(100);
   HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
   HAL_Delay(100);
   HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
   HAL_Delay(100);
   HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  */
   /* USER CODE END Error_Handler_Debug */
 }
 

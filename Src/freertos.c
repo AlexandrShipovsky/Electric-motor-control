@@ -91,7 +91,7 @@ void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackTyp
 /* USER CODE END GET_IDLE_TASK_MEMORY */
 
 /* Private application code --------------------------------------------------*/
-/* USER CODE BEGIN Application */
+
 /**
 * @brief Function implementing the cliTask thread.
 * @param argument: Not used
@@ -130,22 +130,22 @@ void pidStartTask(void const *argument)
   {
     
     taskENTER_CRITICAL();
-    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
     pidPitch.ProcessVal = GetEnc(&EncPitch);
     pidUpdate(&pidPitch);
     MotorPitch.DirOfRot = pidPitch.DirOfRot;
 		MotorPitch.pulse = pidPitch.ManipulVal;
 		rotation(&MotorPitch);
+    taskEXIT_CRITICAL();
 
-
+    taskENTER_CRITICAL();
     pidRoll.ProcessVal = GetEnc(&EncRoll);
     pidUpdate(&pidRoll);
     MotorRoll.DirOfRot = pidRoll.DirOfRot;
 		MotorRoll.pulse = pidRoll.ManipulVal;
 		rotation(&MotorRoll);
+
     taskEXIT_CRITICAL();
-    
-    vTaskDelay(1);
+    vTaskDelay(10);     //???????
     
   }
 }
