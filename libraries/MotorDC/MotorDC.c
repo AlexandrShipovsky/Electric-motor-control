@@ -19,6 +19,10 @@ void rotation(MotorDCTypeDef *motor)
         motor->pulse = 3.0;
     }
     
+    if (motor->pulse > 97.0)
+    {
+        motor->pulse = 100.0;
+    }
     /*Dead time автоматически рассчитывается в BTN8962*/
     //HAL_TIM_PWM_Stop(motor->htim, motor->PWM_ChannelFirst);
     //HAL_TIM_PWM_Stop(motor->htim, motor->PWM_ChannelSnd);

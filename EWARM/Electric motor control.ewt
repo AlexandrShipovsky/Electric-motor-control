@@ -1326,6 +1326,12 @@
             </file>
         </group>
         <group>
+            <name>common</name>
+            <file>
+                <name>$PROJ_DIR$\..\libraries\common\prothawk.h</name>
+            </file>
+        </group>
+        <group>
             <name>Encoder</name>
             <file>
                 <name>$PROJ_DIR$\..\libraries\Encoder\encoder.c</name>

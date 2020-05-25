@@ -64,6 +64,8 @@ TIM_HandleTypeDef htim18;
 osThreadId defaultTaskHandle;
 osThreadId cliTaskHandle;
 osThreadId pidTaskHandle;
+osThreadId ParserCANTaskHandle;
+osThreadId CANTxTaskHandle;
 /* USER CODE BEGIN PV */
 MotorDCTypeDef MotorRoll;
 MotorDCTypeDef MotorPitch;
@@ -90,9 +92,11 @@ static void MX_TIM5_Init(void);
 static void MX_TIM7_Init(void);
 static void MX_TIM18_Init(void);
 static void MX_TIM17_Init(void);
-void StartDefaultTask(void const *argument);
-void cliStartTask(void const *argument);
-void pidStartTask(void const *argument);
+void StartDefaultTask(void const * argument);
+void cliStartTask(void const * argument);
+void pidStartTask(void const * argument);
+void StartParserCANTask(void const * argument);
+void StartCANTxTask(void const * argument);
 
 /* USER CODE BEGIN PFP */
 static void MotorDC_Init(void);
@@ -183,6 +187,14 @@ int main(void)
   osThreadDef(pidTask, pidStartTask, osPriorityBelowNormal, 0, 2048);
   pidTaskHandle = osThreadCreate(osThread(pidTask), NULL);
 
+  /* definition and creation of ParserCANTask */
+  osThreadDef(ParserCANTask, StartParserCANTask, osPriorityLow, 0, 256);
+  ParserCANTaskHandle = osThreadCreate(osThread(ParserCANTask), NULL);
+
+  /* definition and creation of CANTxTask */
+  osThreadDef(CANTxTask, StartCANTxTask, osPriorityLow, 0, 256);
+  CANTxTaskHandle = osThreadCreate(osThread(CANTxTask), NULL);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
@@ -197,7 +209,7 @@ int main(void)
 
   /* Start scheduler */
   osKernelStart();
-
+ 
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -236,7 +248,8 @@ void SystemClock_Config(void)
   }
   /** Initializes the CPU, AHB and APB busses clocks 
   */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
@@ -246,7 +259,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB | RCC_PERIPHCLK_SDADC;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB|RCC_PERIPHCLK_SDADC;
   PeriphClkInit.USBClockSelection = RCC_USBCLKSOURCE_PLL_DIV1_5;
   PeriphClkInit.SdadcClockSelection = RCC_SDADCSYSCLK_DIV12;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
@@ -314,6 +327,7 @@ static void MX_CAN_Init(void)
   }
 
   /* USER CODE END CAN_Init 2 */
+
 }
 
 /**
@@ -385,6 +399,7 @@ static void MX_SDADC1_Init(void)
   /* USER CODE BEGIN SDADC1_Init 2 */
 
   /* USER CODE END SDADC1_Init 2 */
+
 }
 
 /**
@@ -450,6 +465,7 @@ static void MX_SDADC3_Init(void)
   /* USER CODE BEGIN SDADC3_Init 2 */
 
   /* USER CODE END SDADC3_Init 2 */
+
 }
 
 /**
@@ -474,7 +490,7 @@ static void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 0;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 2880;
+  htim2.Init.Period = 71999;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -512,6 +528,7 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 2 */
   HAL_TIM_MspPostInit(&htim2);
+
 }
 
 /**
@@ -560,6 +577,7 @@ static void MX_TIM3_Init(void)
   /* USER CODE BEGIN TIM3_Init 2 */
 
   /* USER CODE END TIM3_Init 2 */
+
 }
 
 /**
@@ -608,6 +626,7 @@ static void MX_TIM4_Init(void)
   /* USER CODE BEGIN TIM4_Init 2 */
 
   /* USER CODE END TIM4_Init 2 */
+
 }
 
 /**
@@ -632,7 +651,7 @@ static void MX_TIM5_Init(void)
   htim5.Instance = TIM5;
   htim5.Init.Prescaler = 0;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim5.Init.Period = 2880;
+  htim5.Init.Period = 71999;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim5.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim5) != HAL_OK)
@@ -670,6 +689,7 @@ static void MX_TIM5_Init(void)
 
   /* USER CODE END TIM5_Init 2 */
   HAL_TIM_MspPostInit(&htim5);
+
 }
 
 /**
@@ -707,6 +727,7 @@ static void MX_TIM7_Init(void)
   /* USER CODE BEGIN TIM7_Init 2 */
 
   /* USER CODE END TIM7_Init 2 */
+
 }
 
 /**
@@ -738,6 +759,7 @@ static void MX_TIM17_Init(void)
   /* USER CODE BEGIN TIM17_Init 2 */
 
   /* USER CODE END TIM17_Init 2 */
+
 }
 
 /**
@@ -775,12 +797,13 @@ static void MX_TIM18_Init(void)
   /* USER CODE BEGIN TIM18_Init 2 */
 
   /* USER CODE END TIM18_Init 2 */
+
 }
 
 /** 
   * Enable DMA controller clock
   */
-static void MX_DMA_Init(void)
+static void MX_DMA_Init(void) 
 {
 
   /* DMA controller clock enable */
@@ -790,6 +813,7 @@ static void MX_DMA_Init(void)
   /* DMA2_Channel3_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA2_Channel3_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA2_Channel3_IRQn);
+
 }
 
 /**
@@ -810,32 +834,20 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, LED_Pin | M2_EN_Pin | M1_EN_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, LED_Pin|M2_EN_Pin|M1_EN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : LED_Pin M2_EN_Pin M1_EN_Pin */
-  GPIO_InitStruct.Pin = LED_Pin | M2_EN_Pin | M1_EN_Pin;
+  GPIO_InitStruct.Pin = LED_Pin|M2_EN_Pin|M1_EN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
 }
 
 /* USER CODE BEGIN 4 */
 
-void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
-{
-  uint8_t buf[8];
-  CAN_RxHeaderTypeDef RxHeader;
 
-  if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RxHeader, buf) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  if (buf[0] == '5')
-  {
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-  }
-}
 /**
   * @brief  Motor initialization
   * @note   This function is 
@@ -954,7 +966,7 @@ void pid_Init(void)
   * @retval None
   */
 /* USER CODE END Header_StartDefaultTask */
-__weak void StartDefaultTask(void const *argument)
+__weak void StartDefaultTask(void const * argument)
 {
   /* init code for USB_DEVICE */
   MX_USB_DEVICE_Init();
@@ -962,34 +974,9 @@ __weak void StartDefaultTask(void const *argument)
   /* Infinite loop */
   for (;;)
   {
-    CAN_TxHeaderTypeDef TxHeader;
-    extern CAN_HandleTypeDef hcan;
-
-    TxHeader.DLC = 8;
-    TxHeader.StdId = 0x00FF;
-    TxHeader.RTR = CAN_RTR_DATA;
-    TxHeader.IDE = CAN_ID_STD;
-    TxHeader.TransmitGlobalTime = DISABLE;
-
-    uint8_t buf[8];
-    uint32_t TxMailBox;
-
-    buf[0] = '5';
-    buf[1] = 0xFF;
-    buf[2] = 0xFF;
-    buf[3] = 0xFF;
-    buf[4] = 0xFF;
-    buf[5] = 0xFF;
-    buf[6] = 0xFF;
-    buf[7] = 0xFF;
-
-    if (HAL_CAN_AddTxMessage(&hcan, &TxHeader, buf, &TxMailBox) != HAL_OK)
-    {
-      Error_Handler();
-    }
     osDelay(300);
   }
-  /* USER CODE END 5 */
+  /* USER CODE END 5 */ 
 }
 
 /* USER CODE BEGIN Header_cliStartTask */
@@ -999,7 +986,7 @@ __weak void StartDefaultTask(void const *argument)
 * @retval None
 */
 /* USER CODE END Header_cliStartTask */
-__weak void cliStartTask(void const *argument)
+__weak void cliStartTask(void const * argument)
 {
   /* USER CODE BEGIN cliStartTask */
   /* Infinite loop */
@@ -1016,7 +1003,7 @@ __weak void cliStartTask(void const *argument)
 * @retval None
 */
 /* USER CODE END Header_pidStartTask */
-__weak void pidStartTask(void const *argument)
+__weak void pidStartTask(void const * argument)
 {
   /* USER CODE BEGIN pidStartTask */
   /* Infinite loop */
@@ -1026,7 +1013,43 @@ __weak void pidStartTask(void const *argument)
   /* USER CODE END pidStartTask */
 }
 
+/* USER CODE BEGIN Header_StartParserCANTask */
 /**
+* @brief Function implementing the ParserCANTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartParserCANTask */
+__weak void StartParserCANTask(void const * argument)
+{
+  /* USER CODE BEGIN StartParserCANTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartParserCANTask */
+}
+
+/* USER CODE BEGIN Header_StartCANTxTask */
+/**
+* @brief Function implementing the CANTxTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartCANTxTask */
+__weak void StartCANTxTask(void const * argument)
+{
+  /* USER CODE BEGIN StartCANTxTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartCANTxTask */
+}
+
+ /**
   * @brief  Period elapsed callback in non blocking mode
   * @note   This function is called  when TIM6 interrupt took place, inside
   * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
@@ -1039,8 +1062,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE BEGIN Callback 0 */
 
   /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM6)
-  {
+  if (htim->Instance == TIM6) {
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
@@ -1081,7 +1103,7 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef USE_FULL_ASSERT
+#ifdef  USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
@@ -1090,7 +1112,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{
+{ 
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

@@ -24,12 +24,16 @@
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */     
+/* USER CODE BEGIN Includes */
+#include "cmsis_os.h"
+#include "usb_device.h"
 #include "cli.h"
 #include "MotorDC.h"
 #include "encoder.h"
 #include "vbat.h"
 #include "pid.h"
+
+#include "prothawk.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -39,7 +43,11 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+enum modes
+{
+  TrackingState = 1,
+  TestState = 2
+};
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -50,6 +58,10 @@
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
 extern unsigned long ulHighFrequencyTimerTicks;
+
+xQueueHandle CANReceiveQueueHandle = NULL; // Очередь для приема байт из CAN
+
+uint8_t state = TrackingState; // Режим работы
 /* USER CODE END Variables */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -58,7 +70,7 @@ extern unsigned long ulHighFrequencyTimerTicks;
 /* USER CODE END FunctionPrototypes */
 
 /* GetIdleTaskMemory prototype (linked to static allocation support) */
-void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize );
+void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize);
 
 /* Hook prototypes */
 void configureTimerForRunTimeStats(void);
@@ -91,7 +103,27 @@ void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackTyp
 /* USER CODE END GET_IDLE_TASK_MEMORY */
 
 /* Private application code --------------------------------------------------*/
-
+/* USER CODE BEGIN Application */
+/* USER CODE BEGIN Header_StartDefaultTask */
+/**
+  * @brief  Function implementing the defaultTask thread.
+  * @param  argument: Not used 
+  * @retval None
+  */
+/* USER CODE END Header_StartDefaultTask */
+void StartDefaultTask(void const *argument)
+{
+  /* init code for USB_DEVICE */
+  MX_USB_DEVICE_Init();
+  /* USER CODE BEGIN 5 */
+  CANReceiveQueueHandle = xQueueCreate(8, 8);
+  /* Infinite loop */
+  for (;;)
+  {
+    vTaskDelay(300);
+  }
+  /* USER CODE END 5 */
+}
 /**
 * @brief Function implementing the cliTask thread.
 * @param argument: Not used
@@ -128,26 +160,177 @@ void pidStartTask(void const *argument)
   /* Infinite loop */
   for (;;)
   {
-    
-    taskENTER_CRITICAL();
-    pidPitch.ProcessVal = GetEnc(&EncPitch);
-    pidUpdate(&pidPitch);
-    MotorPitch.DirOfRot = pidPitch.DirOfRot;
-		MotorPitch.pulse = pidPitch.ManipulVal;
-		rotation(&MotorPitch);
-    taskEXIT_CRITICAL();
+    switch (state)
+    {
+    case TrackingState:
+      taskENTER_CRITICAL();
+      pidPitch.ProcessVal = GetEnc(&EncPitch);
+      pidUpdate(&pidPitch);
+      MotorPitch.DirOfRot = pidPitch.DirOfRot;
+      MotorPitch.pulse = pidPitch.ManipulVal;
+      rotation(&MotorPitch);
+      taskEXIT_CRITICAL();
 
-    taskENTER_CRITICAL();
-    pidRoll.ProcessVal = GetEnc(&EncRoll);
-    pidUpdate(&pidRoll);
-    MotorRoll.DirOfRot = pidRoll.DirOfRot;
-		MotorRoll.pulse = pidRoll.ManipulVal;
-		rotation(&MotorRoll);
+      taskENTER_CRITICAL();
+      pidRoll.ProcessVal = GetEnc(&EncRoll);
+      pidUpdate(&pidRoll);
+      MotorRoll.DirOfRot = pidRoll.DirOfRot;
+      MotorRoll.pulse = pidRoll.ManipulVal;
+      rotation(&MotorRoll);
 
-    taskEXIT_CRITICAL();
-    vTaskDelay(10);     //???????
-    
+      taskEXIT_CRITICAL();
+      break;
+    case TestState:
+      StopRotation(&MotorPitch);
+      StopRotation(&MotorRoll);
+      break;
+    }
+    vTaskDelay(10); //???????
   }
+}
+/* USER CODE BEGIN Header_StartParserCANTask */
+/**
+* @brief Function implementing the ParserCANTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartParserCANTask */
+void StartParserCANTask(void const *argument)
+{
+  /* USER CODE BEGIN StartParserCANTask */
+  uint8_t buf[8];
+  extern pidTypeDef pidRoll;
+  extern pidTypeDef pidPitch;
+  extern EncTypeDef EncRoll;
+  extern EncTypeDef EncPitch;
+
+  extern CAN_HandleTypeDef hcan;
+  uint32_t TxMailBox; //= CAN_TX_MAILBOX0;
+  CAN_TxHeaderTypeDef TxHeader;
+  uint8_t buftx[8];
+
+  // Передача на блок управления приводами
+  TxHeader.DLC = 8;
+  TxHeader.StdId = 0x0000;
+  TxHeader.RTR = CAN_RTR_DATA;
+  TxHeader.IDE = CAN_ID_STD;
+  TxHeader.TransmitGlobalTime = DISABLE;
+
+  /* Infinite loop */
+  for (;;)
+  {
+    if (CANReceiveQueueHandle != NULL)
+    {
+      if (xQueueReceive(CANReceiveQueueHandle,
+                        buf,
+                        (TickType_t)0) == pdPASS)
+      {
+        /* *pxRxedPointer now points to xMessage. */
+      }
+      switch (buf[0])
+      {
+      case PitchRollCommand:
+        memcpy(&pidPitch.SetPoint, &buf[1], sizeof(pidPitch.SetPoint));
+        memcpy(&pidRoll.SetPoint, &buf[3], sizeof(pidRoll.SetPoint));
+        break;
+      case TestMode:
+        state = TestState;
+        taskENTER_CRITICAL();
+        buftx[0] = TestMode;
+        if (HAL_CAN_AddTxMessage(&hcan, &TxHeader, buftx, &TxMailBox) != HAL_OK)
+        {
+        }
+        taskEXIT_CRITICAL();
+        break;
+      case CalibComplied:
+        SetZero(&EncPitch);
+        SetZero(&EncRoll);
+        state = TrackingState;
+        buftx[0] = CalibComplied;
+        if (HAL_CAN_AddTxMessage(&hcan, &TxHeader, buftx, &TxMailBox) != HAL_OK)
+        {
+        }
+        taskEXIT_CRITICAL();
+        break;
+      default:
+        memset(buf, 0x00, sizeof(buf)); // Очистить буфер
+        break;
+      }
+    }
+    memset(buf, 0x00, sizeof(buf)); // Очистить буфер
+    vTaskDelay(1);
+  }
+  /* USER CODE END StartParserCANTask */
+}
+/*
+*
+*
+*
+*/
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
+{
+  uint8_t buf[8];
+  CAN_RxHeaderTypeDef RxHeader;
+
+  BaseType_t xHigherPriorityTaskWoken;
+  xHigherPriorityTaskWoken = pdFALSE;
+
+  if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RxHeader, buf) != HAL_OK)
+  {
+    //Ошибка
+  }
+  else
+  {
+    if (CANReceiveQueueHandle != NULL)
+    {
+      xQueueSendToBackFromISR(CANReceiveQueueHandle,
+                              (void *)buf,
+                              &xHigherPriorityTaskWoken);
+    }
+  }
+}
+/* USER CODE BEGIN Header_StartCANTxTask */
+/**
+* @brief Function implementing the CANTxTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartCANTxTask */
+void StartCANTxTask(void const *argument)
+{
+  /* USER CODE BEGIN StartCANTxTask */
+  extern pidTypeDef pidPitch;
+  extern pidTypeDef pidRoll;
+
+  extern CAN_HandleTypeDef hcan;
+  uint32_t TxMailBox; //= CAN_TX_MAILBOX0;
+  CAN_TxHeaderTypeDef TxHeader;
+  uint8_t buftx[8];
+  /* Infinite loop */
+  for (;;)
+  {
+    // Передача на блок управления приводами
+    TxHeader.DLC = 5;
+    TxHeader.StdId = 0x0000;
+    TxHeader.RTR = CAN_RTR_DATA;
+    TxHeader.IDE = CAN_ID_STD;
+    TxHeader.TransmitGlobalTime = DISABLE;
+
+    buftx[0] = PitchRollCommand;
+    buftx[1] = (uint8_t)(pidPitch.ProcessVal & 0xFF);
+    buftx[2] = (uint8_t)(pidPitch.ProcessVal >> 8);
+    buftx[3] = (uint8_t)(pidRoll.ProcessVal & 0xFF);
+    buftx[4] = (uint8_t)(pidRoll.ProcessVal >> 8);
+
+    taskENTER_CRITICAL();
+    if (HAL_CAN_AddTxMessage(&hcan, &TxHeader, buftx, &TxMailBox) != HAL_OK)
+    {
+      //Error_Handler();
+    }
+    taskEXIT_CRITICAL();
+    vTaskDelay(25);
+  }
+  /* USER CODE END StartCANTxTask */
 }
 
 /* USER CODE END Application */
