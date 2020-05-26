@@ -157,6 +157,11 @@ void pidStartTask(void const *argument)
   extern EncTypeDef EncPitch;
   extern pidTypeDef pidPitch;
   extern pidTypeDef pidRoll;
+
+  if((pidRoll.MaxSetPoint == 0)|(pidRoll.MinSetPoint == 0)|(pidPitch.MaxSetPoint == 0)|(pidPitch.MinSetPoint == 0))
+  {
+    state = TestState;
+  }
   /* Infinite loop */
   for (;;)
   {
@@ -247,11 +252,20 @@ void StartParserCANTask(void const *argument)
         SetZero(&EncRoll);
         state = TrackingState;
         buftx[0] = CalibComplied;
+        taskENTER_CRITICAL();
         if (HAL_CAN_AddTxMessage(&hcan, &TxHeader, buftx, &TxMailBox) != HAL_OK)
         {
         }
         taskEXIT_CRITICAL();
         break;
+      case PitchMinMax:
+      memcpy(&pidRoll.MinSetPoint, &buf[1], sizeof(pidRoll.MinSetPoint));
+      memcpy(&pidRoll.MaxSetPoint, &buf[3], sizeof(pidRoll.MaxSetPoint));
+      break;
+      case RollMinMax:
+      memcpy(&pidRoll.MinSetPoint, &buf[1], sizeof(pidRoll.MinSetPoint));
+      memcpy(&pidRoll.MaxSetPoint, &buf[3], sizeof(pidRoll.MaxSetPoint));
+      break;
       default:
         memset(buf, 0x00, sizeof(buf)); // Очистить буфер
         break;
@@ -328,7 +342,37 @@ void StartCANTxTask(void const *argument)
       //Error_Handler();
     }
     taskEXIT_CRITICAL();
-    vTaskDelay(25);
+    
+    vTaskDelay(10);
+
+    buftx[0] = PitchMinMax;
+    buftx[1] = (uint8_t)(pidPitch.MinSetPoint & 0xFF);
+    buftx[2] = (uint8_t)(pidPitch.MinSetPoint >> 8);
+    buftx[3] = (uint8_t)(pidPitch.MaxSetPoint & 0xFF);
+    buftx[4] = (uint8_t)(pidPitch.MaxSetPoint >> 8);
+
+    taskENTER_CRITICAL();
+    if (HAL_CAN_AddTxMessage(&hcan, &TxHeader, buftx, &TxMailBox) != HAL_OK)
+    {
+      //Error_Handler();
+    }
+    taskEXIT_CRITICAL();
+
+    vTaskDelay(10);
+
+    buftx[0] = RollMinMax;
+    buftx[1] = (uint8_t)(pidRoll.MinSetPoint & 0xFF);
+    buftx[2] = (uint8_t)(pidRoll.MinSetPoint >> 8);
+    buftx[3] = (uint8_t)(pidRoll.MaxSetPoint & 0xFF);
+    buftx[4] = (uint8_t)(pidRoll.MaxSetPoint >> 8);
+
+    taskENTER_CRITICAL();
+    if (HAL_CAN_AddTxMessage(&hcan, &TxHeader, buftx, &TxMailBox) != HAL_OK)
+    {
+      //Error_Handler();
+    }
+    taskEXIT_CRITICAL();
+    vTaskDelay(10);
   }
   /* USER CODE END StartCANTxTask */
 }

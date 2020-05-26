@@ -928,7 +928,9 @@ void pid_Init(void)
 
   pidPitch.ProcessVal = 0; /* Текущее значение датчика*/
 
-  //pidPitch.SetPoint = 0; /* Уставка*/
+  pidPitch.SetPoint = 0; /* Уставка*/
+  pidPitch.MinSetPoint = 0; /* Максимальная уставка*/
+  pidPitch.MaxSetPoint = 0; /* Минимальная уставка*/
 
   pidPitch.ManipulVal = 0; /* Управляющий сигнал (от 0 до 100%)*/
   pidPitch.DirOfRot = 0;   /*Направление вращения. Если 0 - прямое, > 0 - обратное*/
@@ -949,7 +951,9 @@ void pid_Init(void)
 
   pidRoll.ProcessVal = 0; /* Текущее значение датчика*/
 
-  //pidRoll.SetPoint = 0; /* Уставка*/
+  pidRoll.SetPoint = 0; /* Уставка*/
+  pidRoll.MinSetPoint = 0; /* Максимальная уставка*/
+  pidRoll.MaxSetPoint = 0; /* Минимальная уставка*/
 
   pidRoll.ManipulVal = 0; /* Управляющий сигнал (от 0 до 100%)*/
   pidRoll.DirOfRot = 0;   /*Направление вращения. Если 0 - прямое, > 0 - обратное*/

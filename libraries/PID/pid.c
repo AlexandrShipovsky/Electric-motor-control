@@ -9,6 +9,14 @@ void pidUpdate(pidTypeDef *pid)
     {
         return;
     }
+    if((pid->SetPoint) > (pid->MaxSetPoint))
+    {
+        pid->SetPoint = pid->MaxSetPoint;
+    }
+    if((pid->SetPoint) < (pid->MinSetPoint))
+    {
+        pid->SetPoint = pid->MinSetPoint;
+    }
 
     pid->epsilon = (pid->SetPoint - pid->ProcessVal);
     pid->integral += pid->dt * pid->epsilon;
