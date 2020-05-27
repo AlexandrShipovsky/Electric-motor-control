@@ -117,10 +117,12 @@ void StartDefaultTask(void const *argument)
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 5 */
   CANReceiveQueueHandle = xQueueCreate(8, 8);
+  
   /* Infinite loop */
   for (;;)
   {
-    vTaskDelay(300);
+    
+    vTaskDelay(500);
   }
   /* USER CODE END 5 */
 }
@@ -158,13 +160,13 @@ void pidStartTask(void const *argument)
   extern pidTypeDef pidPitch;
   extern pidTypeDef pidRoll;
 
-  if((pidRoll.MaxSetPoint == 0)|(pidRoll.MinSetPoint == 0)|(pidPitch.MaxSetPoint == 0)|(pidPitch.MinSetPoint == 0))
-  {
-    state = TestState;
-  }
   /* Infinite loop */
   for (;;)
   {
+    if ((pidRoll.MaxSetPoint == 0) | (pidRoll.MinSetPoint == 0) | (pidPitch.MaxSetPoint == 0) | (pidPitch.MinSetPoint == 0))
+    {
+      state = TestState;
+    }
     switch (state)
     {
     case TrackingState:
@@ -186,6 +188,8 @@ void pidStartTask(void const *argument)
       taskEXIT_CRITICAL();
       break;
     case TestState:
+      pidPitch.ProcessVal = GetEnc(&EncPitch);
+      pidRoll.ProcessVal = GetEnc(&EncRoll);
       StopRotation(&MotorPitch);
       StopRotation(&MotorRoll);
       break;
@@ -259,13 +263,13 @@ void StartParserCANTask(void const *argument)
         taskEXIT_CRITICAL();
         break;
       case PitchMinMax:
-      memcpy(&pidRoll.MinSetPoint, &buf[1], sizeof(pidRoll.MinSetPoint));
-      memcpy(&pidRoll.MaxSetPoint, &buf[3], sizeof(pidRoll.MaxSetPoint));
-      break;
+        memcpy(&pidPitch.MinSetPoint, &buf[1], sizeof(pidPitch.MinSetPoint));
+        memcpy(&pidPitch.MaxSetPoint, &buf[3], sizeof(pidPitch.MaxSetPoint));
+        break;
       case RollMinMax:
-      memcpy(&pidRoll.MinSetPoint, &buf[1], sizeof(pidRoll.MinSetPoint));
-      memcpy(&pidRoll.MaxSetPoint, &buf[3], sizeof(pidRoll.MaxSetPoint));
-      break;
+        memcpy(&pidRoll.MinSetPoint, &buf[1], sizeof(pidRoll.MinSetPoint));
+        memcpy(&pidRoll.MaxSetPoint, &buf[3], sizeof(pidRoll.MaxSetPoint));
+        break;
       default:
         memset(buf, 0x00, sizeof(buf)); // Очистить буфер
         break;
@@ -315,14 +319,18 @@ void StartCANTxTask(void const *argument)
   /* USER CODE BEGIN StartCANTxTask */
   extern pidTypeDef pidPitch;
   extern pidTypeDef pidRoll;
+  extern vbatTypeDef vbat;
 
   extern CAN_HandleTypeDef hcan;
   uint32_t TxMailBox; //= CAN_TX_MAILBOX0;
   CAN_TxHeaderTypeDef TxHeader;
   uint8_t buftx[8];
+  float voltage = 0.0;
   /* Infinite loop */
   for (;;)
   {
+    // Считывание значения напряжения аккумулятора
+	  voltage = GetVoltageBat(&vbat);
     // Передача на блок управления приводами
     TxHeader.DLC = 5;
     TxHeader.StdId = 0x0000;
@@ -342,7 +350,7 @@ void StartCANTxTask(void const *argument)
       //Error_Handler();
     }
     taskEXIT_CRITICAL();
-    
+
     vTaskDelay(10);
 
     buftx[0] = PitchMinMax;
@@ -365,6 +373,17 @@ void StartCANTxTask(void const *argument)
     buftx[2] = (uint8_t)(pidRoll.MinSetPoint >> 8);
     buftx[3] = (uint8_t)(pidRoll.MaxSetPoint & 0xFF);
     buftx[4] = (uint8_t)(pidRoll.MaxSetPoint >> 8);
+
+    taskENTER_CRITICAL();
+    if (HAL_CAN_AddTxMessage(&hcan, &TxHeader, buftx, &TxMailBox) != HAL_OK)
+    {
+      //Error_Handler();
+    }
+    taskEXIT_CRITICAL();
+    vTaskDelay(10);
+
+    buftx[0] = VBATCommand;
+    memcpy(&buftx[1], &voltage, sizeof(voltage));
 
     taskENTER_CRITICAL();
     if (HAL_CAN_AddTxMessage(&hcan, &TxHeader, buftx, &TxMailBox) != HAL_OK)
