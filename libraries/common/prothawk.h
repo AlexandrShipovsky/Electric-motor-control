@@ -41,7 +41,8 @@ extern "C"
         TestMode = 7,
         CalibComplied = 8,
         PitchMinMax = 9,
-        RollMinMax = 10
+        RollMinMax = 10,
+        PitchForceCommand = 11
     } ElMotorCommandsTypeDef;
 
 

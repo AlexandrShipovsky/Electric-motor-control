@@ -52,6 +52,7 @@ CAN_HandleTypeDef hcan;
 SDADC_HandleTypeDef hsdadc1;
 SDADC_HandleTypeDef hsdadc3;
 DMA_HandleTypeDef hdma_sdadc1;
+DMA_HandleTypeDef hdma_sdadc3;
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
@@ -66,6 +67,7 @@ osThreadId cliTaskHandle;
 osThreadId pidTaskHandle;
 osThreadId ParserCANTaskHandle;
 osThreadId CANTxTaskHandle;
+osThreadId SDADC_HandlerHandle;
 /* USER CODE BEGIN PV */
 MotorDCTypeDef MotorRoll;
 MotorDCTypeDef MotorPitch;
@@ -97,6 +99,7 @@ void cliStartTask(void const * argument);
 void pidStartTask(void const * argument);
 void StartParserCANTask(void const * argument);
 void StartCANTxTask(void const * argument);
+void StartSDADC_Handler(void const * argument);
 
 /* USER CODE BEGIN PFP */
 static void MotorDC_Init(void);
@@ -194,6 +197,10 @@ int main(void)
   /* definition and creation of CANTxTask */
   osThreadDef(CANTxTask, StartCANTxTask, osPriorityLow, 0, 256);
   CANTxTaskHandle = osThreadCreate(osThread(CANTxTask), NULL);
+
+  /* definition and creation of SDADC_Handler */
+  osThreadDef(SDADC_Handler, StartSDADC_Handler, osPriorityLow, 0, 256);
+  SDADC_HandlerHandle = osThreadCreate(osThread(SDADC_Handler), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -354,15 +361,9 @@ static void MX_SDADC1_Init(void)
   hsdadc1.Init.IdleLowPowerMode = SDADC_LOWPOWER_NONE;
   hsdadc1.Init.FastConversionMode = SDADC_FAST_CONV_DISABLE;
   hsdadc1.Init.SlowClockMode = SDADC_SLOW_CLOCK_DISABLE;
-  hsdadc1.Init.ReferenceVoltage = SDADC_VREF_EXT;
+  hsdadc1.Init.ReferenceVoltage = SDADC_VREF_VREFINT2;
   hsdadc1.InjectedTrigger = SDADC_SOFTWARE_TRIGGER;
   if (HAL_SDADC_Init(&hsdadc1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /** Configure The Regular Mode 
-  */
-  if (HAL_SDADC_SelectRegularTrigger(&hsdadc1, SDADC_SOFTWARE_TRIGGER) != HAL_OK)
   {
     Error_Handler();
   }
@@ -376,14 +377,14 @@ static void MX_SDADC1_Init(void)
   {
     Error_Handler();
   }
-  if (HAL_SDADC_InjectedConfigChannel(&hsdadc1, SDADC_CHANNEL_4, SDADC_CONTINUOUS_CONV_OFF) != HAL_OK)
+  if (HAL_SDADC_InjectedConfigChannel(&hsdadc1, SDADC_CHANNEL_5|SDADC_CHANNEL_6, SDADC_CONTINUOUS_CONV_ON) != HAL_OK)
   {
     Error_Handler();
   }
   /** Set parameters for SDADC configuration 0 Register 
   */
-  ConfParamStruct.InputMode = SDADC_INPUT_MODE_SE_ZERO_REFERENCE;
-  ConfParamStruct.Gain = SDADC_GAIN_2;
+  ConfParamStruct.InputMode = SDADC_INPUT_MODE_SE_OFFSET;
+  ConfParamStruct.Gain = SDADC_GAIN_1;
   ConfParamStruct.CommonMode = SDADC_COMMON_MODE_VSSA;
   ConfParamStruct.Offset = 0;
   if (HAL_SDADC_PrepareChannelConfig(&hsdadc1, SDADC_CONF_INDEX_0, &ConfParamStruct) != HAL_OK)
@@ -392,7 +393,13 @@ static void MX_SDADC1_Init(void)
   }
   /** Configure the Injected Channel 
   */
-  if (HAL_SDADC_AssociateChannelConfig(&hsdadc1, SDADC_CHANNEL_4, SDADC_CONF_INDEX_0) != HAL_OK)
+  if (HAL_SDADC_AssociateChannelConfig(&hsdadc1, SDADC_CHANNEL_5, SDADC_CONF_INDEX_0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /** Configure the Injected Channel 
+  */
+  if (HAL_SDADC_AssociateChannelConfig(&hsdadc1, SDADC_CHANNEL_6, SDADC_CONF_INDEX_0) != HAL_OK)
   {
     Error_Handler();
   }
@@ -426,7 +433,7 @@ static void MX_SDADC3_Init(void)
   hsdadc3.Init.IdleLowPowerMode = SDADC_LOWPOWER_NONE;
   hsdadc3.Init.FastConversionMode = SDADC_FAST_CONV_DISABLE;
   hsdadc3.Init.SlowClockMode = SDADC_SLOW_CLOCK_DISABLE;
-  hsdadc3.Init.ReferenceVoltage = SDADC_VREF_EXT;
+  hsdadc3.Init.ReferenceVoltage = SDADC_VREF_VREFINT2;
   hsdadc3.InjectedTrigger = SDADC_SOFTWARE_TRIGGER;
   if (HAL_SDADC_Init(&hsdadc3) != HAL_OK)
   {
@@ -813,6 +820,9 @@ static void MX_DMA_Init(void)
   /* DMA2_Channel3_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA2_Channel3_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA2_Channel3_IRQn);
+  /* DMA2_Channel5_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Channel5_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Channel5_IRQn);
 
 }
 
@@ -1051,6 +1061,24 @@ __weak void StartCANTxTask(void const * argument)
     osDelay(1);
   }
   /* USER CODE END StartCANTxTask */
+}
+
+/* USER CODE BEGIN Header_StartSDADC_Handler */
+/**
+* @brief Function implementing the SDADC_Handler thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartSDADC_Handler */
+__weak void StartSDADC_Handler(void const * argument)
+{
+  /* USER CODE BEGIN StartSDADC_Handler */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartSDADC_Handler */
 }
 
  /**

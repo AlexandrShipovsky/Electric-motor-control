@@ -76,11 +76,15 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 	CLI_IF_CMD("ROT", "Rotation DC")
 	{
 		float pulse;
-		int16_t pos;
+		uint8_t DirOfRot;
+
 		extern MotorDCTypeDef MotorRoll;
 		extern MotorDCTypeDef MotorPitch;
 		extern EncTypeDef EncRoll;
 		extern EncTypeDef EncPitch;
+
+		extern uint8_t state; // Режим работы
+		state = CLIState;
 
 		CLI_NEXT_WORD();
 
@@ -88,34 +92,11 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 		CLI_IF_CMD("ROLL", "Rotation roll motor")
 		{
 			CLI_SCAN_PARAM("%f", pulse, "Pulse = ");
-			CLI_SCAN_PARAM("%i", pos, "Position = ");
+			CLI_SCAN_PARAM("%d", DirOfRot, "DirOfRot = ");
 
-			DbgPrintf("Value = %d\n\r", pos);
 			MotorRoll.pulse = pulse;
-
-			if (pos > GetEnc(&EncRoll))
-			{
-				MotorRoll.DirOfRot = DIRECT_ROTATION;
-				rotation(&MotorRoll);
-				while (pos > GetEnc(&EncRoll))
-				{
-					DbgPrintf("Enc value = %d\n\r", GetEnc(&EncRoll));
-				}
-				StopRotation(&MotorRoll);
-				return;
-			}
-			if (pos < GetEnc(&EncRoll))
-			{
-				MotorRoll.DirOfRot = REVERSE_ROTATION;
-				rotation(&MotorRoll);
-				while (pos < GetEnc(&EncRoll))
-				{
-					DbgPrintf("Enc value = %d\n\r", GetEnc(&EncRoll));
-				}
-				StopRotation(&MotorRoll);
-				return;
-			}
-
+			MotorRoll.DirOfRot = DirOfRot;
+			rotation(&MotorRoll);
 			return;
 		}
 
@@ -123,35 +104,15 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 		CLI_IF_CMD("PITCH", "Rotation pitch motor")
 		{
 			CLI_SCAN_PARAM("%f", pulse, "Pulse = ");
-			CLI_SCAN_PARAM("%d", pos, "Position = ");
-
-			DbgPrintf("Value = %i\n\r", pos);
-
+			CLI_SCAN_PARAM("%d", DirOfRot, "DirOfRot = ");
 			MotorPitch.pulse = pulse;
-
-			if (pos > GetEnc(&EncPitch))
+			MotorPitch.DirOfRot = DirOfRot;
+			rotation(&MotorPitch);
+			while(1)
 			{
-				MotorPitch.DirOfRot = DIRECT_ROTATION;
-				rotation(&MotorPitch);
-				while (pos > GetEnc(&EncPitch))
-				{
-					DbgPrintf("\n\rEnc value = %d\n\r", GetEnc(&EncPitch));
-				}
-				StopRotation(&MotorPitch);
-				return;
+				vTaskDelay(150);
+				DbgPrintf("\n\rtorque = %f kg\n\r", MotorPitch.torque);
 			}
-			if (pos < GetEnc(&EncPitch))
-			{
-				MotorPitch.DirOfRot = REVERSE_ROTATION;
-				rotation(&MotorPitch);
-				while (pos < GetEnc(&EncPitch))
-				{
-					DbgPrintf("\n\rEnc value = %d\n\r", GetEnc(&EncPitch));
-				}
-				StopRotation(&MotorPitch);
-				return;
-			}
-
 			return;
 		}
 		CLI_INVALID_KEYWORD();
@@ -162,6 +123,9 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 	{
 		extern MotorDCTypeDef MotorRoll;
 		extern MotorDCTypeDef MotorPitch;
+		extern uint8_t state; // Режим работы
+		state = CLIState;
+
 		StopRotation(&MotorRoll);
 		StopRotation(&MotorPitch);
 		return;
@@ -170,6 +134,8 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 	CLI_IF_CMD("PITCH", "Get value of encoder")
 	{
 		extern EncTypeDef EncPitch;
+		extern uint8_t state; // Режим работы
+		state = CLIState;
 		int16_t val = 13;
 		val = GetEnc(&EncPitch);
 
@@ -180,6 +146,8 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 	CLI_IF_CMD("ROLL", "Get value of encoder")
 	{
 		extern EncTypeDef EncRoll;
+		extern uint8_t state; // Режим работы
+		state = CLIState;
 		int16_t val = 13;
 		val = GetEnc(&EncRoll);
 
@@ -190,8 +158,8 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 	CLI_IF_CMD("VBAT", "Get votage battery")
 	{
 		extern vbatTypeDef vbat;
-		;
-		float voltage = 13.0;
+
+		float voltage = 0.0;
 		voltage = GetVoltageBat(&vbat);
 
 		DbgPrintf("\n\rVotage battery = %f\n\r", voltage);
@@ -223,6 +191,8 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 	CLI_IF_CMD("PIDPITCH", "Get inform pid of pitch")
 	{
 		extern pidTypeDef pidPitch;
+		extern uint8_t state; // Режим работы
+		state = CLIState;
 		DbgPrintf("\n\r");
 		DbgPrintf("ManipulVal = %f\n\r", pidPitch.ManipulVal);
 		DbgPrintf("DirOfRot = %i\n\r", pidPitch.DirOfRot);
@@ -236,6 +206,8 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 	CLI_IF_CMD("PIDROLL", "Get inform pid of roll")
 	{
 		extern pidTypeDef pidRoll;
+		extern uint8_t state; // Режим работы
+		state = CLIState;
 		DbgPrintf("\n\r");
 		DbgPrintf("ManipulVal = %f\n\r", pidRoll.ManipulVal);
 		DbgPrintf("DirOfRot = %i\n\r", pidRoll.DirOfRot);
@@ -251,6 +223,9 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 	{
 		extern EncTypeDef EncRoll;
 		extern EncTypeDef EncPitch;
+
+		extern uint8_t state; // Режим работы
+		state = CLIState;
 		SetZero(&EncPitch);
 		SetZero(&EncRoll);
 		return;
@@ -260,6 +235,8 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 	{
 		int16_t pos;
 		extern pidTypeDef pidRoll;
+		extern uint8_t state; // Режим работы
+		state = CLIState;
 		CLI_SCAN_PARAM("%d", pos, "");
 		pidRoll.SetPoint = pos;
 		return;
@@ -269,6 +246,8 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 	{
 		int16_t pos;
 		extern pidTypeDef pidPitch;
+		extern uint8_t state; // Режим работы
+		state = CLIState;
 		CLI_SCAN_PARAM("%d", pos, "");
 		pidPitch.SetPoint = pos;
 		return;
@@ -279,7 +258,7 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 		uint32_t varible;
 		extern pidTypeDef pidRoll;
 		CLI_SCAN_PARAM("%i", varible, "");
-		pidRoll.Kp = varible/100000.0;
+		pidRoll.Kp = varible / 100000.0;
 		return;
 	}
 
@@ -288,7 +267,7 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 		uint32_t varible;
 		extern pidTypeDef pidRoll;
 		CLI_SCAN_PARAM("%i", varible, "");
-		pidRoll.Ki = varible/100000.0;
+		pidRoll.Ki = varible / 100000.0;
 		return;
 	}
 
@@ -297,7 +276,7 @@ void CLI_CommandsParser(const TCLI_IO *const io, char *ps, CLI_InputStrLen_t len
 		uint32_t varible;
 		extern pidTypeDef pidRoll;
 		CLI_SCAN_PARAM("%i", varible, "");
-		pidRoll.Kd = varible/100000.0;
+		pidRoll.Kd = varible / 100000.0;
 		return;
 	}
 

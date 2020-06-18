@@ -34,6 +34,7 @@ extern "C"
     uint32_t PWM_ChannelSnd;   /* ШИМ канал второго плеча H-моста */
     float pulse;               /* Ширина импульса ШИМ от 0 до 100 % */
     uint8_t DirOfRot;          /*Направление вращения. Если 0 - прямое, >0 - обратное*/
+    float torque;              /*Момент на валу*/
   } MotorDCTypeDef;
 
   /* Private function prototypes -----------------------------------------------*/

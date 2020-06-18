@@ -26,6 +26,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "cmsis_os.h"
+#include "arm_math.h"
 #include "usb_device.h"
 #include "cli.h"
 #include "MotorDC.h"
@@ -43,11 +44,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-enum modes
-{
-  TrackingState = 1,
-  TestState = 2
-};
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -117,11 +114,11 @@ void StartDefaultTask(void const *argument)
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 5 */
   CANReceiveQueueHandle = xQueueCreate(8, 8);
-  
+
   /* Infinite loop */
   for (;;)
   {
-    
+
     vTaskDelay(500);
   }
   /* USER CODE END 5 */
@@ -165,7 +162,7 @@ void pidStartTask(void const *argument)
   {
     if ((pidRoll.MaxSetPoint == 0) | (pidRoll.MinSetPoint == 0) | (pidPitch.MaxSetPoint == 0) | (pidPitch.MinSetPoint == 0))
     {
-      state = TestState;
+      state = CLIState;
     }
     switch (state)
     {
@@ -192,6 +189,10 @@ void pidStartTask(void const *argument)
       pidRoll.ProcessVal = GetEnc(&EncRoll);
       StopRotation(&MotorPitch);
       StopRotation(&MotorRoll);
+      break;
+    case CLIState:
+      break;
+    default:
       break;
     }
     vTaskDelay(10); //???????
@@ -320,6 +321,7 @@ void StartCANTxTask(void const *argument)
   extern pidTypeDef pidPitch;
   extern pidTypeDef pidRoll;
   extern vbatTypeDef vbat;
+  extern MotorDCTypeDef MotorPitch;
 
   extern CAN_HandleTypeDef hcan;
   uint32_t TxMailBox; //= CAN_TX_MAILBOX0;
@@ -330,7 +332,7 @@ void StartCANTxTask(void const *argument)
   for (;;)
   {
     // Считывание значения напряжения аккумулятора
-	  voltage = GetVoltageBat(&vbat);
+    voltage = GetVoltageBat(&vbat);
     // Передача на блок управления приводами
     TxHeader.DLC = 5;
     TxHeader.StdId = 0x0000;
@@ -392,10 +394,103 @@ void StartCANTxTask(void const *argument)
     }
     taskEXIT_CRITICAL();
     vTaskDelay(10);
+
+    buftx[0] = PitchForceCommand;
+    memcpy(&buftx[1], &MotorPitch.torque, sizeof(MotorPitch.torque));
+
+    taskENTER_CRITICAL();
+    if (HAL_CAN_AddTxMessage(&hcan, &TxHeader, buftx, &TxMailBox) != HAL_OK)
+    {
+      //Error_Handler();
+    }
+    taskEXIT_CRITICAL();
+    vTaskDelay(10);
   }
   /* USER CODE END StartCANTxTask */
 }
+/* USER CODE BEGIN Header_StartSDADC_Handler */
+/**
+* @brief Обработчик массива данных от сигма-дельта АЦП
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartSDADC_Handler */
+void StartSDADC_Handler(void const *argument)
+{
 
+  /* USER CODE BEGIN StartSDADC_Handler */
+  extern SDADC_HandleTypeDef hsdadc1;
+  extern DMA_HandleTypeDef hdma_sdadc1;
+  extern MotorDCTypeDef MotorPitch;
+#define SIZE_DATA 128
+
+  volatile int16_t data[SIZE_DATA] = {
+      0x00,
+  };
+  float sum_sqrt;
+  HAL_SDADC_CalibrationStart(&hsdadc1, SDADC_CALIBRATION_SEQ_1);
+  if (HAL_SDADC_PollForCalibEvent(&hsdadc1, 500) != HAL_OK)
+  {
+    // Error
+  }
+
+  if (HAL_SDADC_InjectedStart_DMA(&hsdadc1, (uint32_t *)data, SIZE_DATA) != HAL_OK)
+  {
+    // Error
+  }
+  /* Infinite loop */
+  for (;;)
+  {
+    vTaskDelay(5);
+    HAL_SDADC_InjectedStop_DMA(&hsdadc1);
+
+    uint64_t sum = 0;
+    uint8_t i;
+    if (MotorPitch.DirOfRot == DIRECT_ROTATION)
+    {
+      for (i = 0; i <= SIZE_DATA; i += 2)
+      {
+        sum += data[i] * data[i];
+      }
+      sum_sqrt = sum * 2 / (float)SIZE_DATA;
+      arm_sqrt_f32(sum_sqrt, &MotorPitch.torque);
+      if (MotorPitch.torque > 200)
+      {
+        MotorPitch.torque -= 2675;
+        MotorPitch.torque *= 0.003;
+      }
+      else
+      {
+        MotorPitch.torque = 0.0;
+      }
+    }
+    else
+    {
+      for (i = 1; i < SIZE_DATA; i += 2)
+      {
+        sum += data[i] * data[i];
+      }
+      sum_sqrt = sum * 2 / (float)SIZE_DATA;
+      arm_sqrt_f32(sum_sqrt, &MotorPitch.torque);
+      if (MotorPitch.torque > 200)
+      {
+        MotorPitch.torque -= 2036;
+        MotorPitch.torque *= 0.004659;
+        MotorPitch.torque *= -1.0;
+      }
+      else
+      {
+        MotorPitch.torque = 0.0;
+      }
+    }
+
+    if (HAL_SDADC_InjectedStart_DMA(&hsdadc1, (uint32_t *)data, SIZE_DATA) != HAL_OK)
+    {
+      // Error
+    }
+  }
+  /* USER CODE END StartSDADC_Handler */
+}
 /* USER CODE END Application */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

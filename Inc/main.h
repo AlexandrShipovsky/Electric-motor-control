@@ -42,7 +42,12 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-
+enum modes
+{
+  TrackingState = 1,
+  TestState = 2,
+  CLIState = 3
+};
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
