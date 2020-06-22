@@ -361,7 +361,7 @@ static void MX_SDADC1_Init(void)
   hsdadc1.Init.IdleLowPowerMode = SDADC_LOWPOWER_NONE;
   hsdadc1.Init.FastConversionMode = SDADC_FAST_CONV_DISABLE;
   hsdadc1.Init.SlowClockMode = SDADC_SLOW_CLOCK_DISABLE;
-  hsdadc1.Init.ReferenceVoltage = SDADC_VREF_VREFINT2;
+  hsdadc1.Init.ReferenceVoltage = SDADC_VREF_EXT;
   hsdadc1.InjectedTrigger = SDADC_SOFTWARE_TRIGGER;
   if (HAL_SDADC_Init(&hsdadc1) != HAL_OK)
   {
@@ -433,7 +433,7 @@ static void MX_SDADC3_Init(void)
   hsdadc3.Init.IdleLowPowerMode = SDADC_LOWPOWER_NONE;
   hsdadc3.Init.FastConversionMode = SDADC_FAST_CONV_DISABLE;
   hsdadc3.Init.SlowClockMode = SDADC_SLOW_CLOCK_DISABLE;
-  hsdadc3.Init.ReferenceVoltage = SDADC_VREF_VREFINT2;
+  hsdadc3.Init.ReferenceVoltage = SDADC_VREF_EXT;
   hsdadc3.InjectedTrigger = SDADC_SOFTWARE_TRIGGER;
   if (HAL_SDADC_Init(&hsdadc3) != HAL_OK)
   {
@@ -449,7 +449,7 @@ static void MX_SDADC3_Init(void)
   {
     Error_Handler();
   }
-  if (HAL_SDADC_InjectedConfigChannel(&hsdadc3, SDADC_CHANNEL_6, SDADC_CONTINUOUS_CONV_OFF) != HAL_OK)
+  if (HAL_SDADC_InjectedConfigChannel(&hsdadc3, SDADC_CHANNEL_6, SDADC_CONTINUOUS_CONV_ON) != HAL_OK)
   {
     Error_Handler();
   }

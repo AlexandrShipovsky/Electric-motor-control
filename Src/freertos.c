@@ -24,7 +24,7 @@
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
+/* USER CODE BEGIN Includes */     
 #include "cmsis_os.h"
 #include "arm_math.h"
 #include "usb_device.h"
@@ -67,7 +67,7 @@ uint8_t state = TrackingState; // Режим работы
 /* USER CODE END FunctionPrototypes */
 
 /* GetIdleTaskMemory prototype (linked to static allocation support) */
-void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize);
+void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize );
 
 /* Hook prototypes */
 void configureTimerForRunTimeStats(void);
@@ -191,8 +191,12 @@ void pidStartTask(void const *argument)
       StopRotation(&MotorRoll);
       break;
     case CLIState:
+      pidPitch.ProcessVal = GetEnc(&EncPitch);
+      pidRoll.ProcessVal = GetEnc(&EncRoll);
       break;
     default:
+      pidPitch.ProcessVal = GetEnc(&EncPitch);
+      pidRoll.ProcessVal = GetEnc(&EncRoll);
       break;
     }
     vTaskDelay(10); //???????
