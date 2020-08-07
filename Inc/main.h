@@ -32,7 +32,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stm32f3xx_hal_flash.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -98,7 +98,7 @@ void Error_Handler(void);
 #define ENCODER_2M_Pin GPIO_PIN_7
 #define ENCODER_2M_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
-
+#define FlashStartAdress 0x0803F800 // Addrees 127 page 2K
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

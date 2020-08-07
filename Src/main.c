@@ -927,9 +927,7 @@ void VBAT_Init(void)
 void pid_Init(void)
 {
   /*PITCH*/
-  pidPitch.Kp = 0.03f;
-  pidPitch.Ki = 0.00007f;
-  pidPitch.Kd = 0.0f;
+  
   pidPitch.integral = 0; /*�?нтеграл ошибки рассогласования*/
 
   pidPitch.epsilon = 0;     /* Ошибка рассогласования*/
@@ -939,8 +937,6 @@ void pid_Init(void)
   pidPitch.ProcessVal = 0; /* Текущее значение датчика*/
 
   pidPitch.SetPoint = 0; /* Уставка*/
-  pidPitch.MinSetPoint = 0; /* Максимальная уставка*/
-  pidPitch.MaxSetPoint = 0; /* Минимальная уставка*/
 
   pidPitch.ManipulVal = 0; /* Управляющий сигнал (от 0 до 100%)*/
   pidPitch.DirOfRot = 0;   /*Направление вращения. Если 0 - прямое, > 0 - обратное*/
@@ -949,9 +945,7 @@ void pid_Init(void)
   HAL_TIM_Base_Start(&htim18);
 
   /*ROLL*/
-  pidRoll.Kp = 0.2f;
-  pidRoll.Ki = 0.000084f;
-  pidRoll.Kd = 15.5f;
+  
 
   pidRoll.integral = 0; /*�?нтеграл ошибки рассогласования*/
 
@@ -962,14 +956,26 @@ void pid_Init(void)
   pidRoll.ProcessVal = 0; /* Текущее значение датчика*/
 
   pidRoll.SetPoint = 0; /* Уставка*/
-  pidRoll.MinSetPoint = 0; /* Максимальная уставка*/
-  pidRoll.MaxSetPoint = 0; /* Минимальная уставка*/
 
   pidRoll.ManipulVal = 0; /* Управляющий сигнал (от 0 до 100%)*/
   pidRoll.DirOfRot = 0;   /*Направление вращения. Если 0 - прямое, > 0 - обратное*/
 
   pidRoll.htim = &htim17;
   HAL_TIM_Base_Start(&htim17);
+
+  uint16_t * Address = (uint16_t *)FlashStartAdress;
+  int16_t var;
+  memcpy(&var,Address,sizeof(int16_t)); /* Минимальная уставка*/
+  pidPitch.MinSetPoint = var;
+
+  memcpy(&var,Address + 1,sizeof(int16_t));
+  pidPitch.MaxSetPoint = var; /* Максимальная уставка*/
+
+  memcpy(&var,Address + 2,sizeof(int16_t));
+  pidRoll.MinSetPoint = var; /* Минимальная уставка*/
+
+  memcpy(&var,Address + 3,sizeof(int16_t));
+  pidRoll.MaxSetPoint = var; /* Максимальная уставка*/
 }
 /* USER CODE END 4 */
 

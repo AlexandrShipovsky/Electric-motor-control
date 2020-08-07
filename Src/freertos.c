@@ -24,7 +24,7 @@
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */     
+/* USER CODE BEGIN Includes */
 #include "cmsis_os.h"
 #include "arm_math.h"
 #include "usb_device.h"
@@ -59,6 +59,7 @@ extern unsigned long ulHighFrequencyTimerTicks;
 xQueueHandle CANReceiveQueueHandle = NULL; // Очередь для приема байт из CAN
 
 uint8_t state = TrackingState; // Режим работы
+uint8_t PidMode = LOWMODE;     // Режим ПИД регулятора
 /* USER CODE END Variables */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -67,7 +68,7 @@ uint8_t state = TrackingState; // Режим работы
 /* USER CODE END FunctionPrototypes */
 
 /* GetIdleTaskMemory prototype (linked to static allocation support) */
-void vApplicationGetIdleTaskMemory( StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize );
+void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer, StackType_t **ppxIdleTaskStackBuffer, uint32_t *pulIdleTaskStackSize);
 
 /* Hook prototypes */
 void configureTimerForRunTimeStats(void);
@@ -160,13 +161,52 @@ void pidStartTask(void const *argument)
   /* Infinite loop */
   for (;;)
   {
-    if ((pidRoll.MaxSetPoint == 0) | (pidRoll.MinSetPoint == 0) | (pidPitch.MaxSetPoint == 0) | (pidPitch.MinSetPoint == 0))
+    if ((pidRoll.MaxSetPoint == 0xFFFF) | (pidRoll.MinSetPoint == 0xFFFF) | (pidPitch.MaxSetPoint == 0xFFFF) | (pidPitch.MinSetPoint == 0xFFFF))
     {
       state = CLIState;
     }
     switch (state)
     {
     case TrackingState:
+      switch (PidMode)
+      {
+      case HIGHMODE:
+        pidPitch.Kp = 0.03f;
+        pidPitch.Ki = 0.00007f;
+        pidPitch.Kd = 0.0f;
+
+        pidRoll.Kp = 0.2f;
+        pidRoll.Ki = 0.000084f;
+        pidRoll.Kd = 15.5f;
+        break;
+      case MIDDLEMODE:
+        pidPitch.Kp = 0.01f;
+        pidPitch.Ki = 0.00f;
+        pidPitch.Kd = 0.0f;
+
+        pidRoll.Kp = 0.1f;
+        pidRoll.Ki = 0.0f;
+        pidRoll.Kd = 0.0f;
+        break;
+      case LOWMODE:
+        pidPitch.Kp = 0.005f;
+        pidPitch.Ki = 0.00f;
+        pidPitch.Kd = 0.0f;
+
+        pidRoll.Kp = 0.05f;
+        pidRoll.Ki = 0.00002f;
+        pidRoll.Kd = 4.0f;
+        break;
+      default:
+        pidPitch.Kp = 0.005f;
+        pidPitch.Ki = 0.00f;
+        pidPitch.Kd = 0.0f;
+
+        pidRoll.Kp = 0.05f;
+        pidRoll.Ki = 0.00002f;
+        pidRoll.Kd = 4.0f;
+        break;
+      }
       taskENTER_CRITICAL();
       pidPitch.ProcessVal = GetEnc(&EncPitch);
       pidUpdate(&pidPitch);
@@ -246,6 +286,7 @@ void StartParserCANTask(void const *argument)
       case PitchRollCommand:
         memcpy(&pidPitch.SetPoint, &buf[1], sizeof(pidPitch.SetPoint));
         memcpy(&pidRoll.SetPoint, &buf[3], sizeof(pidRoll.SetPoint));
+        memcpy(&PidMode, &buf[5], sizeof(pidRoll.SetPoint));
         break;
       case TestMode:
         state = TestState;
@@ -260,6 +301,15 @@ void StartParserCANTask(void const *argument)
         SetZero(&EncPitch);
         SetZero(&EncRoll);
         state = TrackingState;
+        // Запись значений во флэш
+        uint32_t Address = FlashStartAdress;
+        HAL_FLASH_Unlock();
+        HAL_FLASH_Program(FLASH_TYPEPROGRAM_HALFWORD, Address, pidPitch.MinSetPoint);
+        HAL_FLASH_Program(FLASH_TYPEPROGRAM_HALFWORD, Address + 2U, pidPitch.MaxSetPoint);
+        HAL_FLASH_Program(FLASH_TYPEPROGRAM_HALFWORD, Address + 4U, pidRoll.MinSetPoint);
+        HAL_FLASH_Program(FLASH_TYPEPROGRAM_HALFWORD, Address + 6U, pidRoll.MaxSetPoint);
+        HAL_FLASH_Lock();
+
         buftx[0] = CalibComplied;
         taskENTER_CRITICAL();
         if (HAL_CAN_AddTxMessage(&hcan, &TxHeader, buftx, &TxMailBox) != HAL_OK)
